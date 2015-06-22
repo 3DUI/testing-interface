@@ -1,0 +1,21 @@
+{
+  "name": "testing-interface",
+  "version": "0.0.0",
+  "homepage": "https://github.com/3DUI/testing-interface",
+  "authors": [
+    "steveryb <steveryb@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "react": "~0.13.3",
+    "threejs": "*"
+  },
+  "devDependencies": {}
+}
