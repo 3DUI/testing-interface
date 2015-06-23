@@ -1,4 +1,5 @@
 var require = {
+  baseUrl: './',
   shim: {
     threejs: { exports: 'THREE' }
   },

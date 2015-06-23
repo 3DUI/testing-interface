@@ -7,6 +7,7 @@ define(function(){
             renderer.setSize(size[0], size[1]);
             return renderer;
         },
+        // Refactor this out
         buildUpdateSizeFn: function(widthScale, heightScale, widthOffset, heightOffset){
             return function(){
                 return [(widthScale * window.innerWidth) - widthOffset, 
