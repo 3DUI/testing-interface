@@ -17,7 +17,7 @@ define(["src/build_scene", "src/render_loop", "src/basic_cube_controller"], func
                       background:new THREE.Color().setRGB( 0.7, 0.5, 0.7 )},
                       ]
 
-        RenderLoop.init(RenderLoop.buildUpdateSizeFn(1,1,0,0), document.body);
+        RenderLoop.init({widthScale: 1, heightScale:1, widthOffset:0, heightOffset:0},document.body);
         var sceneBuilders = []
         for(var i = 0; i < 2; i++){
             var view = views[i];

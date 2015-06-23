@@ -1,30 +1,15 @@
 define(function(){
     return {
-        // Build objects needed
-        buildRenderer: function(updateSizeFn){
-            var renderer = new THREE.WebGLRenderer(),
-                size = updateSizeFn();
-            renderer.setSize(size[0], size[1]);
-            return renderer;
-        },
-        // Refactor this out
-        buildUpdateSizeFn: function(widthScale, heightScale, widthOffset, heightOffset){
-            return function(){
-                return [(widthScale * window.innerWidth) - widthOffset, 
-                        (heightScale * window.innerHeight) - heightOffset];
-            }
-        },
-
         // Instance variables
-
-        init: function(updateSizeFn, domElement){
+        init: function(size, domElement){
             this.domElement = domElement;
-            this.updateSizeFn = updateSizeFn
+            this.size = size
 
             this.views = {};
             this.rendering = false;
 
-            this.renderer = this.buildRenderer(this.updateSizeFn)
+            this.renderer = new THREE.WebGLRenderer(); 
+            this.updateSize();
             this.domElement.appendChild( this.renderer.domElement );
         },
 
@@ -44,7 +29,8 @@ define(function(){
 
         // Update the size of the renderer
         updateSize: function(){
-            var size = this.updateSizeFn();
+            var size = [(this.size.widthScale * window.innerWidth) - this.size.widthOffset, 
+                        (this.size.heightScale * window.innerHeight) - this.size.heightOffset];
             this.renderer.setSize(size[0], size[1]);
             return size;
         },

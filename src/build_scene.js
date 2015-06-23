@@ -1,20 +1,6 @@
 define(["three"], function(THREE){
     return {new: function(){
         return {
-            // Create the objects required, effectively static
-            buildUpdateSizeFn: function(view){
-                return function(width, height){
-                    return [view.width * width, view.height * height];
-                }
-            },
-            buildScene: function(){
-                return new THREE.Scene();
-            },
-            buildCamera: function(updateSizeFn){
-                var size = updateSizeFn();
-                return new THREE.PerspectiveCamera( 75, size[0]/size[1], 0.1, 1000 );
-            },
-
             // Initialize a scene
             init: function(view, controller){
                 // Instance variables
@@ -22,8 +8,8 @@ define(["three"], function(THREE){
 
                 // Initialise the required elements
                 this.changeView(view);
-                this.scene = this.buildScene(),
-                this.camera = this.buildCamera(this.updateSizeFn); 
+                this.scene = new THREE.Scene();
+                this.camera = new THREE.PerspectiveCamera( 75, 4/3, 0.1, 1000 ); 
 
                 // Initialise the environment using the controller
                 this.controller.init(this.scene, this.camera);
@@ -32,11 +18,10 @@ define(["three"], function(THREE){
             // Update instance variables
             changeView: function(view){
                 this.view = view;
-                this.updateSizeFn = this.buildUpdateSizeFn(view);
             },
 
             updateSize: function(rendererWidth, rendererHeight){
-                var size = this.updateSizeFn(rendererWidth, rendererHeight);
+                var size = [this.view.width * rendererWidth, this.view.height * rendererHeight];
                 var width = size[0];
                 var height = size[1];
 
