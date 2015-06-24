@@ -16,8 +16,7 @@
   "dependencies": {
     "react": "~0.13.3",
     "threejs": "*",
-    "jquery": "~2.1.4",
-    "minilog": "~2.0.8"
+    "jquery": "~2.1.4"
   },
   "devDependencies": {}
 }
