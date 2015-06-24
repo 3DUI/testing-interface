@@ -1,4 +1,4 @@
-define(["src/build_scene", "src/render_loop", "src/basic_cube_controller"], function(SceneBuilder, RenderLoop, CubeController){
+define(["src/build_scene", "src/render_loop", "src/basic_cube_controller", "src/mouse_input_bus"], function(SceneBuilder, RenderLoop, CubeController, MouseInputBus){
     return function(){
         var views = [{left:0,
                       bottom:0, 
@@ -42,5 +42,8 @@ define(["src/build_scene", "src/render_loop", "src/basic_cube_controller"], func
 
         RenderLoop.start();
         render_single();
+
+        var inputBus = MouseInputBus("body");
+        inputBus.verbose = true;
     }
 });

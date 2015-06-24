@@ -1,4 +1,4 @@
-define(function(){
+define(["three"], function(THREE){
     return {
         // Instance variables
         init: function(size, domElement){
