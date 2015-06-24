@@ -14,7 +14,7 @@ define(["jquery"], function($){
                 var consumers = [];
                 var keys = [name, "all"];
                 if(this.verbose){
-                    console.log("Fired event",event,"with name",name,"and context",context);
+                    window.log.debug("Fired event", event, "with name", name, "and context" + context);
                 }
                 for(var i = 0; i < keys.length; i++){
                     var consumersObject = this.consumersForAction[keys[i]];

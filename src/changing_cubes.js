@@ -44,6 +44,11 @@ define(["src/build_scene", "src/render_loop", "src/basic_cube_controller", "src/
         render_single();
 
         var inputBus = MouseInputBus("body");
-        inputBus.verbose = true;
+
+        var mouseDownListener = function(name, event){
+            window.log.saveLog(event.clientX, event.clientY);
+        }
+
+        inputBus.registerConsumer("down", "saveLog", mouseDownListener);
     }
 });
