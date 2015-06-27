@@ -46,6 +46,6 @@ define(["three"], function(THREE){
                 renderer.enableScissorTest ( true );
                 renderer.render(this.scene, this.camera);
             },
-        }
-    }}
+        };
+    }};
 });

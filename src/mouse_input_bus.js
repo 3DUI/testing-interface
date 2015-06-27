@@ -8,7 +8,7 @@ define(["jquery"], function($){
                 return function(event){
                     var context = this;
                     return that.publishAction(name, event, context);
-                }
+                };
             },
             publishAction: function(name, event, context){
                 var consumers = [];
@@ -24,12 +24,12 @@ define(["jquery"], function($){
                         }
                     }
                 }
-                for(var i = 0; i < consumers.length; i++){
+                for(i = 0; i < consumers.length; i++){
                     consumers[i](name, event);
                 }
             },
             registerConsumer: function(name, key, consumer){
-                return this.consumersForAction[name][key] = consumer;
+                this.consumersForAction[name][key] = consumer;
             },
             deregisterConsumer: function(name, key){
                 if(key in this.consumersForAction[name]){
@@ -40,10 +40,10 @@ define(["jquery"], function($){
             }
         };
 
-        $(domElement).mousemove(MouseInputBus.publishActionFn("move"))
-        $(domElement).mousedown(MouseInputBus.publishActionFn("down"))
-        $(domElement).mouseup(MouseInputBus.publishActionFn("up")) 
+        $(domElement).mousemove(MouseInputBus.publishActionFn("move"));
+        $(domElement).mousedown(MouseInputBus.publishActionFn("down"));
+        $(domElement).mouseup(MouseInputBus.publishActionFn("up"));
         
         return MouseInputBus;
-    }
-})
+    };
+});

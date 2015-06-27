@@ -4,10 +4,6 @@
 # Setting up
 
 ```
-npm install -g grunt-cli
-npm install -g karma-cli
-npm install -g slimerjs
-npm install -g react-tools
-npm install
-bower install
+sudo npm install -g grunt-cli karma-cli slimerjs react-tools http-server
+grunt setup
 ```

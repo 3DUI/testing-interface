@@ -12,6 +12,6 @@ define(["three"], function(THREE){
                 this.cube.rotation.x += 0.1;
                 this.cube.rotation.y += 0.1;
            }
-        }
-    }}
+        };
+    }};
 });

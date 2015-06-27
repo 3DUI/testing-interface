@@ -3,7 +3,7 @@ define(["three"], function(THREE){
         // Instance variables
         init: function(size, domElement){
             this.domElement = domElement;
-            this.size = size
+            this.size = size;
 
             this.views = {};
             this.rendering = false;
@@ -43,18 +43,18 @@ define(["three"], function(THREE){
                 if(that.rendering){
                     var size = that.updateSize();
                     requestAnimationFrame(render);
-                    for(viewName in that.views){
+                    for(var viewName in that.views){
                         if(that.views.hasOwnProperty(viewName)){
                             that.views[viewName].render(that.renderer, size[0], size[1]);
                         }
                     }
                 }
-            }
+            };
             render();
         },
 
         stop: function(){
             this.rendering = false;
         }
-    }
+    };
 });
