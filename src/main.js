@@ -1,5 +1,5 @@
-requirejs(["src/logger", "src/changing_cubes"], function(Logger, ChangingCubes){
+requirejs(["src/logger", "src/rotating_models"], function(Logger, RotatingModels){
     Logger.header = "3DUI";
     window.log = Logger;
-    ChangingCubes();
+    RotatingModels();
 });

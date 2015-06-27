@@ -37,9 +37,22 @@ define(["three"], function(THREE){
                     width = size[0],
                     height = size[1],
                     left = rendererWidth * this.view.left,
-                    bottom = rendererHeight * this.view.bottom;
+                    bottom = rendererHeight * this.view.bottom,
+                    dimensions = {
+                        view: this.view,
+                        renderer: {
+                            width: rendererWidth,
+                            height: rendererHeight,
+                        },
+                        scene: {
+                            width: width,
+                            height: height,
+                            left: left,
+                            bottom: bottom,
+                        },
+                    };
 
-                this.controller.render(this.scene, this.camera);
+                this.controller.render(this.scene, this.camera, dimensions);
                 renderer.setClearColor(this.view.background);
                 renderer.setViewport( left, bottom, width, height );
                 renderer.setScissor( left, bottom, width, height );
