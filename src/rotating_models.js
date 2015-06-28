@@ -1,4 +1,4 @@
-define(["src/build_scene", "src/render_loop", "src/basic_model_rotation_controller", "src/mouse_input_bus", "src/two_axis_valuator"], function(SceneBuilder, RenderLoop, ModelController, MouseInputBus, TwoAxisValuator){
+define(["src/build_scene", "src/render_loop", "src/basic_model_rotation_controller", "src/mouse_input_bus", "src/two_axis_valuator", "src/arcball"], function(SceneBuilder, RenderLoop, ModelController, MouseInputBus, TwoAxisValuator, Arcball){
     return function(){
         var views = [{left:0,
                       btttom:0, 
@@ -29,7 +29,7 @@ define(["src/build_scene", "src/render_loop", "src/basic_model_rotation_controll
             RenderLoop.addView(i, sceneBuilder);
         }
 
-        sceneBuilders[1].controller.setRotationHandler(TwoAxisValuator);
+        sceneBuilders[1].controller.setRotationHandler(Arcball);
 
         RenderLoop.start();
     };

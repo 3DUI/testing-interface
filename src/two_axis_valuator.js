@@ -3,16 +3,9 @@ define(["three"], function(THREE){
         var Controller = {
             model: model,
             updateRotation: function(mouseX, mouseY, dim){
-                var width = dim.rightBound - dim.leftBound,
-                    height = dim.topBound - dim.bottomBound,
-                    x = (mouseX - dim.leftBound)/width, // normalised co-ordinates
-                    y = (mouseY - dim.bottomBound)/height, 
-                    distX = this.initialMouseX - x, // distance from intial point
-                    distY = this.initialMouseY - y, 
-                    angX = distX * Math.PI * 2, // reduced according to scale
-                    angY = distY * Math.PI * 2;
-                this.model.rotation.x = this.initialXRot - angY;
-                this.model.rotation.y = this.initialYRot - angX;
+                var normalised = this.normalise(mouseX, mouseY, dim);
+                this.model.rotation.x = this.calcAngle(normalised[1], this.initialMouseY, this.initialXRot);
+                this.model.rotation.y = this.calcAngle(normalised[0], this.initialMouseX, this.initialYRot);
             },
 
             startRotation: function(initialMousePos, dim){
@@ -26,12 +19,18 @@ define(["three"], function(THREE){
             endRotation: function(){
                 this.initialXRot = 0;
                 this.initialYRot = 0;
+                this.initialMouseX = 0;
+                this.initialMouseY = 0;
             },
 
             normalise: function(x, y, dim){
                 var width = dim.rightBound - dim.leftBound,
                     height = dim.topBound - dim.bottomBound;
                 return [(x - dim.leftBound)/width, (y - dim.bottomBound)/height];
+            },
+
+            calcAngle: function(pos, initialPos, initialRot){
+                return initialRot - ((initialPos - pos) * Math.PI * 2);
             }
 
         };

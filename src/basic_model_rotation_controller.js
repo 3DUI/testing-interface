@@ -15,7 +15,7 @@ define(["three"], function(THREE){
                     cubeMaterialArray.push( new THREE.MeshBasicMaterial( { color: 0x3333ff } ) );
                     cubeMaterialArray.push( new THREE.MeshBasicMaterial( { color: 0x8833ff } ) );
                     var cubeMaterials = new THREE.MeshFaceMaterial( cubeMaterialArray );
-                    var cubeGeometry = new THREE.CubeGeometry(1, 1, 1);
+                    var cubeGeometry = new THREE.BoxGeometry(1, 1, 1);
                     return new THREE.Mesh( cubeGeometry, cubeMaterials );
                }
            },

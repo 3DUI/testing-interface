@@ -53,6 +53,7 @@ define(["three"], function(THREE){
                     };
 
                 this.controller.render(this.scene, this.camera, dimensions);
+                this.scene.updateMatrixWorld(true);
                 renderer.setClearColor(this.view.background);
                 renderer.setViewport( left, bottom, width, height );
                 renderer.setScissor( left, bottom, width, height );
