@@ -1,6 +1,7 @@
 define(["three"], function(THREE){
-    return {new: function(inputBus){
+    return {new: function(inputBus, rotationHandlerMaker){
         var ModelController = {
+            rotationHandler: undefined,
            buildModel: function(id){
                if(id === 0){
                    var geometry = new THREE.BoxGeometry( 1, 1, 1 );
@@ -19,12 +20,14 @@ define(["three"], function(THREE){
                     return new THREE.Mesh( cubeGeometry, cubeMaterials );
                }
            },
+
            init: function(scene, camera){
                this.model = this.buildModel(1);
-               this.rotationHandler = {updateRotation:function(){}};
-               scene.add( this.model );
+               scene.add(this.model);
+               this.rotationHandler = rotationHandlerMaker.new(this.model, scene, camera);
                camera.position.z = 5;
            },
+
            inBounds: function(x, y){
                return x >= this.leftBound && x <= this.rightBound && 
                        y >= this.bottomBound && y <= this.topBound;
@@ -72,9 +75,6 @@ define(["three"], function(THREE){
                inputBus.registerConsumer("move", "rotateModelMouseMove", function(name, event){
                   that.mouseMoveHandler(name, event); 
                });
-           },
-           setRotationHandler: function(maker){
-                this.rotationHandler = maker.new(this.model);
            },
         };
 

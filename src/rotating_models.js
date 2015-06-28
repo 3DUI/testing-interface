@@ -23,13 +23,11 @@ define(["src/build_scene", "src/render_loop", "src/basic_model_rotation_controll
         for(var i = 0; i < 2; i++){
             var view = views[i];
             var sceneBuilder = SceneBuilder.new();
-            var controller = ModelController.new(inputBus);
+            var controller = ModelController.new(inputBus, Arcball);
             sceneBuilder.init(view, controller);
             sceneBuilders.push(sceneBuilder);
             RenderLoop.addView(i, sceneBuilder);
         }
-
-        sceneBuilders[1].controller.setRotationHandler(Arcball);
 
         RenderLoop.start();
     };

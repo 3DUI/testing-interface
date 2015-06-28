@@ -1,7 +1,12 @@
 define(["three"], function(THREE){
-    return {new: function(model){
+    return {new: function(model, scene, camera){
         var Controller = {
-            model: model,
+            init: function(model, scene, camera){
+                this.model = model;
+                this.rotationGuide = this.buildRotationGuide();
+                scene.add(this.rotationGuide);
+            },
+
             updateRotation: function(mouseX, mouseY, dim){
                 var actualPos = this.actualPos(mouseX, mouseY, dim),
                     deltaX = actualPos[0] - this.initialMouseX,
@@ -13,8 +18,18 @@ define(["three"], function(THREE){
                 currQuaternion.multiplyQuaternions(rotateQuaternion, currQuaternion);
                 currQuaternion.normalize();
                 this.model.setRotationFromQuaternion(currQuaternion);
+                this.rotationGuide.setRotationFromQuaternion(currQuaternion);
                 this.initialMouseX = actualPos[0];
                 this.initialMouseY = actualPos[1];
+            },
+
+            buildRotationGuide: function(){
+                var sphereGeom =  new THREE.SphereGeometry(1.5, 8, 8),
+                    wireframeMaterial = new THREE.MeshBasicMaterial(
+                        {color: 0x333333, 
+                         wireframe: true, 
+                         transparent: true });
+                return new THREE.Mesh(sphereGeom.clone(), wireframeMaterial);
             },
 
             screenCenter: function(dim){
@@ -63,6 +78,7 @@ define(["three"], function(THREE){
                 return quaternion;
             },
         };
+        Controller.init(model, scene, camera);
         return Controller;
     }};
 });
