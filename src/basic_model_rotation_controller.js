@@ -25,7 +25,7 @@ define(["three"], function(THREE){
                this.model = this.buildModel(1);
                scene.add(this.model);
                this.rotationHandler = rotationHandlerMaker.new(this.model, scene, camera);
-               camera.position.z = 5;
+               camera.position.z = 3;
            },
 
            inBounds: function(x, y){

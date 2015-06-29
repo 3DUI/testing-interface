@@ -1,7 +1,7 @@
 define(["three", "src/mouse_to_world"], function(THREE, MouseToWorld){
     return {new: function(model, scene, camera){
         var Controller = {
-
+            unhiddenOpacity: 0.25,
             radius: 1, // TODO: changing this introduces discontinuities!
 
             init: function(model, scene, camera){
@@ -15,10 +15,10 @@ define(["three", "src/mouse_to_world"], function(THREE, MouseToWorld){
              * Create the sphere around the model
              */
             buildRotationGuide: function(){
-                var sphereGeom =  new THREE.SphereGeometry(this.radius, 8, 8),
+                var sphereGeom =  new THREE.SphereGeometry(this.radius, 64, 64),
                     wireframeMaterial = new THREE.MeshBasicMaterial({
-                        color: 0x333333, 
-                        wireframe: true, 
+                        color: 0xd3d3d3,
+                        opacity: this.unhiddenOpacity,
                         transparent: true});
                 return new THREE.Mesh(sphereGeom.clone(), wireframeMaterial);
             },
@@ -28,18 +28,30 @@ define(["three", "src/mouse_to_world"], function(THREE, MouseToWorld){
                     rotate = this.rotateQuaternion(
                         this.getSpherePointFromMouse(this.initialMouse, dim),
                         this.getSpherePointFromMouse(actualPos, dim));
-                    currQuaternion = this.model.quaternion;
+                
+                this.rotateModelByQuaternion(this.model, rotate); 
+                this.rotateModelByQuaternion(this.rotationGuide, rotate); 
+                this.initialMouse = actualPos;
+            },
 
+            rotateModelByQuaternion: function(model, rotate){
+                currQuaternion = model.quaternion;
                 currQuaternion.multiplyQuaternions(rotate, currQuaternion);
                 currQuaternion.normalize();
-                this.model.setRotationFromQuaternion(currQuaternion);
-                this.rotationGuide.setRotationFromQuaternion(currQuaternion);
-                this.initialMouse = actualPos;
+                model.setRotationFromQuaternion(currQuaternion);
             },
 
             startRotation: function(initialMousePos, dim){
                 this.initialMouse = this.actualPos(initialMousePos[0], initialMousePos[1], dim);
                 this.rotateStartPoint = this.mapToSphere(0,0, dim);
+            },
+
+            hideGuide: function(hide){
+                if(hide){
+                    this.rotationGuide.material.opacity = 0;
+                } else {
+                    this.rotationGuide.material.opacity = this.unhiddenOpacity;
+                }
             },
 
             endRotation: function(){
