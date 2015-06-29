@@ -66,7 +66,7 @@ define(["three", "src/arcball", "src/mouse_to_world"], function(THREE, Arcball, 
 
             snapToAxis: function(pos, axis){
                 if(axis == "y"){
-                    pos.x = - pos.x
+                    pos.x = - pos.x;
                     pos.y = 0;
                 } else if(axis == "x") {
                     pos.x = 0;
@@ -109,14 +109,14 @@ define(["three", "src/arcball", "src/mouse_to_world"], function(THREE, Arcball, 
                     } else {
                         var startAngle = (Math.atan(that.initialMouseReal.y / that.initialMouseReal.x)),
                             endAngle = (Math.atan(point.y / point.x)),
-                            delta = endAngle - startAngle,
+                            sign = Math.sign(endAngle - startAngle),
                             startPoint = new THREE.Vector2(that.initialMouseReal.x, that.initialMouseReal.y),
                             endPoint = new THREE.Vector2(point.x, point.y);
 
                         angle = Math.acos(startPoint.dot(endPoint));
-                        if(Math.sign(delta) == -1){
+                        if(sign == -1){ // startAngle > endAngle => negative rotation
                             angle *= -1;
-                        };
+                        }
                     }
                     this.rotateByAxisAngle(that.model, rotationVec, angle);
                     that.initialMouseReal = point;
