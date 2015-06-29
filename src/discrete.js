@@ -1,8 +1,10 @@
 define(["three", "src/arcball", "src/mouse_to_world"], function(THREE, Arcball, MouseToWorld){
     return {new: function(model, scene, camera){
         var Controller = {
-            radius: 1.05,
+            radius: 1,
             fudgeFactor: 0.1,
+            fudgeZ: 0.15, // circles don't look like they touch due to perspective,
+                         // so we fudge the z a bit here
             rotating: false,
 
             init: function(model, scene, camera){
@@ -29,17 +31,22 @@ define(["three", "src/arcball", "src/mouse_to_world"], function(THREE, Arcball, 
                 };
 
                 this.rotationGuides = {
-                    x: new THREE.Line(geometry, new THREE.LineBasicMaterial({ color: this.rotationColour.x})),
                     y: new THREE.Line(geometry, new THREE.LineBasicMaterial({ color: this.rotationColour.y})),
+                    x: new THREE.Line(geometry, new THREE.LineBasicMaterial({ color: this.rotationColour.x})),
                     z: new THREE.Line(geometry, new THREE.LineBasicMaterial({ color: this.rotationColour.z}))
                 };
-                // TODO: align rotation guides
-                this.rotationGuides.x.rotation.x = Math.PI / 2;
-                this.rotationGuides.y.rotation.y = Math.PI / 2;
-
                 scene.add(this.rotationGuides.x);
                 scene.add(this.rotationGuides.y);
                 scene.add(this.rotationGuides.z);
+
+                this.rotateByAxisAngle(this.rotationGuides.y, this.rotationVecs.x, Math.PI/2);
+                this.rotateByAxisAngle(this.rotationGuides.x, this.rotationVecs.y, Math.PI/2);
+                this.rotationGuides.z.position.z = this.fudgeZ;
+                
+            },
+
+            iterateAlongAxis: function(callback){
+                ["x", "y", "z"].forEach(callback);
             },
 
             updateRotation: function(mouseX, mouseY, dim){
@@ -58,9 +65,10 @@ define(["three", "src/arcball", "src/mouse_to_world"], function(THREE, Arcball, 
             },
 
             snapToAxis: function(pos, axis){
-                if(axis == "x"){
+                if(axis == "y"){
+                    pos.x = - pos.x
                     pos.y = 0;
-                } else if(axis == "y") {
+                } else if(axis == "x") {
                     pos.x = 0;
                 } else {
                     pos.normalize(); 
@@ -69,9 +77,15 @@ define(["three", "src/arcball", "src/mouse_to_world"], function(THREE, Arcball, 
             },
 
             rotationVecs: {
-                x: new THREE.Vector3(0,1,0),
-                y: new THREE.Vector3(1,0,0),
+                x: new THREE.Vector3(1,0,0),
+                y: new THREE.Vector3(0,1,0),
                 z: new THREE.Vector3(0,0,1)
+            },
+
+            rotateByAxisAngle: function(model, axis, angle){
+                var quaternion = new THREE.Quaternion();
+                quaternion.setFromAxisAngle(axis, angle);
+                this.arcball.rotateModelByQuaternion(model, quaternion);
             },
 
             getRotateAlongAxisFn: function(axis){
@@ -82,23 +96,38 @@ define(["three", "src/arcball", "src/mouse_to_world"], function(THREE, Arcball, 
                 this.rotationGuides[axis].material.color.setHex(0xffffff);
                 return function(mouseX, mouseY, dim){
                     var point = that.snapToAxis(that.getRealPosition(mouseX, mouseY, dim), axis);
-                    var delta = 0;
+                    var angle = 0;
                     var rotationVec = that.rotationVecs[axis];
                     if(axis == "x" || axis == "y"){
-                        delta = (that.initialMouseReal[axis] - point[axis])/that.radius;
-                        window.log.debug("rotating x or y", delta, that.radius, that.initialMouseReal[axis], point[axis], that.initialMouseReal[axis] - point[axis]);
+                        var otherAxis = {
+                            x: "y",
+                            y: "x"
+                        };
+                        var delta = (that.initialMouseReal[otherAxis[axis]] - point[otherAxis[axis]])/(that.radius*2);
+                        angle = that.positiveAngle(Math.PI * 2 * delta);
+
                     } else {
-                        var startAngle = Math.atan(that.initialMouseReal.y / that.initialMouseReal.x),
-                            endAngle = Math.atan(point.y / point.x);
-                        delta = (endAngle - startAngle) / Math.PI;
-                        window.log.debug(delta);
+                        var startAngle = (Math.atan(that.initialMouseReal.y / that.initialMouseReal.x)),
+                            endAngle = (Math.atan(point.y / point.x)),
+                            delta = endAngle - startAngle,
+                            startPoint = new THREE.Vector2(that.initialMouseReal.x, that.initialMouseReal.y),
+                            endPoint = new THREE.Vector2(point.x, point.y);
+
+                        angle = Math.acos(startPoint.dot(endPoint));
+                        if(Math.sign(delta) == -1){
+                            angle *= -1;
+                        };
                     }
-                    var angle = Math.PI * 2 * delta;
-                    var quaternion = new THREE.Quaternion();
-                    quaternion.setFromAxisAngle(rotationVec, angle);
-                    that.arcball.rotateModelByQuaternion(that.model, quaternion);
+                    this.rotateByAxisAngle(that.model, rotationVec, angle);
                     that.initialMouseReal = point;
                 };
+            },
+
+            positiveAngle: function(angle){
+                if(Math.sign(angle) == -1){
+                    angle += Math.PI * 2;
+                }
+                return angle;
             },
 
             getRealPosition: function(mouseX, mouseY, dim){
@@ -115,25 +144,21 @@ define(["three", "src/arcball", "src/mouse_to_world"], function(THREE, Arcball, 
                 }
 
                 this.rotating = true; 
-                this.arcball.hideGuide(false);
 
                 // check whether they're clicking a slider
-                if(this.checkWithinFudge(this.initialMouseReal.y)){
+                if(this.checkWithinFudge(this.initialMouseReal.x)){
                     this.rotationFunction = this.getRotateAlongAxisFn("x");
-                    window.log.debug("ROTATING WITH Y"); 
-                } else if (this.checkWithinFudge(this.initialMouseReal.x)){
+                } else if (this.checkWithinFudge(this.initialMouseReal.y)){
                     this.rotationFunction = this.getRotateAlongAxisFn("y");
-                    window.log.debug("ROTATING WITH X");
                 } else if (this.checkWithinFudge(this.initialMouseReal.length() - this.radius)){
                     this.rotationFunction = this.getRotateAlongAxisFn("z");
-                    window.log.debug("ROTATING WITH Z");
                 } else {
                     this.arcball.startRotation(initialMousePos, dim);
+                    this.arcball.hideGuide(false);
                     this.axisRotating = null;
                     this.rotationFunction = function(mouseX, mouseY, dim){
                         return this.arcball.updateRotation(mouseX, mouseY, dim);
                     };
-                    window.log.debug("ROTATING WITH ARCBALL");
                 }
             },
 
