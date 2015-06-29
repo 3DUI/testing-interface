@@ -1,65 +1,81 @@
-define(["three"], function(THREE){
+define(["three", "src/mouse_to_world"], function(THREE, MouseToWorld){
     return {new: function(model, scene, camera){
         var Controller = {
+
+            radius: 1, // TODO: changing this introduces discontinuities!
+
             init: function(model, scene, camera){
                 this.model = model;
+                this.camera = camera;
                 this.rotationGuide = this.buildRotationGuide();
                 scene.add(this.rotationGuide);
             },
 
-            updateRotation: function(mouseX, mouseY, dim){
-                var actualPos = this.actualPos(mouseX, mouseY, dim),
-                    deltaX = actualPos[0] - this.initialMouseX,
-                    deltaY = actualPos[1] - this.initialMouseY,
-                    rotateEndPoint = this.mapToSphere(deltaX, deltaY, dim),
-                    rotateQuaternion = this.rotateQuaternion(this.rotateStartPoint, rotateEndPoint),
-                    currQuaternion = this.model.quaternion;
-
-                currQuaternion.multiplyQuaternions(rotateQuaternion, currQuaternion);
-                currQuaternion.normalize();
-                this.model.setRotationFromQuaternion(currQuaternion);
-                this.rotationGuide.setRotationFromQuaternion(currQuaternion);
-                this.initialMouseX = actualPos[0];
-                this.initialMouseY = actualPos[1];
-            },
-
+            /**
+             * Create the sphere around the model
+             */
             buildRotationGuide: function(){
-                var sphereGeom =  new THREE.SphereGeometry(1.5, 8, 8),
-                    wireframeMaterial = new THREE.MeshBasicMaterial(
-                        {color: 0x333333, 
-                         wireframe: true, 
-                         transparent: true });
+                var sphereGeom =  new THREE.SphereGeometry(this.radius, 8, 8),
+                    wireframeMaterial = new THREE.MeshBasicMaterial({
+                        color: 0x333333, 
+                        wireframe: true, 
+                        transparent: true});
                 return new THREE.Mesh(sphereGeom.clone(), wireframeMaterial);
             },
 
-            screenCenter: function(dim){
-                var width = dim.rightBound - dim.leftBound,
-                    height = dim.topBound - dim.bottomBound;
-                return [width/2, height/2];
+            updateRotation: function(mouseX, mouseY, dim){
+                var actualPos = this.actualPos(mouseX, mouseY, dim);
+                    rotate = this.rotateQuaternion(
+                        this.getSpherePointFromMouse(this.initialMouse, dim),
+                        this.getSpherePointFromMouse(actualPos, dim));
+                    currQuaternion = this.model.quaternion;
+
+                currQuaternion.multiplyQuaternions(rotate, currQuaternion);
+                currQuaternion.normalize();
+                this.model.setRotationFromQuaternion(currQuaternion);
+                this.rotationGuide.setRotationFromQuaternion(currQuaternion);
+                this.initialMouse = actualPos;
             },
 
             startRotation: function(initialMousePos, dim){
-                var actualPos = this.actualPos(initialMousePos[0], initialMousePos[1], dim);
-                this.initialMouseX = actualPos[0];
-                this.initialMouseY = actualPos[1];
+                this.initialMouse = this.actualPos(initialMousePos[0], initialMousePos[1], dim);
                 this.rotateStartPoint = this.mapToSphere(0,0, dim);
             },
 
             endRotation: function(){
+
             },
 
+            sizeFor: function(dim){
+                var width = dim.rightBound - dim.leftBound,
+                    height = dim.topBound - dim.bottomBound;
+                return {width: width, height: height};
+            },
+
+            /**
+             * Get the position of the mouse within the viewport rather than across the whole screen
+             */
             actualPos: function(x, y, dim){
-                return [(x - dim.leftBound), (y - dim.bottomBound)];
+                return new THREE.Vector2(x - dim.leftBound, y - dim.bottomBound);
+            },
+            
+            /**
+             * Get the position of the mouse mapped onto a sphere in the plane
+             */
+            getSpherePointFromMouse: function(pos, dim){
+                var size = this.sizeFor(dim),
+                    worldPoint = MouseToWorld(pos.x, pos.y, size.width, size.height, this.camera);
+                return this.mapToSphere(worldPoint.x, worldPoint.y, dim);
             },
 
+            /**
+             * Map the given position on a plane tangent to the sphere to a position on that sphere
+             */
             mapToSphere: function(x, y, dim){
-                var screenCenter = this.screenCenter(dim);
-                var pointOnSphere = new THREE.Vector3(x / screenCenter[0], -y / screenCenter[1], 0);
-                pointOnSphere.clampScalar(-1, 1);
+                var pointOnSphere = new THREE.Vector3(x, y, 0),
+                    length = pointOnSphere.length();
 
-                var length = pointOnSphere.length();
-
-                if(length >= 1){
+                if(length >= this.radius){
                     pointOnSphere.normalize(); 
                 } else {
                     pointOnSphere.z = Math.sqrt(1.0 - (length * length));
@@ -67,15 +83,20 @@ define(["three"], function(THREE){
                 return pointOnSphere;
             },
 
+            /**
+             * Create a quaternion which will rotate a model orientated along the first vector
+             * to be orientated along the second instead
+             */
             rotateQuaternion: function(rotateStart, rotateEnd){
                 var axis = new THREE.Vector3(),
-                    quaternion = new THREE.Quaternion(),
-                    normalStart = new THREE.Vector3(),
-                    normalEnd = new THREE.Vector3();
-                normalStart.set(rotateStart.x, rotateStart.y, rotateStart.z).normalize();
-                normalEnd.set(rotateEnd.x, rotateEnd.y, rotateEnd.z).normalize();
-                quaternion.setFromUnitVectors(normalStart, normalEnd);
-                return quaternion;
+                    rotate = new THREE.Quaternion(),
+                    angle = Math.acos(rotateStart.dot(rotateEnd) / rotateStart.length() / rotateEnd.length());
+                    if(angle){
+                        axis.crossVectors(rotateStart, rotateEnd).normalize();
+                        angle *= 0.5;
+                        rotate.setFromAxisAngle(axis, angle);
+                    }
+                    return rotate;
             },
         };
         Controller.init(model, scene, camera);
