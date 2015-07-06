@@ -6,6 +6,7 @@ define(["three", "src/arcball", "src/mouse_to_world"], function(THREE, Arcball, 
             fudgeZ: 0.15, // circles don't look like they touch due to perspective,
                          // so we fudge the z a bit here
             rotating: false,
+            rotationGuideWidth: 2,
 
             init: function(model, scene, camera){
                 this.model = model;
@@ -31,9 +32,15 @@ define(["three", "src/arcball", "src/mouse_to_world"], function(THREE, Arcball, 
                 };
 
                 this.rotationGuides = {
-                    y: new THREE.Line(geometry, new THREE.LineBasicMaterial({ color: this.rotationColour.y})),
-                    x: new THREE.Line(geometry, new THREE.LineBasicMaterial({ color: this.rotationColour.x})),
-                    z: new THREE.Line(geometry, new THREE.LineBasicMaterial({ color: this.rotationColour.z}))
+                    y: new THREE.Line(geometry, new THREE.LineBasicMaterial({
+                        color: this.rotationColour.y,
+                        linewidth: this.rotationGuideWidth})),
+                    x: new THREE.Line(geometry, new THREE.LineBasicMaterial({
+                        color: this.rotationColour.x,
+                        linewidth: this.rotationGuideWidth})),
+                    z: new THREE.Line(geometry, new THREE.LineBasicMaterial({
+                        color: this.rotationColour.z,
+                        linewidth: this.rotationGuideWidth})),
                 };
                 scene.add(this.rotationGuides.x);
                 scene.add(this.rotationGuides.y);
@@ -42,7 +49,6 @@ define(["three", "src/arcball", "src/mouse_to_world"], function(THREE, Arcball, 
                 this.rotateByAxisAngle(this.rotationGuides.y, this.rotationVecs.x, Math.PI/2);
                 this.rotateByAxisAngle(this.rotationGuides.x, this.rotationVecs.y, Math.PI/2);
                 this.rotationGuides.z.position.z = this.fudgeZ;
-                
             },
 
             iterateAlongAxis: function(callback){
