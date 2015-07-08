@@ -21,7 +21,7 @@ define(["src/render_loop", "src/mouse_input_bus", "src/two_axis_valuator", "src/
 
         var setupScene = function(id, rotationBuilder){
             var builder = RotationSceneBuilder();
-            builder.setModelUrl('mrt_model.json').setInputBus(inputBus).setRenderLoop(RenderLoop);
+            builder.setModelUrl('models/mrt_model.json').setInputBus(inputBus).setRenderLoop(RenderLoop);
             builder.setId(id).setView(views[id]).setRotationBuilder(rotationBuilder).build();
         }
         setupScene(0, DummyRotationHandler);
