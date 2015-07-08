@@ -1,4 +1,4 @@
-define(["src/build_scene", "src/render_loop", "src/basic_model_rotation_controller", "src/mouse_input_bus", "src/two_axis_valuator", "src/arcball", "src/discrete"], function(SceneBuilder, RenderLoop, ModelController, MouseInputBus, TwoAxisValuator, Arcball, Discrete){
+define(["src/render_loop", "src/mouse_input_bus", "src/two_axis_valuator", "src/arcball", "src/discrete", "src/dummy_rotation_handler", "src/build_rotation_scene"], function(RenderLoop, MouseInputBus, TwoAxisValuator, Arcball, Discrete, DummyRotationHandler, RotationSceneBuilder){
     return function(){
         var views = [{left:0,
                       btttom:0, 
@@ -16,19 +16,16 @@ define(["src/build_scene", "src/render_loop", "src/basic_model_rotation_controll
                       width:1,
                       background:new THREE.Color().setRGB( 0.7, 0.5, 0.7 )},
                       ];
-
         RenderLoop.init({widthScale: 1, heightScale:1, widthOffset:0, heightOffset:0},document.body);
-        var sceneBuilders = [];
         var inputBus = MouseInputBus("body");
-        for(var i = 0; i < 2; i++){
-            var view = views[i];
-            var sceneBuilder = SceneBuilder.new();
-            var controller = ModelController.new(inputBus, Discrete);
-            sceneBuilder.init(view, controller);
-            sceneBuilders.push(sceneBuilder);
-            RenderLoop.addView(i, sceneBuilder);
-        }
 
+        var setupScene = function(id, rotationBuilder){
+            var builder = RotationSceneBuilder();
+            builder.setModelUrl('mrt_model.json').setInputBus(inputBus).setRenderLoop(RenderLoop);
+            builder.setId(id).setView(views[id]).setRotationBuilder(rotationBuilder).build();
+        }
+        setupScene(0, DummyRotationHandler);
+        setupScene(1, Discrete);
         RenderLoop.start();
     };
 });

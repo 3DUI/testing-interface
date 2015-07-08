@@ -1,31 +1,13 @@
 define(["three"], function(THREE){
-    return {new: function(inputBus, rotationHandlerMaker){
+    return {new: function(model, inputBus, rotationHandlerMaker){
         var ModelController = {
             rotationHandler: undefined,
-           buildModel: function(id){
-               if(id === 0){
-                   var geometry = new THREE.BoxGeometry( 1, 1, 1 );
-                   var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-                   return new THREE.Mesh( geometry, material );
-               } else if (id === 1){
-                    var cubeMaterialArray = [];
-                    cubeMaterialArray.push( new THREE.MeshBasicMaterial( { color: 0xff3333 } ) );
-                    cubeMaterialArray.push( new THREE.MeshBasicMaterial( { color: 0xff8800 } ) );
-                    cubeMaterialArray.push( new THREE.MeshBasicMaterial( { color: 0xffff33 } ) );
-                    cubeMaterialArray.push( new THREE.MeshBasicMaterial( { color: 0x33ff33 } ) );
-                    cubeMaterialArray.push( new THREE.MeshBasicMaterial( { color: 0x3333ff } ) );
-                    cubeMaterialArray.push( new THREE.MeshBasicMaterial( { color: 0x8833ff } ) );
-                    var cubeMaterials = new THREE.MeshFaceMaterial( cubeMaterialArray );
-                    var cubeGeometry = new THREE.BoxGeometry(1, 1, 1);
-                    return new THREE.Mesh( cubeGeometry, cubeMaterials );
-               }
-           },
 
            init: function(scene, camera){
-               this.model = this.buildModel(1);
+               this.model = model;
                scene.add(this.model);
                this.rotationHandler = rotationHandlerMaker.new(this.model, scene, camera);
-               camera.position.z = 3;
+               camera.position.z = 10; // TODO: make configurable
            },
 
            inBounds: function(x, y){

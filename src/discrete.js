@@ -1,7 +1,7 @@
 define(["three", "src/arcball", "src/mouse_to_world"], function(THREE, Arcball, MouseToWorld){
     return {new: function(model, scene, camera){
         var Controller = {
-            radius: 1,
+            radius: 4, // make this configurable
             fudgeFactor: 0.1,
             fudgeZ: 0.15, // circles don't look like they touch due to perspective,
                          // so we fudge the z a bit here

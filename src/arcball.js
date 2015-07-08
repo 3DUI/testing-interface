@@ -2,7 +2,7 @@ define(["three", "src/mouse_to_world"], function(THREE, MouseToWorld){
     return {new: function(model, scene, camera){
         var Controller = {
             unhiddenOpacity: 0.25,
-            radius: 1, // TODO: changing this introduces discontinuities!
+            radius: 4, // TODO: make this configurable 
 
             init: function(model, scene, camera){
                 this.model = model;
@@ -84,10 +84,10 @@ define(["three", "src/mouse_to_world"], function(THREE, MouseToWorld){
              * Map the given position on a plane tangent to the sphere to a position on that sphere
              */
             mapToSphere: function(x, y, dim){
-                var pointOnSphere = new THREE.Vector3(x, y, 0),
+                var pointOnSphere = new THREE.Vector3(x / this.radius, y / this.radius, 0),
                     length = pointOnSphere.length();
 
-                if(length >= this.radius){
+                if(length >= 1){
                     pointOnSphere.normalize(); 
                 } else {
                     pointOnSphere.z = Math.sqrt(1.0 - (length * length));
