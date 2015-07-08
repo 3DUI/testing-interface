@@ -49,7 +49,7 @@ module.exports = function(grunt){
           }
         },
         watch: {
-          files: ['<%= jshint.files %>', 'bower.json', 'index.html', 'mrt_model.json'],
+          files: ['<%= jshint.files %>', 'bower.json', 'index.html', '**/*.json'],
           tasks: ['build', 'lint'],
           options: {
             atBegin: true,
