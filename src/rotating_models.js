@@ -29,9 +29,10 @@ define(["jquery", "src/render_loop", "src/mouse_input_bus", "src/two_axis_valuat
                 return builder.setId(id).setView(views[id]).setRotationBuilder(rotationBuilder).build(
                     function(controller){
                         var rot = controller.model.rotation;
-                        rot.x = task[id + "_orientation"][0]
-                        rot.y = task[id + "_orientation"][1]
-                        rot.z = task[id + "_orientation"][2]
+                        rot.x = task[id + "_orientation"][0];
+                        rot.y = task[id + "_orientation"][1];
+                        rot.z = task[id + "_orientation"][2];
+                        controllers[id] = controller;
                     }
                 );
             },
@@ -43,21 +44,38 @@ define(["jquery", "src/render_loop", "src/mouse_input_bus", "src/two_axis_valuat
                setupScene("player", Discrete, task);
             },
 
-            nextTask = function(i, tasks){
-                console.log("next task", i, tasks);
-                if(i != tasks.length){
+            controllers = {},
+            i = 0,
+
+            loadTask = function(tasks){
+                if(i < tasks.length){
+                    console.log("next task", i, tasks);
                     setupScenes(i, tasks);
-                    setTimeout(function(){
-                        nextTask(i+1, tasks)
-                    }, 1000);
+                    return true;
                 }
+                return false;
             };
+    
+            nextTask = function(tasks){
+                i++;
+                loadTask(tasks);
+            };
+
             
-        RenderLoop.init({widthScale: 1, heightScale:1, widthOffset:0, heightOffset:0},document.body);
+        RenderLoop.init({widthScale: 1, heightScale:0.9, widthOffset:0, heightOffset:0}, document.getElementById("three"));
         RenderLoop.start();
 
         $.getJSON("tasks/orientation_tasks.json", function(data) {
-            nextTask(0, data);
+            $("#save").click(function(){
+                window.log.debug("save","task", data[i], "orientation", controllers["player"].model.rotation)
+                //window.log.saveLog("save","task", data[i], "orientation", controllers["player"].model.rotation)
+                nextTask(data);
+            });
+            $("#reload").click(function(){
+                window.log.debug("reload","task", data[i], "orientation", controllers["player"].model.rotation)
+                loadTask(data)
+            });
+            loadTask(data);
         });
     };
 });
