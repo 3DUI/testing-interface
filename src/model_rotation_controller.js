@@ -1,8 +1,9 @@
 define(["three"], function(THREE){
-    return {new: function(model, inputBus, rotationHandlerMaker){
+    return {new: function(modelId, model, inputBus, rotationHandlerMaker){
         var ModelController = {
             rotationHandler: undefined,
-
+            inputBus: inputBus,
+            modelId: modelId,
            init: function(scene, camera){
                this.model = model;
                scene.add(this.model);
@@ -43,26 +44,29 @@ define(["three"], function(THREE){
                    topBound: this.topBound,
                };
            },
-           registerMouseHandlers: function(inputBus){
+           registerMouseHandlers: function(){
                var that = this;
                this.mouseDown = false;
                this.downMousePos = [0,0];
-               inputBus.registerConsumer("down", this.modelId+"_rotateModelMouseDown", function(name, event){
+               this.inputBus.registerConsumer("down", this.modelId+"_rotateModelMouseDown", function(name, event){
                   that.mouseDownHandler(name, event); 
                });
-               inputBus.registerConsumer("up", this.modelId+"_rotateModelMouseUp", function(name, event){
+               this.inputBus.registerConsumer("up", this.modelId+"_rotateModelMouseUp", function(name, event){
                   that.mouseUpHandler(name, event); 
                });
-               inputBus.registerConsumer("move", this.modelId+"_rotateModelMouseMove", function(name, event){
+               this.inputBus.registerConsumer("move", this.modelId+"_rotateModelMouseMove", function(name, event){
                   that.mouseMoveHandler(name, event); 
                });
            },
+
+           deregisterMouseHandlers: function(){
+               this.inputBus.deregisterConsumer("down", this.modelId+"_rotateModelMouseDown");
+               this.inputBus.deregisterConsumer("up", this.modelId+"_rotateModelMouseUp");
+               this.inputBus.deregisterConsumer("move", this.modelId+"_rotateModelMouseMove");           
+            },
         };
 
-        var modelId = Math.floor(Math.random()*100000)
-        ModelController.modelId = modelId;
-
-        ModelController.registerMouseHandlers(inputBus); 
+        ModelController.registerMouseHandlers(); 
 
         return ModelController;
     }};

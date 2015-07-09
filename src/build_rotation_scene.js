@@ -17,7 +17,7 @@ define(["three", "src/build_scene", "src/model_rotation_controller"], function(T
                     "renderLoop":this.renderLoop,
                 };
             },
-            build: function(){
+            build: function(callback){
                 var fields = this.fields();
                 for(var key in fields){
                     if(fields.hasOwnProperty(key)){
@@ -34,11 +34,13 @@ define(["three", "src/build_scene", "src/model_rotation_controller"], function(T
                 loader.load(this.modelUrl, function(geometry, materials) {
                     var material = new THREE.MeshFaceMaterial(materials),
                         model = new THREE.Mesh(geometry, material),
-                        controller = ModelController.new(model, that.inputBus, that.rotationBuilder),
+                        controller = ModelController.new(that.loopId, model, that.inputBus, that.rotationBuilder),
                         sceneBuilder = SceneBuilder.new();
                     sceneBuilder.init(that.view, controller);
                     that.renderLoop.addView(that.loopId, sceneBuilder);
-                    return controller;
+                    if(callback){
+                        callback(controller);
+                    }
                 });
             },
         };
