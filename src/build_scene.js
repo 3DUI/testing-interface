@@ -51,7 +51,6 @@ define(["three"], function(THREE){
                             bottom: bottom,
                         },
                     };
-
                 this.controller.render(this.scene, this.camera, dimensions);
                 this.scene.updateMatrixWorld(true);
                 renderer.setClearColor(this.view.background);

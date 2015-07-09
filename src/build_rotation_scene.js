@@ -19,12 +19,12 @@ define(["three", "src/build_scene", "src/model_rotation_controller"], function(T
             },
             build: function(){
                 var fields = this.fields();
-                for(key in fields){
+                for(var key in fields){
                     if(fields.hasOwnProperty(key)){
                         var value = fields[key];
                         if(value === undefined){
-                            window.log.error("Not all fields defined in Build Rotation Scene", this.fields())
-                            throw new Error("Not all fields defined.")
+                            window.log.error("Not all fields defined in Build Rotation Scene", this.fields());
+                            throw new Error("Not all fields defined.");
                         }
                     }
                 }
@@ -32,15 +32,15 @@ define(["three", "src/build_scene", "src/model_rotation_controller"], function(T
                 var that = this;
                 var loader = new THREE.JSONLoader();
                 loader.load(this.modelUrl, function(geometry, materials) {
-                    var material = new THREE.MeshFaceMaterial(materials);
-                    var model = new THREE.Mesh(geometry, material)
-                    var controller = ModelController.new(model, that.inputBus, that.rotationBuilder);
-                    var sceneBuilder = SceneBuilder.new();
+                    var material = new THREE.MeshFaceMaterial(materials),
+                        model = new THREE.Mesh(geometry, material),
+                        controller = ModelController.new(model, that.inputBus, that.rotationBuilder),
+                        sceneBuilder = SceneBuilder.new();
                     sceneBuilder.init(that.view, controller);
                     that.renderLoop.addView(that.loopId, sceneBuilder);
-                    window.log.debug("Fields", that.fields());
+                    return controller;
                 });
             },
         };
-    }
+    };
 });

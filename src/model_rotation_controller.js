@@ -9,7 +9,6 @@ define(["three"], function(THREE){
                this.rotationHandler = rotationHandlerMaker.new(this.model, scene, camera);
                camera.position.z = 10; // TODO: make configurable
            },
-
            inBounds: function(x, y){
                return x >= this.leftBound && x <= this.rightBound && 
                        y >= this.bottomBound && y <= this.topBound;
@@ -48,17 +47,20 @@ define(["three"], function(THREE){
                var that = this;
                this.mouseDown = false;
                this.downMousePos = [0,0];
-               inputBus.registerConsumer("down", "rotateModelMouseDown", function(name, event){
+               inputBus.registerConsumer("down", this.modelId+"_rotateModelMouseDown", function(name, event){
                   that.mouseDownHandler(name, event); 
                });
-               inputBus.registerConsumer("up", "rotateModelMouseUp", function(name, event){
+               inputBus.registerConsumer("up", this.modelId+"_rotateModelMouseUp", function(name, event){
                   that.mouseUpHandler(name, event); 
                });
-               inputBus.registerConsumer("move", "rotateModelMouseMove", function(name, event){
+               inputBus.registerConsumer("move", this.modelId+"_rotateModelMouseMove", function(name, event){
                   that.mouseMoveHandler(name, event); 
                });
            },
         };
+
+        var modelId = Math.floor(Math.random()*100000)
+        ModelController.modelId = modelId;
 
         ModelController.registerMouseHandlers(inputBus); 
 
