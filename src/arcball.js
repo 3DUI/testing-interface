@@ -1,4 +1,4 @@
-define(["three", "src/mouse_to_world"], function(THREE, MouseToWorld){
+define(["three", "src/mouse_to_world", "src/rotation_helper"], function(THREE, MouseToWorld, RotationHelper){
     return {new: function(model, scene, camera){
         var Controller = {
             unhiddenOpacity: 0.25,
@@ -24,25 +24,18 @@ define(["three", "src/mouse_to_world"], function(THREE, MouseToWorld){
             },
 
             updateRotation: function(mouseX, mouseY, dim){
-                var actualPos = this.actualPos(mouseX, mouseY, dim);
+                var actualPos = RotationHelper.actualPos(mouseX, mouseY, dim);
                     rotate = this.rotateQuaternion(
                         this.getSpherePointFromMouse(this.initialMouse, dim),
                         this.getSpherePointFromMouse(actualPos, dim));
                 
-                this.rotateModelByQuaternion(this.model, rotate); 
-                this.rotateModelByQuaternion(this.rotationGuide, rotate); 
+                RotationHelper.rotateModelByQuaternion(this.model, rotate); 
+                RotationHelper.rotateModelByQuaternion(this.rotationGuide, rotate); 
                 this.initialMouse = actualPos;
             },
 
-            rotateModelByQuaternion: function(model, rotate){
-                currQuaternion = model.quaternion;
-                currQuaternion.multiplyQuaternions(rotate, currQuaternion);
-                currQuaternion.normalize();
-                model.setRotationFromQuaternion(currQuaternion);
-            },
-
             startRotation: function(initialMousePos, dim){
-                this.initialMouse = this.actualPos(initialMousePos[0], initialMousePos[1], dim);
+                this.initialMouse = RotationHelper.actualPos(initialMousePos[0], initialMousePos[1], dim);
                 this.rotateStartPoint = this.mapToSphere(0,0, dim);
             },
 
@@ -58,24 +51,12 @@ define(["three", "src/mouse_to_world"], function(THREE, MouseToWorld){
 
             },
 
-            sizeFor: function(dim){
-                var width = dim.rightBound - dim.leftBound,
-                    height = dim.topBound - dim.bottomBound;
-                return {width: width, height: height};
-            },
 
-            /**
-             * Get the position of the mouse within the viewport rather than across the whole screen
-             */
-            actualPos: function(x, y, dim){
-                return new THREE.Vector2(x - dim.leftBound, y - dim.bottomBound);
-            },
-            
             /**
              * Get the position of the mouse mapped onto a sphere in the plane
              */
             getSpherePointFromMouse: function(pos, dim){
-                var size = this.sizeFor(dim),
+                var size = RotationHelper.sizeFor(dim),
                     worldPoint = MouseToWorld(pos.x, pos.y, size.width, size.height, this.camera);
                 return this.mapToSphere(worldPoint.x, worldPoint.y, dim);
             },

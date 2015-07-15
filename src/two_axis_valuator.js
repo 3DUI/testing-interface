@@ -1,32 +1,53 @@
-define(["three"], function(THREE){
-    return {new: function(model){
+define(["three", "src/rotation_helper"], function(THREE, RotationHelper){
+    return {new: function(model, scene, camera){
         var Controller = {
             model: model,
+            camera: camera,
+            scene: scene,
+            rotationGuideWidth: 2,
+            radius: 4, // TODO: make this configurable
+            rotationGuideColour: 0xffff00,
+            rotationGuideColourRotating: 0xffffff,
+            init: function(model, scene, camera){
+                this.buildRotationGuides(scene);
+            },
+
+            buildRotationGuides: function(scene){
+                    var segments = 64,
+                    geometry = new THREE.CircleGeometry(this.radius, segments);
+                geometry.vertices.shift(); // remove center
+
+                this.rotationGuide = new THREE.Line(geometry, new THREE.LineBasicMaterial({
+                        color: this.rotationGuideColour,
+                        linewidth: this.rotationGuideWidth})),
+                scene.add(this.rotationGuide);
+            },
+
+            rotateByAxis: function(realPos, axis){
+                var rotationVec = RotationHelper.axes[axis],
+                    angle = RotationHelper.sliderAngle(realPos, this.initialMouseReal, axis, this.radius);
+                RotationHelper.rotateByAxisAngle(this.model, rotationVec, angle);
+            },
+
             updateRotation: function(mouseX, mouseY, dim){
-                var normalised = this.normalise(mouseX, mouseY, dim);
-                this.model.rotation.x = this.calcAngle(normalised[1], this.initialMouseY, this.initialXRot);
-                this.model.rotation.y = this.calcAngle(normalised[0], this.initialMouseX, this.initialYRot);
+                var realPos = RotationHelper.getRealPosition(mouseX, mouseY, dim, this.camera);
+                if(realPos.length() >= this.radius){
+                    this.rotateByAxis(realPos, "z");
+                } else {
+                    this.rotateByAxis(realPos, "y");
+                    this.rotateByAxis(realPos, "x");
+                }
+                this.initialMouseReal = realPos;
             },
 
             startRotation: function(initialMousePos, dim){
-                var normalised = this.normalise(initialMousePos[0], initialMousePos[1], dim);
-                this.initialMouseX = normalised[0];
-                this.initialMouseY = normalised[1];
-                this.initialXRot = this.model.rotation.x;
-                this.initialYRot = this.model.rotation.y;
+                this.initialMouseReal = RotationHelper.getRealPosition(initialMousePos[0], initialMousePos[1], dim, this.camera);
+                this.rotationGuide.material.color.setHex(this.rotationGuideColourRotating);
             },
 
             endRotation: function(){
-                this.initialXRot = 0;
-                this.initialYRot = 0;
-                this.initialMouseX = 0;
-                this.initialMouseY = 0;
-            },
-
-            normalise: function(x, y, dim){
-                var width = dim.rightBound - dim.leftBound,
-                    height = dim.topBound - dim.bottomBound;
-                return [(x - dim.leftBound)/width, (y - dim.bottomBound)/height];
+                this.rotationGuide.material.color.setHex(this.rotationGuideColourRotating);
+                this.rotationGuide.material.color.setHex(this.rotationGuideColour);
             },
 
             calcAngle: function(pos, initialPos, initialRot){
@@ -34,6 +55,7 @@ define(["three"], function(THREE){
             }
 
         };
+        Controller.init(model, scene, camera);
         return Controller;
     }};
 });
