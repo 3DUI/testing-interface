@@ -29,13 +29,19 @@ define(["three", "src/rotation_helper"], function(THREE, RotationHelper){
                 RotationHelper.rotateByAxisAngle(this.model, rotationVec, angle);
             },
 
+            rotateByAxisSimple: function(realPos, axis){
+                var rotationVec = RotationHelper.axes[axis],
+                    angle = RotationHelper.sliderAngle(realPos, this.initialMouseReal, axis, this.radius);
+                this.model.rotation[axis] += angle; 
+            },
+
             updateRotation: function(mouseX, mouseY, dim){
                 var realPos = RotationHelper.getRealPosition(mouseX, mouseY, dim, this.camera);
                 if(realPos.length() >= this.radius){
                     this.rotateByAxis(realPos, "z");
                 } else {
-                    this.rotateByAxis(realPos, "y");
-                    this.rotateByAxis(realPos, "x");
+                    this.rotateByAxisSimple(realPos, "y");
+                    this.rotateByAxisSimple(realPos, "x");
                 }
                 this.initialMouseReal = realPos;
             },
