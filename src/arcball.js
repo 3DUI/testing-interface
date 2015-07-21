@@ -1,7 +1,8 @@
 define(["three", "src/mouse_to_world"], function(THREE, MouseToWorld){
     return {new: function(model, scene, camera){
         var Controller = {
-            unhiddenOpacity: 0.25,
+            unhiddenOpacity: 0.15,
+            rotatingOpacity: 0.3,
             radius: 4, // TODO: make this configurable 
 
             init: function(model, scene, camera){
@@ -44,18 +45,23 @@ define(["three", "src/mouse_to_world"], function(THREE, MouseToWorld){
             startRotation: function(initialMousePos, dim){
                 this.initialMouse = this.actualPos(initialMousePos[0], initialMousePos[1], dim);
                 this.rotateStartPoint = this.mapToSphere(0,0, dim);
+                this.setRotatingGuideOpacity(this.rotatingOpacity);
             },
 
             hideGuide: function(hide){
                 if(hide){
-                    this.rotationGuide.material.opacity = 0;
+                    this.setRotatingGuideOpacity(0);
                 } else {
-                    this.rotationGuide.material.opacity = this.unhiddenOpacity;
+                    this.setRotatingGuideOpacity(this.unhiddenOpacity);
                 }
             },
 
-            endRotation: function(){
+            setRotatingGuideOpacity: function(opacity){
+                this.rotationGuide.material.opacity = opacity;
+            },
 
+            endRotation: function(){
+                this.setRotatingGuideOpacity(this.unhiddenOpacity);
             },
 
             sizeFor: function(dim){
