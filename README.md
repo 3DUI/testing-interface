@@ -5,5 +5,6 @@
 
 ```
 sudo npm install -g grunt-cli karma-cli slimerjs react-tools http-server
-grunt setup
+npm install
+bower install
 ```

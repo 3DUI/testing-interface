@@ -11,7 +11,6 @@ var require = {
     three: 'src/lib/three',
     jquery: 'bower_components/jquery/dist/jquery',
     bootstrap: 'bower_components/bootstrap/dist/js/bootstrap',
-    Keypress: 'bower_components/Keypress/keypress-2.1.0.min'
   },
   packages: [
 
