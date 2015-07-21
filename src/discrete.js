@@ -62,13 +62,6 @@ define(["three", "src/arcball", "src/rotation_helper"], function(THREE, Arcball,
                 }
             },
 
-            checkWithinRange: function(val, min, max){
-                return val >= min && val <= max;
-            },
-
-            checkWithinFudge: function(val){
-                return this.checkWithinRange(val, -this.fudgeFactor, this.fudgeFactor);
-            },
 
             getRotateAlongAxisFn: function(axis){
                 var that = this;
@@ -76,31 +69,10 @@ define(["three", "src/arcball", "src/rotation_helper"], function(THREE, Arcball,
                 this.initialMouseReal = RotationHelper.snapToAxis(this.initialMouseReal, axis);
                 this.axisRotating = axis;
                 this.rotationGuides[axis].material.color.setHex(0xffffff);
-                // TODO: port to using rotation helpers sliderAngle
                 return function(mouseX, mouseY, dim){
-                    var point = RotationHelper.snapToAxis(RotationHelper.getRealPosition(mouseX, mouseY, dim, that.camera), axis);
-                    var angle = 0;
+                    var point = RotationHelper.getRealPosition(mouseX, mouseY, dim, that.camera);
+                    var angle = RotationHelper.sliderAngle(point, that.initialMouseReal, axis, that.radius);
                     var rotationVec = RotationHelper.axes[axis];
-                    if(axis == "x" || axis == "y"){
-                        var otherAxis = {
-                            x: "y",
-                            y: "x"
-                        };
-                        var delta = (that.initialMouseReal[otherAxis[axis]] - point[otherAxis[axis]])/(that.radius*2);
-                        angle = RotationHelper.positiveAngle(Math.PI * 2 * delta);
-
-                    } else {
-                        var startAngle = (Math.atan(that.initialMouseReal.y / that.initialMouseReal.x)),
-                            endAngle = (Math.atan(point.y / point.x)),
-                            sign = Math.sign(endAngle - startAngle),
-                            startPoint = new THREE.Vector2(that.initialMouseReal.x, that.initialMouseReal.y),
-                            endPoint = new THREE.Vector2(point.x, point.y);
-
-                        angle = Math.acos(startPoint.dot(endPoint));
-                        if(sign == -1){ // startAngle > endAngle => negative rotation
-                            angle *= -1;
-                        }
-                    }
                     RotationHelper.rotateByAxisAngle(that.model, rotationVec, angle);
                     that.initialMouseReal = point;
                 };
@@ -117,11 +89,11 @@ define(["three", "src/arcball", "src/rotation_helper"], function(THREE, Arcball,
                 this.rotating = true; 
 
                 // check whether they're clicking a slider
-                if(this.checkWithinFudge(this.initialMouseReal.x)){
+                if(RotationHelper.checkWithinFudge(this.initialMouseReal.x, this.fudgeFactor)){
                     this.rotationFunction = this.getRotateAlongAxisFn("x");
-                } else if (this.checkWithinFudge(this.initialMouseReal.y)){
+                } else if (RotationHelper.checkWithinFudge(this.initialMouseReal.y, this.fudgeFactor)){
                     this.rotationFunction = this.getRotateAlongAxisFn("y");
-                } else if (this.checkWithinFudge(this.initialMouseReal.length() - this.radius)){
+                } else if (RotationHelper.checkWithinFudge(this.initialMouseReal.length() - this.radius, this.fudgeFactor)){
                     this.rotationFunction = this.getRotateAlongAxisFn("z");
                 } else {
                     this.arcball.startRotation(initialMousePos, dim);

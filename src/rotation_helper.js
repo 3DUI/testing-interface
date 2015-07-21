@@ -1,5 +1,7 @@
 define(["three", "src/mouse_to_world"], function(THREE, MouseToWorld){
     return {
+            epsilon: 0.000001,
+
             rotateModelByQuaternion: function(model, rotate){
                 currQuaternion = model.quaternion;
                 currQuaternion.multiplyQuaternions(rotate, currQuaternion);
@@ -43,7 +45,6 @@ define(["three", "src/mouse_to_world"], function(THREE, MouseToWorld){
             snapToAxis: function(pos, axis){
                 var point = new THREE.Vector2(pos.x, pos.y);
                 if(axis == "y"){
-                    point.x = - point.x;
                     point.y = 0;
                 } else if(axis == "x") {
                     point.x = 0;
@@ -83,6 +84,9 @@ define(["three", "src/mouse_to_world"], function(THREE, MouseToWorld){
                     };
                     var delta = (initialPoint[otherAxis[axis]] - point[otherAxis[axis]])/(radius*2);
                     angle = this.positiveAngle(Math.PI * 2 * delta);
+                    if(axis == "y"){
+                        angle *= -1;
+                    }
                 } else {
                     var startAngle = this.angleOfPointOnCircle(initialPoint),
                         endAngle = this.angleOfPointOnCircle(point),
@@ -90,10 +94,21 @@ define(["three", "src/mouse_to_world"], function(THREE, MouseToWorld){
                         startPoint = new THREE.Vector2(initialPoint.x, initialPoint.y),
                         endPoint = new THREE.Vector2(point.x, point.y);
 
-                    angle = Math.acos(startPoint.dot(endPoint));
-                    if(sign == -1){ // startAngle > endAngle => negative rotation
-                        angle *= -1;
+                    if(this.equal(startAngle, endAngle)){
+                        window.log.debug("No change in angle found, setting angle to zero");
+                        angle = 0;
+                    } else {
+                        startPoint.normalize();
+                        endPoint.normalize();
+                        angle = Math.acos(startPoint.dot(endPoint));
+                        if(sign == -1){ // startAngle > endAngle => negative rotation
+                            angle *= -1;
+                        }
                     }
+                }
+                if(!angle && angle !== 0){
+                    window.log.warn("Angle not a number! Setting to 0");
+                    angle = 0;
                 }
                 return angle;
             },
@@ -132,6 +147,10 @@ define(["three", "src/mouse_to_world"], function(THREE, MouseToWorld){
                     pointOnSphere.z = Math.sqrt(1.0 - (length * length));
                 }
                 return pointOnSphere;
+            },
+
+            equal: function(a, b){
+                return this.checkWithinFudge(a - b, this.epsilon);
             },
     };
 });
