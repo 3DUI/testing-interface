@@ -20,13 +20,13 @@ define(["jquery", "src/render_loop", "src/mouse_input_bus", "src/two_axis_valuat
                       };
 
         var inputBus = MouseInputBus("body"),
-            setupScene = function(id, rotationBuilder, task){
+            setupScene = function(id, rotationBuilder, task, view){
                inputBus.deregisterConsumer("down", id+"_rotateModelMouseDown");
                inputBus.deregisterConsumer("up", id+"_rotateModelMouseUp");
                inputBus.deregisterConsumer("move", id+"_rotateModelMouseMove");           
                 var builder = RotationSceneBuilder();
-                builder.setModelUrl('models/mrt_model.json').setInputBus(inputBus).setRenderLoop(RenderLoop);
-                return builder.setId(id).setView(views[id]).setRotationBuilder(rotationBuilder).build(
+                builder.setModelUrl(task.model).setInputBus(inputBus).setRenderLoop(RenderLoop);
+                return builder.setId(id).setView(view).setRotationBuilder(rotationBuilder).build(
                     function(controller){
                         var rot = controller.model.rotation;
                         rot.x = task[id + "_orientation"][0];
@@ -40,8 +40,12 @@ define(["jquery", "src/render_loop", "src/mouse_input_bus", "src/two_axis_valuat
                var task = tasks[i];
                RenderLoop.removeView("ref");
                RenderLoop.removeView("player");
-               setupScene("ref", DummyRotationHandler, task);
-               setupScene("player", Discrete, task);
+               if(task.type === "orientation"){
+                   setupScene("ref", DummyRotationHandler, task, views.ref);
+                   setupScene("player", Discrete, task, views.player);
+               } else if(task.type === "inspection"){
+                   setupScene("player", Discrete, task, views.full);
+               }
             },
 
             controllers = {},
@@ -65,9 +69,10 @@ define(["jquery", "src/render_loop", "src/mouse_input_bus", "src/two_axis_valuat
         RenderLoop.init({widthScale: 1, heightScale:0.9, widthOffset:0, heightOffset:0}, document.getElementById("three"));
         RenderLoop.start();
 
-        $.getJSON("tasks/orientation_tasks.json", function(data) {
+        $.getJSON("tasks/mixed_tasks.json", function(data) {
             $("#save").click(function(){
-                window.log.debug("save","task", data[i], "orientation", controllers.player.model.rotation);
+                var rotation = controllers.player.model.rotation;
+                window.log.debug("saving user task", JSON.stringify(data[i]), JSON.stringify([rotation.x, rotation.y, rotation.z]));
                 nextTask(data);
             });
             $("#reload").click(function(){

@@ -1,0 +1,54 @@
+[
+   {
+        "type": "orientation",
+        "model": "models/mrt_model.json",
+        "desc": "simple x",
+        "ref_orientation": [0.5235987755982988, 0, 0],
+        "player_orientation": [0, 0, 0]
+    },
+    {
+        "type": "inspection",
+        "model": "models/ico_sphere_model.json",
+        "desc": "simple z",
+        "player_orientation": [0, 0, 1.5707963267948966]
+    },
+    {
+        "type": "orientation",
+        "model": "models/mrt_model.json",
+        "desc": "simple x + y",
+        "ref_orientation": [0.7853981633974483, 1.0471975511965976, 0],
+        "player_orientation": [0, 0, 0]
+    },
+    {
+        "type": "inspection",
+        "model": "models/ico_sphere_model.json",
+        "desc": "simple y + z",
+        "player_orientation": [0, 0.6283185307179586, 1.5707963267948966]
+    },
+    {
+        "type": "orientation",
+        "model": "models/mrt_model.json",
+        "desc": "simple y + z",
+        "ref_orientation": [ 0.7872753437999863, 4.366753504389396, 0.689998976481856 ],
+        "player_orientation": [0, 0, 0]
+    },
+    {
+        "type": "inspection",
+        "model": "models/ico_sphere_model.json",
+        "desc": "simple y + z",
+        "player_orientation": [ 6.174415524884364, 3.5323666664248576, 3.8646647534012346 ]
+    },
+    {
+        "type": "orientation",
+        "model": "models/mrt_model.json",
+        "desc": "simple y + z",
+        "ref_orientation": [ 2.184176818905282, 1.735638044468116, 4.13995452816108 ],
+        "player_orientation": [0, 0, 0]
+    },
+    {
+        "type": "inspection",
+        "model": "models/ico_sphere_model.json",
+        "desc": "simple y + z",
+        "player_orientation": [ 2.608489335984854, 4.840620622353082, 2.8333712292247593 ]
+    }
+]
