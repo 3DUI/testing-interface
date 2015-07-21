@@ -2,6 +2,7 @@ define(function(){
     var LOCAL_STORAGE_KEY = "logger_log_key_3dui";
     var Logger = {
         header: "",
+        meta: {},
         priorityToName: {0: "debug", 
                          1: "info",
                          2: "warn",
@@ -30,7 +31,8 @@ define(function(){
 
         saveLog: function() {
            var logs = this.getSavedLogs(),
-               msgComponents = this.argsToArray([], arguments);
+               msgComponents = this.argsToArray([this.header, this.meta], arguments);
+           this.debug("Saving",msgComponents);
            logs.push(msgComponents);
            localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(logs));
         },

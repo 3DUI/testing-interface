@@ -72,7 +72,7 @@ define(["jquery", "src/render_loop", "src/mouse_input_bus", "src/two_axis_valuat
         $.getJSON("tasks/mixed_tasks.json", function(data) {
             $("#save").click(function(){
                 var rotation = controllers.player.model.rotation;
-                window.log.debug("saving user task", JSON.stringify(data[i]), JSON.stringify([rotation.x, rotation.y, rotation.z]));
+                window.log.saveLog("saving user task", JSON.stringify(data[i]), JSON.stringify([rotation.x, rotation.y, rotation.z]));
                 nextTask(data);
             });
             $("#reload").click(function(){

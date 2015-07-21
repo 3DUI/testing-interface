@@ -17,8 +17,30 @@
         <script data-main="src/main.js" src="node_modules/requirejs/require.js"></script>
     </head>
     <body>
-        <div id="three"></div>
-        <div class="container-fluid">
+        <div id="capture" class="container-fluid">
+            <div class="row">
+                <form class="form-horizontal">
+                    <fieldset>
+
+                        <!-- Form Name -->
+                        <legend>Participant Information</legend>
+
+                        <!-- Text input-->
+                        <div class="form-group">
+                              <label class="col-md-4 control-label" for="participant_input">Particpant Number</label>  
+                                <div class="col-md-5">
+                                      <input id="participant_input" name="participant_input" type="text" placeholder="12345" class="form-control input-md" min="0" step="1" data-bind="value:replyNumber" required="">
+                                        <span class="help-block">The participant number given to you, attached to your formal consent forms.</span>  
+                               </div>
+                        </div>
+
+                    </fieldset>
+                </form>
+              <button id="submit-participant-number" class="btn btn-default">Submit</button>
+            </div>
+        </div>
+        <div id=experiment class="container-fluid">
+            <div class=row id="three"></div>
             <div class=row>
                 <div class="col-xs-6 col-xs-offset-6 controls">
                     <div class=row>
