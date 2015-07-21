@@ -40,8 +40,8 @@ define(["three", "src/rotation_helper"], function(THREE, RotationHelper){
                 if(realPos.length() >= this.radius){
                     this.rotateByAxis(realPos, "z");
                 } else {
-                    this.rotateByAxisSimple(realPos, "y");
-                    this.rotateByAxisSimple(realPos, "x");
+                    this.rotateByAxis(realPos, "y");
+                    this.rotateByAxis(realPos, "x");
                 }
                 this.initialMouseReal = realPos;
             },
