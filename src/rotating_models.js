@@ -67,13 +67,12 @@ define(["jquery", "src/render_loop", "src/mouse_input_bus", "src/two_axis_valuat
 
         $.getJSON("tasks/orientation_tasks.json", function(data) {
             $("#save").click(function(){
-                window.log.debug("save","task", data[i], "orientation", controllers["player"].model.rotation)
-                //window.log.saveLog("save","task", data[i], "orientation", controllers["player"].model.rotation)
+                window.log.debug("save","task", data[i], "orientation", controllers.player.model.rotation);
                 nextTask(data);
             });
             $("#reload").click(function(){
-                window.log.debug("reload","task", data[i], "orientation", controllers["player"].model.rotation)
-                loadTask(data)
+                window.log.debug("reload","task", data[i], "orientation", controllers.player.model.rotation);
+                loadTask(data);
             });
             loadTask(data);
         });
