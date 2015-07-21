@@ -3,8 +3,9 @@ define(["three", "src/arcball", "src/rotation_helper"], function(THREE, Arcball,
         var Controller = {
             radius: 4, //TODO: make this configurable
             fudgeFactor: 0.1,
-            fudgeZ: 0.15, // circles don't look like they touch due to perspective,
+            fudgeZ: 0.95, // circles don't look like they touch due to perspective,
                          // so we fudge the z a bit here
+            fudgeRadius: 0.50, 
             rotating: false,
             rotationGuideWidth: 2,
 
@@ -62,7 +63,6 @@ define(["three", "src/arcball", "src/rotation_helper"], function(THREE, Arcball,
                 }
             },
 
-
             getRotateAlongAxisFn: function(axis){
                 var that = this;
 
@@ -78,11 +78,10 @@ define(["three", "src/arcball", "src/rotation_helper"], function(THREE, Arcball,
                 };
             },
 
-
             startRotation: function(initialMousePos, dim){
                 this.initialMouseReal = RotationHelper.getRealPosition(initialMousePos[0], initialMousePos[1], dim, this.camera);
                 // check that mouse is within an acceptable distance of the sliders
-                if(this.initialMouseReal.length() > this.radius + this.fudgeFactor){
+                if(this.initialMouseReal.length() > this.radius + this.fudgeFactor + this.fudgeRadius){
                     return;
                 }
 
@@ -93,7 +92,7 @@ define(["three", "src/arcball", "src/rotation_helper"], function(THREE, Arcball,
                     this.rotationFunction = this.getRotateAlongAxisFn("x");
                 } else if (RotationHelper.checkWithinFudge(this.initialMouseReal.y, this.fudgeFactor)){
                     this.rotationFunction = this.getRotateAlongAxisFn("y");
-                } else if (RotationHelper.checkWithinFudge(this.initialMouseReal.length() - this.radius, this.fudgeFactor)){
+                } else if (RotationHelper.checkWithinFudge(this.initialMouseReal.length() - this.radius - this.fudgeRadius, 3 * this.fudgeFactor)){
                     this.rotationFunction = this.getRotateAlongAxisFn("z");
                 } else {
                     this.arcball.startRotation(initialMousePos, dim);
