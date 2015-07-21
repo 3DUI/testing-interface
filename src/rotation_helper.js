@@ -61,21 +61,21 @@ define(["three", "src/mouse_to_world"], function(THREE, MouseToWorld){
             },
 
             angleOfPointOnCircle: function(point){
-                if(point.x == 0){ // either pi/2 or 3*pi/2
+                if(point.x === 0){ // either pi/2 or 3*pi/2
                     if(point.y > 0){
                         return Math.PI/2;
                     } else {
                         return Math.PI*3/2;       
                     }
                 } else {
-                    return Math.atan(point.y / point.x)
+                    return Math.atan(point.y / point.x);
                 }
             },
 
             sliderAngle: function(point, initialPoint, axis, radius){
-                var point = this.snapToAxis(point, axis);
-                var initialPoint = this.snapToAxis(initialPoint, axis);
                 var angle = 0;
+                point = this.snapToAxis(point, axis);
+                initialPoint = this.snapToAxis(initialPoint, axis);
                 if(axis == "x" || axis == "y"){
                     var otherAxis = {
                         x: "y",
@@ -102,6 +102,36 @@ define(["three", "src/mouse_to_world"], function(THREE, MouseToWorld){
                 var quaternion = new THREE.Quaternion();
                 quaternion.setFromAxisAngle(axis, angle);
                 this.rotateModelByQuaternion(model, quaternion);
+            },
+
+            /**
+             * Create a quaternion which will rotate a model orientated along the first vector
+             * to be orientated along the second instead
+             */
+            rotateQuaternion: function(rotateStart, rotateEnd){
+                var axis = new THREE.Vector3(),
+                    rotate = new THREE.Quaternion(),
+                    angle = Math.acos(rotateStart.dot(rotateEnd) / rotateStart.length() / rotateEnd.length());
+                    if(angle){
+                        axis.crossVectors(rotateStart, rotateEnd).normalize();
+                        angle *= 0.5;
+                        rotate.setFromAxisAngle(axis, angle);
+                    }
+                    return rotate;
+            },
+            /**
+             * Map the given position on a plane tangent to the sphere to a position on that sphere
+             */
+            mapToSphere: function(x, y, radius){
+                var pointOnSphere = new THREE.Vector3(x / radius, y / radius, 0),
+                    length = pointOnSphere.length();
+
+                if(length >= 1){
+                    pointOnSphere.normalize(); 
+                } else {
+                    pointOnSphere.z = Math.sqrt(1.0 - (length * length));
+                }
+                return pointOnSphere;
             },
     };
 });

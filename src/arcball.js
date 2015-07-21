@@ -25,19 +25,18 @@ define(["three", "src/mouse_to_world", "src/rotation_helper"], function(THREE, M
             },
 
             updateRotation: function(mouseX, mouseY, dim){
-                var actualPos = RotationHelper.actualPos(mouseX, mouseY, dim);
-                    rotate = this.rotateQuaternion(
-                        this.getSpherePointFromMouse(this.initialMouse, dim),
-                        this.getSpherePointFromMouse(actualPos, dim));
+                var realPos = RotationHelper.getRealPosition(mouseX, mouseY, dim, this.camera),
+                    rotate = RotationHelper.rotateQuaternion(
+                        RotationHelper.mapToSphere(this.initialMouse.x, this.initialMouse.y, this.radius),
+                        RotationHelper.mapToSphere(realPos.x, realPos.y, this.radius));
                 
                 RotationHelper.rotateModelByQuaternion(this.model, rotate); 
                 RotationHelper.rotateModelByQuaternion(this.rotationGuide, rotate); 
-                this.initialMouse = actualPos;
+                this.initialMouse = realPos;
             },
 
             startRotation: function(initialMousePos, dim){
-                this.initialMouse = RotationHelper.actualPos(initialMousePos[0], initialMousePos[1], dim);
-                this.rotateStartPoint = this.mapToSphere(0,0, dim);
+                this.initialMouse = RotationHelper.getRealPosition(initialMousePos[0], initialMousePos[1], dim, this.camera);
                 this.setRotatingGuideOpacity(this.rotatingOpacity);
             },
 
@@ -57,46 +56,6 @@ define(["three", "src/mouse_to_world", "src/rotation_helper"], function(THREE, M
                 this.setRotatingGuideOpacity(this.unhiddenOpacity);
             },
 
-
-            /**
-             * Get the position of the mouse mapped onto a sphere in the plane
-             */
-            getSpherePointFromMouse: function(pos, dim){
-                var size = RotationHelper.sizeFor(dim),
-                    worldPoint = MouseToWorld(pos.x, pos.y, size.width, size.height, this.camera);
-                return this.mapToSphere(worldPoint.x, worldPoint.y, dim);
-            },
-
-            /**
-             * Map the given position on a plane tangent to the sphere to a position on that sphere
-             */
-            mapToSphere: function(x, y, dim){
-                var pointOnSphere = new THREE.Vector3(x / this.radius, y / this.radius, 0),
-                    length = pointOnSphere.length();
-
-                if(length >= 1){
-                    pointOnSphere.normalize(); 
-                } else {
-                    pointOnSphere.z = Math.sqrt(1.0 - (length * length));
-                }
-                return pointOnSphere;
-            },
-
-            /**
-             * Create a quaternion which will rotate a model orientated along the first vector
-             * to be orientated along the second instead
-             */
-            rotateQuaternion: function(rotateStart, rotateEnd){
-                var axis = new THREE.Vector3(),
-                    rotate = new THREE.Quaternion(),
-                    angle = Math.acos(rotateStart.dot(rotateEnd) / rotateStart.length() / rotateEnd.length());
-                    if(angle){
-                        axis.crossVectors(rotateStart, rotateEnd).normalize();
-                        angle *= 0.5;
-                        rotate.setFromAxisAngle(axis, angle);
-                    }
-                    return rotate;
-            },
         };
         Controller.init(model, scene, camera);
         return Controller;

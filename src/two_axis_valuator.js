@@ -19,7 +19,7 @@ define(["three", "src/rotation_helper"], function(THREE, RotationHelper){
 
                 this.rotationGuide = new THREE.Line(geometry, new THREE.LineBasicMaterial({
                         color: this.rotationGuideColour,
-                        linewidth: this.rotationGuideWidth})),
+                        linewidth: this.rotationGuideWidth}));
                 scene.add(this.rotationGuide);
             },
 
