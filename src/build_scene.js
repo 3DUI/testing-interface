@@ -10,9 +10,13 @@ define(["three"], function(THREE){
                 this.changeView(view);
                 this.scene = new THREE.Scene();
                 this.camera = new THREE.PerspectiveCamera( 75, 4/3, 0.1, 1000 ); 
+                this.light = new THREE.DirectionalLight( 0xffffff, 1);
+
+                var light = new THREE.AmbientLight( 0x404040 ); // soft white light
+                this.scene.add( light );
 
                 // Initialise the environment using the controller
-                this.controller.init(this.scene, this.camera);
+                this.controller.init(this.scene, this.camera, this.light);
             },
 
             // Update instance variables

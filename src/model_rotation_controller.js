@@ -4,11 +4,16 @@ define(["three"], function(THREE){
             rotationHandler: undefined,
             inputBus: inputBus,
             modelId: modelId,
-           init: function(scene, camera){
+           init: function(scene, camera, light){
                this.model = model;
                scene.add(this.model);
                this.rotationHandler = rotationHandlerMaker.new(this.model, scene, camera);
                camera.position.z = 10; // TODO: make configurable
+               this.light = light;
+               this.light.position.set(0,0,10);
+               this.light.target = this.model;
+               scene.add(this.light);
+               this.camera = camera;
            },
            inBounds: function(x, y){
                return x >= this.leftBound && x <= this.rightBound && 
