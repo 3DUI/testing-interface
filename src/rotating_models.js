@@ -42,6 +42,7 @@ define(["jquery", "src/render_loop", "src/mouse_input_bus", "src/two_axis_valuat
                RenderLoop.removeView("player");
                setupScene("ref", DummyRotationHandler, task);
                setupScene("player", Arcball, task);
+               setupScene("player", TwoAxisValuator, task);
             },
 
             controllers = {},
