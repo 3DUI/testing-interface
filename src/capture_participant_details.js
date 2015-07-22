@@ -1,4 +1,5 @@
 define(["src/rotating_models","jquery"], function(RotatingModels, $){
+    // TODO: make this control which set of tasks is loaded
     return function(){
 
         $("#experiment").hide();

@@ -1,7 +1,5 @@
 define(["jquery", "src/render_loop", "src/mouse_input_bus", "src/two_axis_valuator", "src/arcball", "src/discrete", "src/dummy_rotation_handler", "src/build_rotation_scene"], function($, RenderLoop, MouseInputBus, TwoAxisValuator, Arcball, Discrete, DummyRotationHandler, RotationSceneBuilder){
     return function(){
-
-
         var views = {ref: {left:0,
                       bottom:0, 
                       width:0.5, 
@@ -18,7 +16,7 @@ define(["jquery", "src/render_loop", "src/mouse_input_bus", "src/two_axis_valuat
                       width:1,
                       background:new THREE.Color().setRGB( 0.7, 0.5, 0.7 )},
                       };
-
+        var playerController = Discrete;
         var inputBus = MouseInputBus("body"),
             setupScene = function(id, rotationBuilder, task, view){
                inputBus.deregisterConsumer("down", id+"_rotateModelMouseDown");
@@ -42,9 +40,9 @@ define(["jquery", "src/render_loop", "src/mouse_input_bus", "src/two_axis_valuat
                RenderLoop.removeView("player");
                if(task.type === "orientation"){
                    setupScene("ref", DummyRotationHandler, task, views.ref);
-                   setupScene("player", Discrete, task, views.player);
+                   setupScene("player", playerController, task, views.player);
                } else if(task.type === "inspection"){
-                   setupScene("player", Discrete, task, views.full);
+                   setupScene("player", playerController, task, views.full);
                }
             },
 
@@ -58,10 +56,18 @@ define(["jquery", "src/render_loop", "src/mouse_input_bus", "src/two_axis_valuat
                     return true;
                 }
                 return false;
-            };
+            },
     
             nextTask = function(tasks){
                 i++;
+                if(i == tasks.length){
+                    i = 0; // TODO: have a dialogue here rather than just looping
+                }
+                loadTask(tasks);
+            },
+
+            loadRotationController = function(controller, tasks){
+                playerController = controller;
                 loadTask(tasks);
             };
 
@@ -78,6 +84,16 @@ define(["jquery", "src/render_loop", "src/mouse_input_bus", "src/two_axis_valuat
             $("#reload").click(function(){
                 window.log.debug("reload","task", data[i], "orientation", controllers.player.model.rotation);
                 loadTask(data);
+            });
+            // TODO: only show these via flags
+            $("#discrete").click(function(){
+                loadRotationController(Discrete, data);
+            });
+            $("#two-axis").click(function(){
+                loadRotationController(TwoAxisValuator, data);
+            });
+            $("#arcball").click(function(){
+                loadRotationController(Arcball, data);
             });
             loadTask(data);
         });
