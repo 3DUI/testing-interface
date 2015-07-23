@@ -129,11 +129,11 @@ define(["three", "src/mouse_to_world"], function(THREE, MouseToWorld){
                     angle = Math.acos(rotateStart.dot(rotateEnd) / rotateStart.length() / rotateEnd.length());
                     if(angle){
                         axis.crossVectors(rotateStart, rotateEnd).normalize();
-                        angle *= 0.5;
                         rotate.setFromAxisAngle(axis, angle);
                     }
                     return rotate;
             },
+
             /**
              * Map the given position on a plane tangent to the sphere to a position on that sphere
              */
