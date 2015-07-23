@@ -1,4 +1,5 @@
-define(["jquery", "src/render_loop", "src/mouse_input_bus", "src/two_axis_valuator", "src/arcball", "src/discrete", "src/dummy_rotation_handler", "src/build_rotation_scene"], function($, RenderLoop, MouseInputBus, TwoAxisValuator, Arcball, Discrete, DummyRotationHandler, RotationSceneBuilder){
+// TODO: break this up into smaller modules
+define(["jquery", "src/render_loop", "src/mouse_input_bus", "src/two_axis_valuator", "src/arcball", "src/discrete", "src/dummy_rotation_handler", "src/build_rotation_scene", "src/user_feedback"], function($, RenderLoop, MouseInputBus, TwoAxisValuator, Arcball, Discrete, DummyRotationHandler, RotationSceneBuilder, UserFeedback){
     return function(){
         var views = {ref: {left:0,
                       bottom:0, 
@@ -16,8 +17,9 @@ define(["jquery", "src/render_loop", "src/mouse_input_bus", "src/two_axis_valuat
                       width:1,
                       background:new THREE.Color().setRGB( 0.7, 0.5, 0.7 )},
                       };
-        var playerController = Discrete;
-        var inputBus = MouseInputBus("body"),
+        var playerController = Discrete,
+            playerControllerName = "Discrete",
+            inputBus = MouseInputBus("body"),
             setupScene = function(id, rotationBuilder, task, view){
                inputBus.deregisterConsumer("down", id+"_rotateModelMouseDown");
                inputBus.deregisterConsumer("up", id+"_rotateModelMouseUp");
@@ -53,6 +55,7 @@ define(["jquery", "src/render_loop", "src/mouse_input_bus", "src/two_axis_valuat
                 if(i < tasks.length){
                     console.log("next task", i, tasks);
                     setupScenes(i, tasks);
+                    UserFeedback(i, tasks, playerControllerName);
                     return true;
                 }
                 return false;
@@ -66,13 +69,14 @@ define(["jquery", "src/render_loop", "src/mouse_input_bus", "src/two_axis_valuat
                 loadTask(tasks);
             },
 
-            loadRotationController = function(controller, tasks){
+            loadRotationController = function(controller, name, tasks){
                 playerController = controller;
+                playerControllerName = name;
                 loadTask(tasks);
             };
 
             
-        RenderLoop.init({widthScale: 1, heightScale:0.9, widthOffset:0, heightOffset:0}, document.getElementById("three"));
+        RenderLoop.init({widthScale: 1, heightScale:1, widthOffset:0, heightOffset:0}, document.getElementById("three"));
         RenderLoop.start();
 
         $.getJSON("tasks/mixed_tasks.json", function(data) {
@@ -87,15 +91,16 @@ define(["jquery", "src/render_loop", "src/mouse_input_bus", "src/two_axis_valuat
             });
             // TODO: only show these via flags
             $("#discrete").click(function(){
-                loadRotationController(Discrete, data);
+                loadRotationController(Discrete, "Discrete Sliders", data);
             });
             $("#two-axis").click(function(){
-                loadRotationController(TwoAxisValuator, data);
+                loadRotationController(TwoAxisValuator, "Two Axis Valuator", data);
             });
             $("#arcball").click(function(){
-                loadRotationController(Arcball, data);
+                loadRotationController(Arcball, "Arcball", data);
             });
             loadTask(data);
         });
     };
 });
+// TODO: define all HTML on page with react components

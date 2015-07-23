@@ -39,19 +39,26 @@
               <button id="submit-participant-number" class="btn btn-default">Submit</button>
             </div>
         </div>
-        <div id=experiment class="container-fluid">
+        <div id=experiment class="container-fluid" style="display: none">
             <div class=row id="three"></div>
             <div class=row>
-                <div class="col-xs-6 col-xs-offset-6 controls">
-                    <div class=row>
-                        <div class="col-xs-3 col-xs-offset-5">
-                            <button id="save" class="btn btn-default">Save</button>
-                            <button id="reload" class="btn btn-default">Reload</button>
-                            <button id="discrete" class="btn btn-default">Use Discrete Rotation Controller</button>
-                            <button id="two-axis" class="btn btn-default">Use Two-Axis Valuator Rotation Controller</button>
-                            <button id="arcball" class="btn btn-default">Use Arcball Rotation Controller</button>
+                <div class="col-xs-6" id="header-div">
+                    <h1 id="header-rotation-method">Rotation Method:</h1>
+                    <h2 id="header-tasks">Task X of Y</h2>
+                    <h3 id="header-explanation">Rotate the object on the right to match the object on the left. </h3>
+                </div>
+                <div class="col-xs-6 controls">
+                        <div class=row>
+                            <span>Task Controls </span>
+                            <button id="save" class="btn btn-large">Submit Task</button>
+                            <button id="reload" class="btn btn-default">Reload Task</button>
                         </div>
-                    </div>
+                    <div class=row>
+                        <span>Select rotation controller</span>
+                            <button id="discrete" class="btn btn-default">Discrete</button>
+                            <button id="two-axis" class="btn btn-default">Two-Axis Valuator</button>
+                            <button id="arcball" class="btn btn-default">Arcball</button>
+                        </div>
                 </div>
             </div>
         </div>

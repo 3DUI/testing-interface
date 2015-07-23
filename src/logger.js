@@ -31,7 +31,7 @@ define(function(){
 
         saveLog: function() {
            var logs = this.getSavedLogs(),
-               msgComponents = this.argsToArray([this.header, this.meta], arguments);
+               msgComponents = this.argsToArray([this.header, new Date(), this.meta], arguments);
            this.debug("Saving",msgComponents);
            logs.push(msgComponents);
            localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(logs));
