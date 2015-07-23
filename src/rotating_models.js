@@ -76,7 +76,7 @@ define(["jquery", "src/render_loop", "src/mouse_input_bus", "src/two_axis_valuat
             };
 
             
-        RenderLoop.init({widthScale: 1, heightScale:1, widthOffset:0, heightOffset:0}, document.getElementById("three"));
+        RenderLoop.init({widthScale: 1, heightScale:0.8, widthOffset:0, heightOffset:0}, document.getElementById("three"));
         RenderLoop.start();
 
         $.getJSON("tasks/mixed_tasks.json", function(data) {
