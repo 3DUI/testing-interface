@@ -26,9 +26,9 @@ define(["three"], function(THREE){
                this.topBound = this.bottomBound + dim.scene.height; 
            },
            mouseDownHandler: function(name, event){
-               if(this.inBounds(event.clientX, event.clientY)){
+               if(this.inBounds(event.pageX, event.pageY)){
                    this.mouseDown = true;
-                   this.downMousePos = [event.clientX, event.clientY];
+                   this.downMousePos = [event.pageX, event.pageY];
                    this.rotationHandler.startRotation(this.downMousePos, this.dim());
                }
            },
@@ -38,7 +38,7 @@ define(["three"], function(THREE){
            },
            mouseMoveHandler: function(name, event){
                if(this.mouseDown){
-                   this.rotationHandler.updateRotation(event.clientX, event.clientY, this.dim()); 
+                   this.rotationHandler.updateRotation(event.pageX, event.pageY, this.dim()); 
                }
            },
            dim: function(){
