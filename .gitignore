@@ -29,3 +29,6 @@ node_modules
 # Dependency directory
 # http://stackoverflow.com/questions/22327758/should-bower-components-be-gitignored
 bower_components/
+
+# Jeckyl
+_site
