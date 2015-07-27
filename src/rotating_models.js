@@ -1,5 +1,5 @@
 // TODO: break this up into smaller modules
-define(["jquery", "src/render_loop", "src/mouse_input_bus", "src/two_axis_valuator", "src/arcball", "src/discrete", "src/dummy_rotation_handler", "src/build_rotation_scene", "src/user_feedback"], function($, RenderLoop, MouseInputBus, TwoAxisValuator, Arcball, Discrete, DummyRotationHandler, RotationSceneBuilder, UserFeedback){
+define(["jquery", "src/render_loop", "src/mouse_input_bus", "src/two_axis_valuator", "src/arcball", "src/discrete", "src/dummy_rotation_handler", "src/build_rotation_scene", "src/user_feedback", "src/timer"], function($, RenderLoop, MouseInputBus, TwoAxisValuator, Arcball, Discrete, DummyRotationHandler, RotationSceneBuilder, UserFeedback, Timer){
     return function(){
         var views = {ref: {left:0,
                       bottom:0, 
@@ -19,6 +19,7 @@ define(["jquery", "src/render_loop", "src/mouse_input_bus", "src/two_axis_valuat
                       };
         var playerController = Discrete,
             playerControllerName = "Discrete",
+            timer = new Timer("#timer"),
             inputBus = MouseInputBus("body"),
             setupScene = function(id, rotationBuilder, task, view){
                inputBus.deregisterConsumer("down", id+"_rotateModelMouseDown");
@@ -78,12 +79,14 @@ define(["jquery", "src/render_loop", "src/mouse_input_bus", "src/two_axis_valuat
             
         RenderLoop.init({widthScale: 1, heightScale:0.8, widthOffset:0, heightOffset:0}, document.getElementById("three"));
         RenderLoop.start();
-
+        timer.start();
         $.getJSON("tasks/mixed_tasks.json", function(data) {
             $("#save").click(function(){
+                timer.stop();
                 var rotation = controllers.player.model.rotation;
-                window.log.saveLog("saving user task", JSON.stringify(data[i]), JSON.stringify([rotation.x, rotation.y, rotation.z]));
+                window.log.saveLog("saving user task", JSON.stringify(data[i]), JSON.stringify([rotation.x, rotation.y, rotation.z]), timer.time);
                 nextTask(data);
+                timer.start();
             });
             $("#reload").click(function(){
                 window.log.debug("reload","task", data[i], "orientation", controllers.player.model.rotation);
