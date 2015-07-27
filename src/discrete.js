@@ -80,11 +80,6 @@ define(["three", "src/arcball", "src/rotation_helper"], function(THREE, Arcball,
 
             startRotation: function(initialMousePos, dim){
                 this.initialMouseReal = RotationHelper.getRealPosition(initialMousePos[0], initialMousePos[1], dim, this.camera);
-                // check that mouse is within an acceptable distance of the sliders
-                if(this.initialMouseReal.length() > this.radius + this.fudgeFactor + this.fudgeRadius){
-                    return;
-                }
-
                 this.rotating = true; 
 
                 // check whether they're clicking a slider
