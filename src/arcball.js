@@ -25,13 +25,15 @@ define(["three", "src/mouse_to_world", "src/rotation_helper"], function(THREE, M
             },
 
             updateRotation: function(mouseX, mouseY, dim){
-                var realPos = RotationHelper.getRealPosition(mouseX, mouseY, dim, this.camera),
-                    rotate = RotationHelper.rotateQuaternion(
+                var realPos = RotationHelper.getRealPosition(mouseX, mouseY, dim, this.camera);
+                if(realPos.length() < this.radius){ // disable rotating on z from the outside
+                    var rotate = RotationHelper.rotateQuaternion(
                         RotationHelper.mapToSphere(this.initialMouse.x, this.initialMouse.y, this.radius),
                         RotationHelper.mapToSphere(realPos.x, realPos.y, this.radius));
-                
-                RotationHelper.rotateModelByQuaternion(this.model, rotate); 
-                RotationHelper.rotateModelByQuaternion(this.rotationGuide, rotate); 
+
+                    RotationHelper.rotateModelByQuaternion(this.model, rotate); 
+                    RotationHelper.rotateModelByQuaternion(this.rotationGuide, rotate); 
+                } 
                 this.initialMouse = realPos;
             },
 

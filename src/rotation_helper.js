@@ -142,7 +142,7 @@ define(["three", "src/mouse_to_world"], function(THREE, MouseToWorld){
                     length = pointOnSphere.length();
 
                 if(length >= 1){
-                    pointOnSphere.normalize(); 
+                    pointOnSphere.normalize();
                 } else {
                     pointOnSphere.z = Math.sqrt(1.0 - (length * length));
                 }
