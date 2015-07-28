@@ -4,6 +4,7 @@ define(["three", "src/mouse_to_world", "src/rotation_helper"], function(THREE, M
             unhiddenOpacity: 0.3,
             rotatingOpacity: 0.5,
             radius: 4, // TODO: make this configurable 
+            displayRadius: 4.50, 
             rotating: false,
 
             init: function(model, scene, camera){
@@ -39,7 +40,7 @@ define(["three", "src/mouse_to_world", "src/rotation_helper"], function(THREE, M
             },
 
             shouldRotate(realPos){
-                return realPos.length() < this.radius;
+                return realPos.length() < this.displayRadius;
             },
 
             startRotation: function(initialMousePos, dim){
