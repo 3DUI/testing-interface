@@ -20,7 +20,7 @@ define(["jquery", "src/render_loop", "src/mouse_input_bus", "src/two_axis_valuat
         var playerController = Discrete,
             playerControllerName = "Discrete",
             timer = new Timer("#timer"),
-            inputBus = MouseInputBus("body"),
+            inputBus = MouseInputBus("#three"),
             setupScene = function(id, rotationBuilder, task, view){
                inputBus.deregisterConsumer("down", id+"_rotateModelMouseDown");
                inputBus.deregisterConsumer("up", id+"_rotateModelMouseUp");
@@ -37,6 +37,21 @@ define(["jquery", "src/render_loop", "src/mouse_input_bus", "src/two_axis_valuat
                     }
                 );
             },
+            showLabels = function(showOrientation){
+                var hideId,
+                    showId,
+                    orientation = "#orientation-labels",
+                    inspection = "#inspection-labels";
+                if(showOrientation){
+                    hideId = inspection;
+                    showId = orientation;
+                } else {
+                    hideId = orientation;
+                    showId = inspection;
+                }
+                $(hideId).hide();
+                $(showId).show();
+            },
             setupScenes = function(i, tasks){
                var task = tasks[i];
                RenderLoop.removeView("ref");
@@ -44,8 +59,10 @@ define(["jquery", "src/render_loop", "src/mouse_input_bus", "src/two_axis_valuat
                if(task.type === "orientation"){
                    setupScene("ref", DummyRotationHandler, task, views.ref);
                    setupScene("player", playerController, task, views.player);
+                   showLabels(true);
                } else if(task.type === "inspection"){
                    setupScene("player", playerController, task, views.full);
+                   showLabels(false);
                }
             },
 

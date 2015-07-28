@@ -26,9 +26,9 @@ define(["three"], function(THREE){
                this.topBound = this.bottomBound + dim.scene.height; 
            },
            mouseDownHandler: function(name, event){
-               if(this.inBounds(event.pageX, event.pageY)){
+               if(this.inBounds(event.actualX, event.actualY)){
                    this.mouseDown = true;
-                   this.downMousePos = [event.pageX, event.pageY];
+                   this.downMousePos = [event.actualX, event.actualY];
                    this.rotationHandler.startRotation(this.downMousePos, this.dim());
                }
                this.updateCursor(event);
@@ -40,13 +40,13 @@ define(["three"], function(THREE){
            },
            mouseMoveHandler: function(name, event){
                if(this.mouseDown){
-                   this.rotationHandler.updateRotation(event.pageX, event.pageY, this.dim()); 
+                   this.rotationHandler.updateRotation(event.actualX, event.actualY, this.dim()); 
                }
                this.updateCursor(event);
            },
            updateCursor: function(event){
-               var inBounds = this.inBounds(event.pageX, event.pageY),
-                   cursorType = this.rotationHandler.cursorType(event.pageX, event.pageY, this.dim());
+               var inBounds = this.inBounds(event.actualX, event.actualY),
+                   cursorType = this.rotationHandler.cursorType(event.actualX, event.actualY, this.dim());
                 if(cursorType == null){
                     // do nothing
                 } else if(inBounds){

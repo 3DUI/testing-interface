@@ -24,6 +24,10 @@ define(["jquery"], function($){
                         }
                     }
                 }
+
+                event.actualX = event.pageX - $(domElement).offset().left;
+                event.actualY = event.pageY - $(domElement).offset().top;
+
                 for(i = 0; i < consumers.length; i++){
                     consumers[i](name, event);
                 }
@@ -40,9 +44,9 @@ define(["jquery"], function($){
             }
         };
 
-        $(domElement).mousemove(MouseInputBus.publishActionFn("move"));
-        $(domElement).mousedown(MouseInputBus.publishActionFn("down"));
-        $(domElement).mouseup(MouseInputBus.publishActionFn("up"));
+        $("body").mousemove(MouseInputBus.publishActionFn("move"));
+        $("body").mousedown(MouseInputBus.publishActionFn("down"));
+        $("body").mouseup(MouseInputBus.publishActionFn("up"));
         
         return MouseInputBus;
     };
