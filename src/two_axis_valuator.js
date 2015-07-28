@@ -8,6 +8,7 @@ define(["three", "src/rotation_helper"], function(THREE, RotationHelper){
             radius: 4, // TODO: make this configurable
             rotationGuideColour: 0xffff00,
             rotationGuideColourRotating: 0xffffff,
+            rotating: false,
             init: function(model, scene, camera){
                 this.buildRotationGuides(scene);
             },
@@ -46,12 +47,25 @@ define(["three", "src/rotation_helper"], function(THREE, RotationHelper){
                 this.initialMouseReal = realPos;
             },
 
+            cursorType: function(mouseX, mouseY, dim){
+                if(this.rotating){
+                    return "grabbing";
+                } else {
+                    return "grab";
+                }
+            },
+
+            updateCursor: function(mouseX, mouseY, dim){
+            },
+
             startRotation: function(initialMousePos, dim){
+                this.rotating = true;
                 this.initialMouseReal = RotationHelper.getRealPosition(initialMousePos[0], initialMousePos[1], dim, this.camera);
                 this.rotationGuide.material.color.setHex(this.rotationGuideColourRotating);
             },
 
             endRotation: function(){
+                this.rotating = false;
                 this.rotationGuide.material.color.setHex(this.rotationGuideColourRotating);
                 this.rotationGuide.material.color.setHex(this.rotationGuideColour);
             },

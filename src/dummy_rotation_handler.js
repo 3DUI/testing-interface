@@ -8,14 +8,12 @@ define(function(){
             startRotation: function(initialMousePos, dim){
             },
 
+            cursorType: function(mouseX, mouseY, dim){
+                return null;
+            },
+
             endRotation: function(){
             },
-
-            normalise: function(x, y, dim){
-            },
-
-            calcAngle: function(pos, initialPos, initialRot){
-            }
         };
         return Controller;
     }};

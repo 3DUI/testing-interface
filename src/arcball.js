@@ -4,6 +4,7 @@ define(["three", "src/mouse_to_world", "src/rotation_helper"], function(THREE, M
             unhiddenOpacity: 0.3,
             rotatingOpacity: 0.5,
             radius: 4, // TODO: make this configurable 
+            rotating: false,
 
             init: function(model, scene, camera){
                 this.model = model;
@@ -26,7 +27,7 @@ define(["three", "src/mouse_to_world", "src/rotation_helper"], function(THREE, M
 
             updateRotation: function(mouseX, mouseY, dim){
                 var realPos = RotationHelper.getRealPosition(mouseX, mouseY, dim, this.camera);
-                if(realPos.length() < this.radius){ // disable rotating on z from the outside
+                if(this.shouldRotate(realPos)){ // disable rotating on z from the outside
                     var rotate = RotationHelper.rotateQuaternion(
                         RotationHelper.mapToSphere(this.initialMouse.x, this.initialMouse.y, this.radius),
                         RotationHelper.mapToSphere(realPos.x, realPos.y, this.radius));
@@ -37,9 +38,30 @@ define(["three", "src/mouse_to_world", "src/rotation_helper"], function(THREE, M
                 this.initialMouse = realPos;
             },
 
+            shouldRotate(realPos){
+                return realPos.length() < this.radius;
+            },
+
             startRotation: function(initialMousePos, dim){
+                this.rotating = true;
                 this.initialMouse = RotationHelper.getRealPosition(initialMousePos[0], initialMousePos[1], dim, this.camera);
                 this.setRotatingGuideOpacity(this.rotatingOpacity);
+            },
+            endRotation: function(){
+                this.rotating = false;
+                this.setRotatingGuideOpacity(this.unhiddenOpacity);
+            },
+
+            cursorType: function(mouseX, mouseY, dim){
+                var realPos = RotationHelper.getRealPosition(mouseX, mouseY, dim, this.camera);
+                if(this.rotating){
+                    return "grabbing";
+                }
+                else if(this.shouldRotate(realPos)){
+                    return "grab";
+                } else {
+                    return "";
+                }
             },
 
             hideGuide: function(hide){
@@ -53,11 +75,6 @@ define(["three", "src/mouse_to_world", "src/rotation_helper"], function(THREE, M
             setRotatingGuideOpacity: function(opacity){
                 this.rotationGuide.material.opacity = opacity;
             },
-
-            endRotation: function(){
-                this.setRotatingGuideOpacity(this.unhiddenOpacity);
-            },
-
         };
         Controller.init(model, scene, camera);
         return Controller;
