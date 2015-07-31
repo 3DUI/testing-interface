@@ -4,6 +4,8 @@ module.exports = function(grunt){
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-devserver');
+    grunt.loadNpmTasks('grunt-shell');
+
     grunt.initConfig({
         bowerRequirejs: {
           target: {
@@ -44,10 +46,19 @@ module.exports = function(grunt){
             },
             server: {},
         },
+        shell: {
+            options: {
+                stderr: false
+            },
+            target: {
+                command: 'bundle exec jekyll serve'
+            }
+       }
     });
     grunt.registerTask('build', ['bowerRequirejs']);
     grunt.registerTask('lint', ['jshint']);
     grunt.registerTask('default', ['devserver', 'watch']);
     grunt.registerTask('auto', ['build', 'watch']);
     grunt.registerTask('test', ['build', 'lint', 'karma']);
+    grunt.registerTask('serve', ['shell']);
 };

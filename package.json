@@ -28,6 +28,7 @@
     "grunt-contrib-watch": "^0.6.1",
     "grunt-devserver": "^0.6.0",
     "grunt-karma": "^0.11.1",
+    "grunt-shell": "^1.1.2",
     "jasmine-core": "^2.3.4",
     "karma": "^0.12.36",
     "karma-chrome-launcher": "^0.1.12",
