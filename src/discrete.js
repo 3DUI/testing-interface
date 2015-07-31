@@ -1,11 +1,17 @@
 define(["three", "src/arcball", "src/rotation_helper"], function(THREE, Arcball, RotationHelper){
     return {new: function(model, scene, camera){
+        var X_AXIS = "x";
+        var Y_AXIS = "y";
+        var Z_AXIS = "z";
+
         var Controller = {
-            radius: 4, //TODO: make this configurable
             fudgeFactor: 0.1,
+            radius: 4, //TODO: make this configurable
+
             fudgeZ: 0.95, // circles don't look like they touch due to perspective,
                          // so we fudge the z a bit here
-            fudgeRadius: 0.50, 
+            displayRadius: 4.5,
+
             rotating: false,
             rotationGuideWidth: 2,
 
@@ -53,7 +59,7 @@ define(["three", "src/arcball", "src/rotation_helper"], function(THREE, Arcball,
             },
 
             iterateAlongAxis: function(callback){
-                ["x", "y", "z"].forEach(callback);
+                [X_AXIS, Y_AXIS, Z_AXIS].forEach(callback);
             },
 
             updateRotation: function(mouseX, mouseY, dim){
@@ -83,12 +89,9 @@ define(["three", "src/arcball", "src/rotation_helper"], function(THREE, Arcball,
                 this.rotating = true; 
 
                 // check whether they're clicking a slider
-                if(RotationHelper.checkWithinFudge(this.initialMouseReal.x, this.fudgeFactor)){
-                    this.rotationFunction = this.getRotateAlongAxisFn("x");
-                } else if (RotationHelper.checkWithinFudge(this.initialMouseReal.y, this.fudgeFactor)){
-                    this.rotationFunction = this.getRotateAlongAxisFn("y");
-                } else if (RotationHelper.checkWithinFudge(this.initialMouseReal.length() - this.radius - this.fudgeRadius, 3 * this.fudgeFactor)){
-                    this.rotationFunction = this.getRotateAlongAxisFn("z");
+                var cursorAxis = this.cursorOverAxis(this.initialMouseReal);
+                if(cursorAxis){
+                    this.rotationFunction = this.getRotateAlongAxisFn(cursorAxis);
                 } else {
                     this.arcball.startRotation(initialMousePos, dim);
                     this.arcball.hideGuide(false);
@@ -96,6 +99,36 @@ define(["three", "src/arcball", "src/rotation_helper"], function(THREE, Arcball,
                     this.rotationFunction = function(mouseX, mouseY, dim){
                         return this.arcball.updateRotation(mouseX, mouseY, dim);
                     };
+                }
+            },
+
+            cursorOverAxis: function(realPos){
+                if(RotationHelper.checkWithinFudge(realPos.x, this.fudgeFactor)){
+                    return X_AXIS;
+                } else if (RotationHelper.checkWithinFudge(realPos.y, this.fudgeFactor)){
+                    return Y_AXIS;
+                } else if (RotationHelper.checkWithinFudge(realPos.length() - this.displayRadius, 3 * this.fudgeFactor)){
+                   return Z_AXIS; 
+                }
+                return null;
+            },
+
+            cursorOverArcball: function(realPos){
+                return realPos.length() < this.displayRadius;
+            },
+
+            cursorType: function(mouseX, mouseY, dim){
+                if(this.rotating){
+                    return "grabbing";
+                } else {
+                    var realPos = RotationHelper.getRealPosition(mouseX, mouseY, dim, this.camera)
+                    if(this.cursorOverAxis(realPos)){
+                        return "pointer";
+                    } else if(this.cursorOverArcball(realPos)){ 
+                        return "grab";
+                    } else {
+                        return "";
+                    }
                 }
             },
 
