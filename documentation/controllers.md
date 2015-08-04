@@ -1,11 +1,11 @@
 ---
 layout: default
-title: Controllers Help
+title: Controllers
 ---
 
-# Rotation Controllers
+# Rotation Controllers Documentation
 
-## General
+## Introduction
 
 In this experiment, you will be using three different rotation controllers. A _rotation controller_ is a user interface element which allows you to rotate a shape called a _model_. Each of the different controllers has a different look and way to rotate a model. In the following sections, we explain how to use each of the controllers to rotate objects. In all the controllers, you rotate a model by pressing and holding the left mouse button and moving the mouse. The model will be rotated as soon as you start moving the mouse. This gives you instant feedback and allows you to perform many different rotations one after the other. 
 
