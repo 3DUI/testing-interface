@@ -7,19 +7,17 @@ title: Controllers Help
 
 ## General
 
-In this experiment, you will be using a number of different rotation controllers. A _rotation controller_ is a user interface element which allows you to rotate a shape on screen using the mouse.  The shape that a rotation controllers rotates is known as a _model_.  
+In this experiment, you will be using three different rotation controllers. A _rotation controller_ is a user interface element which allows you to rotate a shape called a _model_. Each of the different controllers has a different look and way to rotate a model. In the following sections, we explain how to use each of the controllers to rotate objects. In all the controllers, you rotate a model by pressing and holding the left mouse button and moving the mouse. The model will be rotated as soon as you start moving the mouse. This gives you instant feedback and allows you to perform many different rotations one after the other. 
 
-Each of the different controllers has slightly different looks and functions. In the following sections, we explain how to use each of the controllers to rotate objects. All of the controllers are controlled by pressing and holding the left mouse button and moving the mouse. They will also perform any rotation on the model immediately after you move the mouse, giving you instant feedback and allowing you to perform many different rotations one after the other. 
-
-To make the writing of the manual more concise, we use "<span class="instruction">LMB ![Left Mouse Button](images/LMB_click.png)</span>" to mean pressing and holding the left mouse button. Whatever follows this is an instruction about the type of mouse movement to do while holding down the left mouse button. After this motion is completed, you should lift the mouse button. So, for example
+To make the writing of the manual more concise an abbreviation. When you see"<span class="instruction">LMB ![Left Mouse Button](images/LMB_click.png)</span>", that means pressing and holding the left mouse button. Whatever follows this is an instruction about the type of mouse movement for that type of rotation. After this motion you complete that motion, you should lift the mouse button. So, for example
 
 <span class="instruction">LMB ![Left Mouse Button](images/LMB_click.png) + Moving up </span>
 
-Means holding down the left mouse button while moving the mouse towards the top of the screen, then releasing the left mouse button.
+means holding down the left mouse button while moving the mouse towards the top of the screen, then releasing the left mouse button.
 
 When your mouse is over certain places or you are undertaking certain actions, it will change. To avoid panic, here are what the different cursors means:
 
-- ![Grab](https://developer.mozilla.org/@api/deki/files/3440/=grab.gif): starting a rotating in this area will allow you to rotate the model in a number of different directions depending on where your mouse is.
+- ![Grab](https://developer.mozilla.org/@api/deki/files/3440/=grab.gif): starting a rotating in this area will allow you to rotate the model in a number of different directions.
 - ![Pointer](https://developer.mozilla.org/@api/deki/files/3449/=pointer.gif): starting a rotation in this area will allow you to rotate in one direction.
 - ![Grabbing](https://developer.mozilla.org/@api/deki/files/3441/=grabbing.gif): if this appears, then you are currently rotating the model. 
 
@@ -60,7 +58,7 @@ As shown above, in the Arcball Controller the model is centered within a 3D sphe
 
 ![Screenshot showing the Discrete Controller](images/discrete.png)
 
-As shown above, in the Discrete Controller the model is centered within three coloured sliders. Each slider allows you to rotate the object in a different direction. Additionally, if you try select between the sliders, you can rotate using the Arcball controller. If you rotate using a slider, the slider will turn white. If you rotate using the Arcball controller, the sphere inside the sliders will become slightly highlighted with white.
+In the Discrete Controller the model is centered within three coloured sliders. Each slider allows you to rotate the object in a different direction. If you try select between the sliders, you can rotate using the Arcball controller. If you rotate using a slider the slider will turn white. If you rotate using the Arcball controller, the sphere inside the sliders will become more opaque.
 
 - <span class="instruction">LMB ![Left Mouse Button](images/LMB_click.png) on the green slider + moving left/right</span>: model will rotate left/right
 - <span class="instruction">LMB ![Left Mouse Button](images/LMB_click.png) on the red slider + moving up/down</span>: model will rotate up/down
