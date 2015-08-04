@@ -1,14 +1,23 @@
 ---
-title: Documentation: Rotation Controllers
+layout: default
+title: Controllers Help
 ---
 
 # Rotation Controllers
 
 ## General
 
-In this experiment, you will be using a number of different rotation controllers. A rotation controller is a user interface which allows you to rotate a shape on screen using the mouse. Each of the rotation controllers will be operated entirely by pressing and holding the left mouse button and moving the mouse. The shape on the screen is known as a model.  
+In this experiment, you will be using a number of different rotation controllers. A rotation controller is a user interface element which allows you to rotate a shape on screen using the mouse. Each of the rotation controllers will be operated entirely by pressing and holding the left mouse button and moving the mouse. The shape that you rotate on the screen is known as a model.  
 
-Each of the different controllers has a slightly different interface. Each of them has their own way of letting you rotate objects left, right, up, down, clockwise and anti-clockwise. Some of them allow you to rotate objects in diagonal directions too. Below we go through all the different controllers one by one, looking at how to use them to rotate the models.
+Each of the different controllers has a slightly different interface. Each of them has their own way of letting you rotate objects left, right, up, down, clockwise and anti-clockwise. Some of them allow you to rotate objects in a combination of directions with one motion. Below we go through all the different controllers one by one, looking at how to use them to rotate the models.
+
+To make the writing of the manual more concise, we use "LMB ![Left Mouse Button](images/LMB_click.png)" to mean pressing and holding the left mouse button. So, for example
+
+LMB ![Left Mouse Button](images/LMB_click.png) + Moving up
+
+Means holding down the left mouse button while moving the mouse towards the top of the screen. 
+
+If this, or anything else in the manual is unclear, please don't hesistate to ask an experimental instructor.
 
 ## Two Axis Valuator
 
@@ -18,8 +27,21 @@ As shown above, in the Two Axis Valuator Controller the model is centered within
 
 How the object rotates depends on whether you are rotating inside or outside the circle:
 
-- If you try rotate the object with your mouse __within the circle__, the model will rotate according to your mouse. If you move the mouse left or right, the model will rotate left or right. If you move the mouse up or down, the model will rotate up or down. Similarly, you try move the mouse in a diagonal direction, the object will rotate according to that direction.
-- If you try rotate the object with your mouse __outside the circle__, the model will rotate clockwise or anticlockwise depending on what direction you move your mouse.
+### Inside the circle
+LMB ![Left Mouse Button](images/LMB_click.png) + Moving inside the circle: the model will rotate according to your mouse.
+
+- LMB ![Left Mouse Button](images/LMB_click.png) + left/right inside the circle: model will rotate left/right
+- LMB ![Left Mouse Button](images/LMB_click.png) + up/down inside the circle: model will rotate up/down
+
+You can combine motions as well: if you hold the mouse down, and move it (within the circle) first left, then up then diagonally then the model will rotate left, right and diagonally along with your motions.
+
+### Outside the circle
+LMB ![Left Mouse Button](images/LMB_click.png) + Moving outside the circle: the model will rotate clockwise or anticlockwise depending on what direction you move your mouse.
+
+- LMB ![Left Mouse Button](images/LMB_click.png) + clockwise outside the circle: model will rotate clockwise
+- LMB ![Left Mouse Button](images/LMB_click.png) + anti-clockwise outside the circle: model will rotate anti-clockwise
+
+
 
 ## Arcball
 

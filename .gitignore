@@ -32,3 +32,4 @@ bower_components/
 
 # Jeckyl
 _site
+.sass-cache/
