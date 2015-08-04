@@ -1,0 +1,7 @@
+# Site settings
+title: Testing Rotation Controllers Documentation
+baseurl: "" # the subpath of your site, e.g. /blog/
+url: "http://3dui.github.io/testing-rotation-controllers/" # the base hostname & protocol for your site
+# Build settings
+markdown: kramdown
+encoding: UTF-8
