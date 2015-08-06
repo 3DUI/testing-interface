@@ -4,9 +4,9 @@ define(["jquery"], function($){
             explanation;
         $("#header-tasks").html(methodOfRotationName + " controller, Task " + (i + 1) + " of " + tasks.length);
         if(task.type == "orientation"){
-            explanation = "Rotate the object on the right to match the object on the left";
+            explanation = "Orientation Task: Rotate the object on the right to match the object on the left";
         } else if(task.type == "inspection"){
-            explanation = "Rotate the object until you find the red patch.";
+            explanation = "Inspection Task: Rotate the object until you find the red patch.";
         }
         $("#header-explanation").html(explanation);
     };
