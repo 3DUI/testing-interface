@@ -36,7 +36,7 @@ define(["three"], function(THREE){
            mouseUpHandler: function(name, event){
                this.mouseDown = false;
                this.rotationHandler.endRotation();
-               this.updateCursor(event)
+               this.updateCursor(event);
            },
            mouseMoveHandler: function(name, event){
                if(this.mouseDown){
@@ -47,7 +47,7 @@ define(["three"], function(THREE){
            updateCursor: function(event){
                var inBounds = this.inBounds(event.actualX, event.actualY),
                    cursorType = this.rotationHandler.cursorType(event.actualX, event.actualY, this.dim());
-                if(cursorType == null){
+                if(cursorType === null){
                     // do nothing
                 } else if(inBounds){
                    this.setCursor(cursorType);

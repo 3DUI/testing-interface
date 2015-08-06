@@ -121,7 +121,7 @@ define(["three", "src/arcball", "src/rotation_helper"], function(THREE, Arcball,
                 if(this.rotating){
                     return "grabbing";
                 } else {
-                    var realPos = RotationHelper.getRealPosition(mouseX, mouseY, dim, this.camera)
+                    var realPos = RotationHelper.getRealPosition(mouseX, mouseY, dim, this.camera);
                     if(this.cursorOverAxis(realPos)){
                         return "pointer";
                     } else if(this.cursorOverArcball(realPos)){ 

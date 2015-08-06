@@ -39,7 +39,7 @@ define(["three", "src/mouse_to_world", "src/rotation_helper"], function(THREE, M
                 this.initialMouse = realPos;
             },
 
-            shouldRotate(realPos){
+            shouldRotate: function(realPos){
                 return realPos.length() < this.displayRadius;
             },
 
