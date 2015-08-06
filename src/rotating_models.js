@@ -17,10 +17,13 @@ define(["jquery", "src/render_loop", "src/mouse_input_bus", "src/two_axis_valuat
                       width:1,
                       background:new THREE.Color().setRGB( 0.7, 0.5, 0.7 )},
                       };
-        var playerController = Discrete,
-            playerControllerName = "Discrete",
+        var playerController,
+            playerControllerName,
             timer = new Timer("#timer"),
             inputBus = MouseInputBus("#three"),
+            controllers = {},
+            i = 0,
+
             setupScene = function(id, rotationBuilder, task, view){
                inputBus.deregisterConsumer("down", id+"_rotateModelMouseDown");
                inputBus.deregisterConsumer("up", id+"_rotateModelMouseUp");
@@ -66,8 +69,6 @@ define(["jquery", "src/render_loop", "src/mouse_input_bus", "src/two_axis_valuat
                }
             },
 
-            controllers = {},
-            i = 0,
 
             loadTask = function(tasks){
                 if(i < tasks.length){
@@ -87,13 +88,32 @@ define(["jquery", "src/render_loop", "src/mouse_input_bus", "src/two_axis_valuat
                 loadTask(tasks);
             },
 
-            loadRotationController = function(controller, name, tasks){
-                playerController = controller;
-                playerControllerName = name;
-                loadTask(tasks);
+            loadRotationController = function(rotationController, tasks){
+                playerController = rotationController.controller;
+                playerControllerName = rotationController.name;
+                enable_buttons();
+                disable_button(rotationController);
+                if(tasks){
+                    loadTask(tasks);
+                }
+            },
+            rotationControllers = {
+                discrete: {id:"#discrete", controller: Discrete, name: "Discrete Sliders"},
+                twoaxis: {id:"#two-axis", controller: TwoAxisValuator, name: "Two Axis Valuator"},
+                arcball: {id:"#arcball", controller: Arcball, name: "Arcball"}
+            },
+            enable_buttons = function(){
+                for(var key in rotationControllers){
+                    if(rotationControllers.hasOwnProperty(key)){
+                        $(rotationControllers[key].id).prop("disabled", false);
+                    }
+                }
+            },
+            disable_button = function(rotationController){
+                $(rotationController.id).prop("disabled", true);
             };
+        loadRotationController(rotationControllers.discrete);
 
-            
         RenderLoop.init({widthScale: 1, heightScale:0.7, widthOffset:0, heightOffset:0}, document.getElementById("three"));
         RenderLoop.start();
         timer.start();
@@ -110,15 +130,16 @@ define(["jquery", "src/render_loop", "src/mouse_input_bus", "src/two_axis_valuat
                 loadTask(data);
             });
             // TODO: only show these via flags
-            $("#discrete").click(function(){
-                loadRotationController(Discrete, "Discrete Sliders", data);
-            });
-            $("#two-axis").click(function(){
-                loadRotationController(TwoAxisValuator, "Two Axis Valuator", data);
-            });
-            $("#arcball").click(function(){
-                loadRotationController(Arcball, "Arcball", data);
-            });
+            for(var key in rotationControllers){
+                if(rotationControllers.hasOwnProperty(key)){
+                    (function(key){
+                        var rotationController = rotationControllers[key]
+                        $(rotationController.id).click(function(){
+                            loadRotationController(rotationController, data);
+                        });
+                    })(key)
+                }
+            }
             loadTask(data);
         });
     };
