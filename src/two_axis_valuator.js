@@ -69,11 +69,6 @@ define(["three", "src/rotation_helper"], function(THREE, RotationHelper){
                 this.rotationGuide.material.color.setHex(this.rotationGuideColourRotating);
                 this.rotationGuide.material.color.setHex(this.rotationGuideColour);
             },
-
-            calcAngle: function(pos, initialPos, initialRot){
-                return initialRot - ((initialPos - pos) * Math.PI * 2);
-            }
-
         };
         Controller.init(model, scene, camera);
         return Controller;
