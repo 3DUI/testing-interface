@@ -17,32 +17,7 @@
         <script data-main="dist/main.js" src="node_modules/requirejs/require.js"></script>
     </head>
     <body>
-        <div id="capture" class="container-fluid">
-            <div class="row">
-                <div class="col-xs-6 col-xs-offset-3">
-                    <div class=row>
-                        <legend>Welcome</legend>
-                        Thank you for participating in our experiment! Before you begin, could you please read the informed consent form and instruction manual in front of you. After you've filled in the consent form, please enter your participant number below.
-                        <br>
-                        Once you've submitted, you will be taken to the experiment page.
-                    </div>
-                    <div class=row>
-                        <!-- Form Name -->
-                        <legend>Participant Information</legend>
-
-                        <!-- Text input-->
-                        <div class="form-group">
-                              <label class="col-md-4 control-label" for="participant_input">Particpant Number</label>  
-                                <div class="col-md-5">
-                                      <input id="participant_input" name="participant_input" type="text" placeholder="12345" class="form-control input-md" min="0" step="1" data-bind="value:replyNumber" required="">
-                                        <span class="help-block">The participant number given to you, attached to your formal consent forms.</span>  
-                               </div>
-                        </div>
-
-              <button id="submit-participant-number" class="btn  btn-default">Submit</button>
-                    </div>
-                  </div>
-            </div>
+        <div id=content class="container-fluid">
         </div>
         <div id=experiment class="container-fluid" style="display: none">
             <div class=row>
