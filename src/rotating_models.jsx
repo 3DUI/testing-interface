@@ -1,8 +1,9 @@
 // TODO: break this up into smaller modules
+// TODO: make this a react component
 define(["jquery", "dist/render_loop", "dist/mouse_input_bus", "dist/two_axis_valuator", "dist/arcball", "dist/discrete", "dist/dummy_rotation_handler", "dist/build_rotation_scene", "dist/user_feedback", "dist/timer", "react", "dist/experiment_ui"], function($, RenderLoop, MouseInputBus, TwoAxisValuator, Arcball, Discrete, DummyRotationHandler, RotationSceneBuilder, UserFeedback, Timer, React, ExperimentUI){
-    return function(callback){
+    return function(callback, title, taskUrl, controllerKey, limit){
         React.render(
-            <ExperimentUI />,
+            <ExperimentUI timed= {limit ? "true" : "false"} title={title}/>,
             document.getElementById("content")
         );
         var views = {ref: {left:0,
@@ -23,7 +24,6 @@ define(["jquery", "dist/render_loop", "dist/mouse_input_bus", "dist/two_axis_val
                       };
         var playerController,
             playerControllerName,
-            timer = new Timer("#timer"),
             inputBus = MouseInputBus("#three"),
             controllers = {},
             i = 0,
@@ -78,7 +78,7 @@ define(["jquery", "dist/render_loop", "dist/mouse_input_bus", "dist/two_axis_val
                 if(i < tasks.length){
                     console.log("next task", i, tasks);
                     setupScenes(i, tasks);
-                    UserFeedback(i, tasks, playerControllerName);
+                    UserFeedback(title, i, tasks, playerControllerName);
                     return true;
                 }
                 return false;
@@ -87,8 +87,11 @@ define(["jquery", "dist/render_loop", "dist/mouse_input_bus", "dist/two_axis_val
             nextTask = function(tasks){
                 i++;
                 if(i == tasks.length){
-                    teardown();
-                    callback();
+                    if(limit){
+                        i = 0;
+                    } else {
+                        teardown();
+                    }
                 }
                 loadTask(tasks);
             },
@@ -118,26 +121,29 @@ define(["jquery", "dist/render_loop", "dist/mouse_input_bus", "dist/two_axis_val
                 $(rotationController.id).prop("disabled", true);
             },
             teardown = function(){
+                timer.stop();
                 React.unmountComponentAtNode(document.getElementById('content'));
-            };
-        loadRotationController(rotationControllers.discrete);
+                callback();
+            }, 
+            limitCallback = limit? teardown: undefined,
+            timer = new Timer("#timer", limit, limitCallback);
+
+        // SETUP UI;
+        loadRotationController(rotationControllers[controllerKey]);
 
         RenderLoop.init({widthScale: 1, heightScale:0.7, widthOffset:0, heightOffset:0}, document.getElementById("three"));
         RenderLoop.start();
         timer.start();
         $.getJSON("tasks/mixed_tasks.json", function(data) {
             $("#save").click(function(){
-                timer.stop();
                 var rotation = controllers.player.model.rotation;
                 window.log.saveLog("saving user task", JSON.stringify(data[i]), JSON.stringify([rotation.x, rotation.y, rotation.z]), timer.time);
                 nextTask(data);
-                timer.start();
             });
             $("#reload").click(function(){
                 window.log.debug("reload","task", data[i], "orientation", controllers.player.model.rotation);
                 loadTask(data);
             });
-            // TODO: only show these via flags
             for(var key in rotationControllers){
                 if(rotationControllers.hasOwnProperty(key)){
                     (function(key){
@@ -152,4 +158,3 @@ define(["jquery", "dist/render_loop", "dist/mouse_input_bus", "dist/two_axis_val
         });
     };
 });
-// TODO: define all HTML on page with react components

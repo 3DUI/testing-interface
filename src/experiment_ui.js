@@ -1,10 +1,19 @@
 define(["react"], function(React){
     return React.createClass({
         render: function(){
+            var timerDiv = this.props.timed === "true" ? <h4 id="timer"></h4> : "";
+            var controllerButtons = this.props.showControllerSelection === "true" ? 
+                        <div classname="row" style={{display:"none"}}>
+                            <span><h5>Select rotation controller</h5></span>
+                            <button id="discrete" className="btn btn-default">Discrete</button>
+                            <button id="two-axis" className="btn btn-default">Two-Axis Valuator</button>
+                            <button id="arcball" className="btn btn-default">Arcball</button>
+                        </div> : "";
             return <div id="experiment" className="container-fluid" style={{padding:0+'px'}}>
                 <div classname="row">
                     <legend id="header-tasks"></legend>
                     <h4 id="header-explanation"></h4>
+                    {timerDiv}
                 </div>
                 <div classname="row" style={{position:'relative'}} id="three"></div>
                 <div classname="row" id="orientation-labels">
@@ -46,12 +55,7 @@ define(["react"], function(React){
                             <button id="reload" className="btn btn-default">Reset Orientation</button>
                             <button id="undo" className="btn btn-default">Undo Task Submission</button>
                         </div>
-                        <div classname="row" style={{display:"none"}}>
-                            <span><h5>Select rotation controller</h5></span>
-                            <button id="discrete" className="btn btn-default">Discrete</button>
-                            <button id="two-axis" className="btn btn-default">Two-Axis Valuator</button>
-                            <button id="arcball" className="btn btn-default">Arcball</button>
-                        </div>
+                        {controllerButtons}
                         </center>
                     </div>
                 </div>

@@ -6,7 +6,8 @@ requirejs(["dist/logger", "dist/capture_participant_details", "dist/uuid", "dist
        BeforeUnloadController.stopUnload();
     }
     Pipeline.add(CaptureParticipantDetails);
-    Pipeline.add(RotatingModels)
+    Pipeline.add(function(callback){ RotatingModels(callback, "Training for Discrete", "tasks/mixed_tasks.json", "discrete", 10000)});
+    Pipeline.add(function(callback){ RotatingModels(callback, "Evaluating Discrete", "tasks/mixed_tasks.json", "discrete")});
     Pipeline.runNext();
     window.genTask = GenerateTask;
 });
