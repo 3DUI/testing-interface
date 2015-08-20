@@ -1,7 +1,5 @@
-define(["src/rotating_models","jquery"], function(RotatingModels, $){
-    // TODO: make this control which set of tasks is loaded
-    return function(){
-
+define(["jquery"], function($){
+    return function(callback){
         $("#experiment").hide();
        var enteredNumber = function(){
            return parseInt($("#participant_input").val());
@@ -11,9 +9,8 @@ define(["src/rotating_models","jquery"], function(RotatingModels, $){
            var val = enteredNumber();
            if(val){
                 window.log.meta.participantNumber = val;
-                RotatingModels();
                 $("#capture").hide();
-                $("#experiment").show();
+                callback();
            } else {
                 alert("Participant numbers are only integers. Please enter a valid integer");
            }

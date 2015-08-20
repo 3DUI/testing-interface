@@ -1,6 +1,7 @@
 // TODO: break this up into smaller modules
 define(["jquery", "src/render_loop", "src/mouse_input_bus", "src/two_axis_valuator", "src/arcball", "src/discrete", "src/dummy_rotation_handler", "src/build_rotation_scene", "src/user_feedback", "src/timer"], function($, RenderLoop, MouseInputBus, TwoAxisValuator, Arcball, Discrete, DummyRotationHandler, RotationSceneBuilder, UserFeedback, Timer){
     return function(){
+        $("#experiment").show();
         var views = {ref: {left:0,
                       bottom:0, 
                       width:0.5, 
