@@ -53,11 +53,11 @@ module.exports = function(grunt){
             target: {
                 command: 'bundle exec jekyll serve'
             }
-       }
+       },
     });
     grunt.registerTask('build', ['bowerRequirejs']);
     grunt.registerTask('lint', ['jshint']);
-    grunt.registerTask('default', ['devserver', 'watch']);
+    grunt.registerTask('default', ['build', 'devserver', 'watch']);
     grunt.registerTask('auto', ['build', 'watch']);
     grunt.registerTask('test', ['build', 'lint', 'karma']);
     grunt.registerTask('serve', ['shell']);

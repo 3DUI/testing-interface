@@ -1,4 +1,4 @@
-define(["three", "src/build_scene", "src/model_rotation_controller"], function(THREE, SceneBuilder, ModelController){
+define(["three", "dist/build_scene", "dist/model_rotation_controller"], function(THREE, SceneBuilder, ModelController){
     return function(){
         return {
             setId: function(id){this.loopId = id; return this;},

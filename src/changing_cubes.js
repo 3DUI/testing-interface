@@ -1,4 +1,4 @@
-define(["src/build_scene", "src/render_loop", "src/basic_cube_controller", "src/mouse_input_bus"], function(SceneBuilder, RenderLoop, CubeController, MouseInputBus){
+define(["dist/build_scene", "dist/render_loop", "dist/basic_cube_controller", "dist/mouse_input_bus"], function(SceneBuilder, RenderLoop, CubeController, MouseInputBus){
     return function(){
         var views = [{left:0,
                       bottom:0, 

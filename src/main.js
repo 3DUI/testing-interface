@@ -1,4 +1,4 @@
-requirejs(["src/logger", "src/capture_participant_details", "src/uuid", "src/before_unload", "src/generate_task","src/pipeline","src/rotating_models"], function(Logger, CaptureParticipantDetails, generateUUID, BeforeUnloadController, GenerateTask, Pipeline, RotatingModels){
+requirejs(["dist/logger", "dist/capture_participant_details", "dist/uuid", "dist/before_unload", "dist/generate_task","dist/pipeline","dist/rotating_models"], function(Logger, CaptureParticipantDetails, generateUUID, BeforeUnloadController, GenerateTask, Pipeline, RotatingModels){
     window.log = Logger;
     window.log.header = "3DUI";
     window.log.meta.uuid = generateUUID();

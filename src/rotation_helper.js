@@ -1,9 +1,9 @@
-define(["three", "src/mouse_to_world"], function(THREE, MouseToWorld){
+define(["three", "dist/mouse_to_world"], function(THREE, MouseToWorld){
     return {
             epsilon: 0.000001,
 
             rotateModelByQuaternion: function(model, rotate){
-                currQuaternion = model.quaternion;
+                var currQuaternion = model.quaternion;
                 currQuaternion.multiplyQuaternions(rotate, currQuaternion);
                 currQuaternion.normalize();
                 model.setRotationFromQuaternion(currQuaternion);

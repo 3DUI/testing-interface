@@ -1,4 +1,4 @@
-define(["three", "src/rotation_helper"], function(THREE, RotationHelper){
+define(["three", "dist/rotation_helper"], function(THREE, RotationHelper){
     return {new: function(model, scene, camera){
         var Controller = {
             model: model,

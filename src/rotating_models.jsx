@@ -1,6 +1,6 @@
 // TODO: break this up into smaller modules
-define(["jquery", "src/render_loop", "src/mouse_input_bus", "src/two_axis_valuator", "src/arcball", "src/discrete", "src/dummy_rotation_handler", "src/build_rotation_scene", "src/user_feedback", "src/timer"], function($, RenderLoop, MouseInputBus, TwoAxisValuator, Arcball, Discrete, DummyRotationHandler, RotationSceneBuilder, UserFeedback, Timer){
-    return function(){
+define(["jquery", "dist/render_loop", "dist/mouse_input_bus", "dist/two_axis_valuator", "dist/arcball", "dist/discrete", "dist/dummy_rotation_handler", "dist/build_rotation_scene", "dist/user_feedback", "dist/timer", "react"], function($, RenderLoop, MouseInputBus, TwoAxisValuator, Arcball, Discrete, DummyRotationHandler, RotationSceneBuilder, UserFeedback, Timer, React){
+    return function(callback){
         $("#experiment").show();
         var views = {ref: {left:0,
                       bottom:0, 
@@ -84,7 +84,8 @@ define(["jquery", "src/render_loop", "src/mouse_input_bus", "src/two_axis_valuat
             nextTask = function(tasks){
                 i++;
                 if(i == tasks.length){
-                    i = 0; // TODO: have a dialogue here rather than just looping
+                    teardown();
+                    callback();
                 }
                 loadTask(tasks);
             },
@@ -112,6 +113,12 @@ define(["jquery", "src/render_loop", "src/mouse_input_bus", "src/two_axis_valuat
             },
             disable_button = function(rotationController){
                 $(rotationController.id).prop("disabled", true);
+            },
+            teardown = function(){
+               React.render(
+                 <h1>Hello, world!</h1>,
+                 document.getElementById('experiment')
+               );
             };
         loadRotationController(rotationControllers.discrete);
 

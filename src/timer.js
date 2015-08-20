@@ -1,4 +1,4 @@
-define(["src/mini_daemon", "jquery"], function(MiniDaemon, $){
+define(["dist/mini_daemon", "jquery"], function(MiniDaemon, $){
     function Timer(divId){
       if (!(this && this instanceof Timer)) { throw "Did not instantiate timer object"; }
       this.divId = divId;

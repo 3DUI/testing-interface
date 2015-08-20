@@ -1,4 +1,4 @@
-define(["three", "src/arcball", "src/rotation_helper"], function(THREE, Arcball, RotationHelper){
+define(["three", "dist/arcball", "dist/rotation_helper"], function(THREE, Arcball, RotationHelper){
     return {new: function(model, scene, camera){
         var X_AXIS = "x";
         var Y_AXIS = "y";

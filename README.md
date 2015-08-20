@@ -4,7 +4,7 @@
 # Setting up
 
 ```
-sudo npm install -g grunt-cli karma-cli slimerjs react-tools http-server
+sudo npm install -g grunt-cli karma-cli slimerjs react-tools http-server babel
 npm install
 bower install
 ```

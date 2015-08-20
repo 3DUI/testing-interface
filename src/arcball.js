@@ -1,4 +1,4 @@
-define(["three", "src/mouse_to_world", "src/rotation_helper"], function(THREE, MouseToWorld, RotationHelper){
+define(["three", "dist/mouse_to_world", "dist/rotation_helper"], function(THREE, MouseToWorld, RotationHelper){
     return {new: function(model, scene, camera){
         var Controller = {
             unhiddenOpacity: 0.3,
