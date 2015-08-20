@@ -1,4 +1,4 @@
-define(["react"], function(React){
+define(["react", "dist/experiment_design"], function(React, ExperimentalDesign){
     return function(callback){
         var CaptureParticipants = React.createClass({
             handleChange: function(event){
@@ -8,6 +8,7 @@ define(["react"], function(React){
                var val = this.state.value;
                if(val){
                     window.log.meta.participantNumber = val;
+                    window.log.meta.experimentDesign = ExperimentalDesign(val);
                     React.unmountComponentAtNode(document.getElementById('content'));
                     callback();
                } else {

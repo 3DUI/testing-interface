@@ -1,9 +1,9 @@
 // TODO: break this up into smaller modules
 // TODO: make this a react component
 define(["jquery", "dist/render_loop", "dist/mouse_input_bus", "dist/two_axis_valuator", "dist/arcball", "dist/discrete", "dist/dummy_rotation_handler", "dist/build_rotation_scene", "dist/user_feedback", "dist/timer", "react", "dist/experiment_ui"], function($, RenderLoop, MouseInputBus, TwoAxisValuator, Arcball, Discrete, DummyRotationHandler, RotationSceneBuilder, UserFeedback, Timer, React, ExperimentUI){
-    return function(callback, title, taskUrl, controllerKey, limit){
+    return function(callback, experiment){
         React.render(
-            <ExperimentUI timed= {limit ? "true" : "false"} title={title}/>,
+            <ExperimentUI timed= {experiment.limit ? "true" : "false"} title={experiment.title}/>,
             document.getElementById("content")
         );
         var views = {ref: {left:0,
@@ -33,7 +33,7 @@ define(["jquery", "dist/render_loop", "dist/mouse_input_bus", "dist/two_axis_val
                inputBus.deregisterConsumer("up", id+"_rotateModelMouseUp");
                inputBus.deregisterConsumer("move", id+"_rotateModelMouseMove");           
                 var builder = RotationSceneBuilder();
-                builder.setModelUrl(task.model).setInputBus(inputBus).setRenderLoop(RenderLoop);
+                builder.setModelUrl(task.type === "orientation" ? experiment.orientationModelUrl : experiment.inspectionModelUrl).setInputBus(inputBus).setRenderLoop(RenderLoop);
                 return builder.setId(id).setView(view).setRotationBuilder(rotationBuilder).build(
                     function(controller){
                         var rot = controller.model.rotation;
@@ -73,12 +73,11 @@ define(["jquery", "dist/render_loop", "dist/mouse_input_bus", "dist/two_axis_val
                }
             },
 
-
             loadTask = function(tasks){
                 if(i < tasks.length){
                     console.log("next task", i, tasks);
                     setupScenes(i, tasks);
-                    UserFeedback(title, i, tasks, playerControllerName);
+                    UserFeedback(experiment.title, i, tasks, playerControllerName);
                     return true;
                 }
                 return false;
@@ -87,7 +86,7 @@ define(["jquery", "dist/render_loop", "dist/mouse_input_bus", "dist/two_axis_val
             nextTask = function(tasks){
                 i++;
                 if(i == tasks.length){
-                    if(limit){
+                    if(experiment.limit){
                         i = 0;
                     } else {
                         teardown();
@@ -125,16 +124,16 @@ define(["jquery", "dist/render_loop", "dist/mouse_input_bus", "dist/two_axis_val
                 React.unmountComponentAtNode(document.getElementById('content'));
                 callback();
             }, 
-            limitCallback = limit? teardown: undefined,
-            timer = new Timer("#timer", limit, limitCallback);
+            limitCallback = experiment.limit? teardown: undefined,
+            timer = new Timer("#timer", experiment.limit, limitCallback);
 
         // SETUP UI;
-        loadRotationController(rotationControllers[controllerKey]);
+        loadRotationController(rotationControllers[experiment.controllerKey]);
 
         RenderLoop.init({widthScale: 1, heightScale:0.7, widthOffset:0, heightOffset:0}, document.getElementById("three"));
         RenderLoop.start();
         timer.start();
-        $.getJSON("tasks/mixed_tasks.json", function(data) {
+        $.getJSON(experiment.taskUrl, function(data) {
             $("#save").click(function(){
                 var rotation = controllers.player.model.rotation;
                 window.log.saveLog("saving user task", JSON.stringify(data[i]), JSON.stringify([rotation.x, rotation.y, rotation.z]), timer.time);
