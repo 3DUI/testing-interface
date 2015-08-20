@@ -17,62 +17,6 @@
         <script data-main="dist/main.js" src="node_modules/requirejs/require.js"></script>
     </head>
     <body>
-        <div id=content class="container-fluid">
-        </div>
-        <div id=experiment class="container-fluid" style="display: none">
-            <div class=row>
-                <legend id="header-tasks"></legend>
-                <h4 id="header-explanation"></h4>
-            </div>
-            <div class=row style='position:relative' id="three"></div>
-            <div class=row id="orientation-labels">
-                <div class="col-xs-6">
-                    <center>
-                    <div class=row>
-                        <h4>Reference Orientation</h4>
-                    </div>
-                    </center>
-                </div>
-                <div class="col-xs-6">
-                    <center>
-                    <div class=row>
-                        <h4>Model to Rotate</h4>
-                    </div>
-                    </center>
-                </div>
-            </div>
-            <div class="row" id="inspection-labels">
-                <div class="col-xs-12">
-                    <center>
-                    <div class=row>
-                        <h4>Model to Rotate</h4>
-                    </div>
-                    </center>
-                </div>
-            </div>
-            <div class=row>
-                <legend></legend>
-                <div class="col-xs-6">
-                </div>
-                <div class="col-xs-12 controls">
-                    <center>
-                    <div class=row>
-                    </div>
-                    <div class=row>
-                        <span><h5>Task Controls</h5></span>
-                        <button id="save" class="btn btn-default">Submit Task</button>
-                        <button id="reload" class="btn btn-default">Reset Orientation</button>
-                        <button id="undo" class="btn btn-default">Undo Task Submission</button>
-                    </div>
-                    <div class=row style="display:none">
-                        <span><h5>Select rotation controller</h5></span>
-                        <button id="discrete" class="btn btn-default">Discrete</button>
-                        <button id="two-axis" class="btn btn-default">Two-Axis Valuator</button>
-                        <button id="arcball" class="btn btn-default">Arcball</button>
-                    </div>
-                    </center>
-                </div>
-            </div>
-        </div>
+        <div id=content></div>
     </body>
 </html>

@@ -1,7 +1,10 @@
 // TODO: break this up into smaller modules
-define(["jquery", "dist/render_loop", "dist/mouse_input_bus", "dist/two_axis_valuator", "dist/arcball", "dist/discrete", "dist/dummy_rotation_handler", "dist/build_rotation_scene", "dist/user_feedback", "dist/timer", "react"], function($, RenderLoop, MouseInputBus, TwoAxisValuator, Arcball, Discrete, DummyRotationHandler, RotationSceneBuilder, UserFeedback, Timer, React){
+define(["jquery", "dist/render_loop", "dist/mouse_input_bus", "dist/two_axis_valuator", "dist/arcball", "dist/discrete", "dist/dummy_rotation_handler", "dist/build_rotation_scene", "dist/user_feedback", "dist/timer", "react", "dist/experiment_ui"], function($, RenderLoop, MouseInputBus, TwoAxisValuator, Arcball, Discrete, DummyRotationHandler, RotationSceneBuilder, UserFeedback, Timer, React, ExperimentUI){
     return function(callback){
-        $("#experiment").show();
+        React.render(
+            <ExperimentUI />,
+            document.getElementById("content")
+        );
         var views = {ref: {left:0,
                       bottom:0, 
                       width:0.5, 
@@ -115,10 +118,7 @@ define(["jquery", "dist/render_loop", "dist/mouse_input_bus", "dist/two_axis_val
                 $(rotationController.id).prop("disabled", true);
             },
             teardown = function(){
-               React.render(
-                 <h1>Hello, world!</h1>,
-                 document.getElementById('experiment')
-               );
+                React.unmountComponentAtNode(document.getElementById('content'));
             };
         loadRotationController(rotationControllers.discrete);
 
