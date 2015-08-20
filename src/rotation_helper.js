@@ -83,7 +83,7 @@ define(["three", "src/mouse_to_world"], function(THREE, MouseToWorld){
                         y: "x"
                     };
                     var delta = (initialPoint[otherAxis[axis]] - point[otherAxis[axis]])/(radius*2);
-                    angle = this.positiveAngle(Math.PI * 2 * delta);
+                    angle = this.positiveAngle(Math.PI * delta);
                     if(axis == "y"){
                         angle *= -1;
                     }
