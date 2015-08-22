@@ -15,6 +15,7 @@ define(["react"], function(React){
                     <h4 id="header-explanation"></h4>
                     {timerDiv}
                 </div>
+                <div classname="row" style={{position:'relative'}} id="three"></div>
                 <div classname="row" id="orientation-labels">
                     <div className="col-xs-6">
                         <center>
@@ -40,7 +41,6 @@ define(["react"], function(React){
                         </center>
                     </div>
                 </div>
-                <div classname="row" style={{position:'relative'}} id="three"></div>
                 <div classname="row">
                     <div className="col-xs-6 controls">
                         <center>
