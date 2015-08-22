@@ -73,6 +73,7 @@ define(["three", "dist/mouse_to_world"], function(THREE, MouseToWorld){
                 }
             },
 
+            // TODO: separate into different functions
             sliderAngle: function(point, initialPoint, axis, radius){
                 var angle = 0;
                 point = this.snapToAxis(point, axis);
@@ -92,8 +93,10 @@ define(["three", "dist/mouse_to_world"], function(THREE, MouseToWorld){
                         endAngle = this.angleOfPointOnCircle(point),
                         sign = Math.sign(endAngle - startAngle),
                         startPoint = new THREE.Vector2(initialPoint.x, initialPoint.y),
-                        endPoint = new THREE.Vector2(point.x, point.y);
-
+                        endPoint = new THREE.Vector2(point.x, point.y),
+                        perp = new THREE.Vector3(),
+                        perp.crossVectors(endPoint, startPoint),
+                        dir = Math.sign(perp.dot(new THREE.Vector3(0,0,1)));
                     if(this.equal(startAngle, endAngle)){
                         window.log.debug("No change in angle found, setting angle to zero");
                         angle = 0;
@@ -101,7 +104,7 @@ define(["three", "dist/mouse_to_world"], function(THREE, MouseToWorld){
                         startPoint.normalize();
                         endPoint.normalize();
                         angle = Math.acos(startPoint.dot(endPoint));
-                        if(sign == -1){ // startAngle > endAngle => negative rotation
+                        if(dir == -1){ // startAngle > endAngle => negative rotation
                             angle *= -1;
                         }
                     }
