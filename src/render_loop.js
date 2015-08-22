@@ -7,6 +7,7 @@ define(["three"], function(THREE){
 
             this.views = {};
             this.rendering = false;
+            this.animationFrameId = null; // set on start
 
             this.renderer = new THREE.WebGLRenderer(); 
             this.updateSize();
@@ -42,7 +43,7 @@ define(["three"], function(THREE){
             var render = function(){
                 if(that.rendering){
                     var size = that.updateSize();
-                    requestAnimationFrame(render);
+                    that.animationFrameId = requestAnimationFrame(render);
                     for(var viewName in that.views){
                         if(that.views.hasOwnProperty(viewName)){
                             that.views[viewName].render(that.renderer, size[0], size[1]);
@@ -55,6 +56,7 @@ define(["three"], function(THREE){
 
         stop: function(){
             this.rendering = false;
+            cancelAnimationFrame(this.animationFrameId);
         }
     };
 });

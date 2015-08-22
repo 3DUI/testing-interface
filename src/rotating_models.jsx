@@ -3,7 +3,9 @@
 define(["jquery", "dist/render_loop", "dist/mouse_input_bus", "dist/two_axis_valuator", "dist/arcball", "dist/discrete", "dist/dummy_rotation_handler", "dist/build_rotation_scene", "dist/user_feedback", "dist/timer", "react", "dist/experiment_ui"], function($, RenderLoop, MouseInputBus, TwoAxisValuator, Arcball, Discrete, DummyRotationHandler, RotationSceneBuilder, UserFeedback, Timer, React, ExperimentUI){
     return function(callback, experiment){
         React.render(
-            <ExperimentUI timed= {experiment.limit ? "true" : "false"} title={experiment.title}/>,
+            <ExperimentUI 
+                timed= {experiment.limit ? "true" : "false"}
+                title={experiment.title}/>,
             document.getElementById("content")
         );
         var views = {ref: {left:0,
@@ -58,7 +60,7 @@ define(["jquery", "dist/render_loop", "dist/mouse_input_bus", "dist/two_axis_val
                 }
                 $(hideId).hide();
                 $(showId).show();
-            },
+            }, //TODO: set this to state in the react component
             setupScenes = function(i, tasks){
                var task = tasks[i];
                RenderLoop.removeView("ref");
@@ -118,10 +120,11 @@ define(["jquery", "dist/render_loop", "dist/mouse_input_bus", "dist/two_axis_val
             },
             disable_button = function(rotationController){
                 $(rotationController.id).prop("disabled", true);
-            },
+            }, // TODO: have this as logic in the buttons react component thing
             teardown = function(){
                 timer.stop();
                 React.unmountComponentAtNode(document.getElementById('content'));
+                inputBus.teardown();
                 callback();
             }, 
             limitCallback = experiment.limit? teardown: undefined,
