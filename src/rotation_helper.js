@@ -92,11 +92,12 @@ define(["three", "dist/mouse_to_world"], function(THREE, MouseToWorld){
                     var startAngle = this.angleOfPointOnCircle(initialPoint),
                         endAngle = this.angleOfPointOnCircle(point),
                         sign = Math.sign(endAngle - startAngle),
-                        startPoint = new THREE.Vector2(initialPoint.x, initialPoint.y),
-                        endPoint = new THREE.Vector2(point.x, point.y),
+                        startPoint = new THREE.Vector3(initialPoint.x, initialPoint.y, 0),
+                        endPoint = new THREE.Vector3(point.x, point.y, 0),
                         perp = new THREE.Vector3(),
-                        perp.crossVectors(endPoint, startPoint),
-                        dir = Math.sign(perp.dot(new THREE.Vector3(0,0,1)));
+                        dir;
+                    perp.crossVectors(startPoint, endPoint);
+                    dir = Math.sign(perp.dot(new THREE.Vector3(0,0,1)));
                     if(this.equal(startAngle, endAngle)){
                         window.log.debug("No change in angle found, setting angle to zero");
                         angle = 0;
