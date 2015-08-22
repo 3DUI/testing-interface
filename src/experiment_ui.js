@@ -15,7 +15,6 @@ define(["react"], function(React){
                     <h4 id="header-explanation"></h4>
                     {timerDiv}
                 </div>
-                <div classname="row" style={{position:'relative'}} id="three"></div>
                 <div classname="row" id="orientation-labels">
                     <div className="col-xs-6">
                         <center>
@@ -41,21 +40,22 @@ define(["react"], function(React){
                         </center>
                     </div>
                 </div>
+                <div classname="row" style={{position:'relative'}} id="three"></div>
                 <div classname="row">
-                    <legend></legend>
-                    <div className="col-xs-6">
-                    </div>
-                    <div className="col-xs-12 controls">
+                    <div className="col-xs-6 controls">
                         <center>
                         <div classname="row">
-                        </div>
-                        <div classname="row">
-                            <span><h5>Task Controls</h5></span>
-                            <button id="save" className="btn btn-default">Submit Task</button>
-                            <button id="reload" className="btn btn-default">Reset Orientation</button>
+                            <button id="reload" style={{margin:"5px"}} className="btn btn-default">Reset Model Orientation</button>
                             <button id="undo" className="btn btn-default">Undo Task Submission</button>
                         </div>
                         {controllerButtons}
+                        </center>
+                    </div>
+                    <div className="col-xs-6">
+                        <center>
+                        <div classname="row">
+                            <button id="save" className="btn btn-default">Submit Task</button>
+                        </div>
                         </center>
                     </div>
                 </div>
