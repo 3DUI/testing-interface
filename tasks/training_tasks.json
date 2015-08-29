@@ -2,19 +2,19 @@
     [
         {
             "type": "orientation",
-            "desc": "x",
+            "desc": "X Rotation",
             "ref_orientation":[1.5707963267948966, 0, 0],
             "player_orientation": [0, 0, 0]
         },
         {
             "type": "orientation",
-            "desc": "y",
+            "desc": "Y Rotation",
             "ref_orientation": [0, 1.5707963267948966, 0],
             "player_orientation": [0, 0, 0]
         },
         {
             "type": "orientation",
-            "desc": "z",
+            "desc": "Z Rotation",
             "ref_orientation":[0, 0, 1.5707963267948966],
             "player_orientation": [0, 0, 0]
         }
@@ -22,19 +22,19 @@
     [
         {
             "type": "orientation",
-            "desc": "x + y",
+            "desc": "X + Y Rotation",
             "ref_orientation":[1.5707963267948966, 1.5707963267948966, 0],
             "player_orientation": [0, 0, 0]
         },
         {
             "type": "orientation",
-            "desc": "y + z",
+            "desc": "Y + Z Rotation",
             "ref_orientation": [0, 1.5707963267948966, 1.5707963267948966],
             "player_orientation": [0, 0, 0]
         },
         {
             "type": "orientation",
-            "desc": "x + z",
+            "desc": "X + Z Rotation",
             "ref_orientation":[1.5707963267948966, 0, 1.5707963267948966],
             "player_orientation": [0, 0, 0]
         }
@@ -42,30 +42,33 @@
     [
         {
             "type": "inspection",
-            "desc": "just x",
-            "player_orientation": [4.1976196760308073,0 , 0]
+            "desc": "face 1",
+            "face": 1,
+            "player_orientation": [0,0,0]
         },
         {
             "type": "inspection",
-            "desc": "just y",
-            "player_orientation": [0, 3.2112495722389087, 0]
-        }
-    ],
-    [
-        {
-            "type": "inspection",
-            "desc": "combined 1",
-            "player_orientation": [4.788936847633103,4.913950340258814,4.128785007011311]
+            "desc": "face 2",
+            "face": 2,
+            "player_orientation": [0,0,0]
         },
         {
             "type": "inspection",
-            "desc": "combined 2",
-            "player_orientation": [0.7037277964580829,5.612775910199867,3.919224306548633]
+            "desc": "face 3",
+            "face": 3,
+            "player_orientation": [0,0,0]
         },
         {
             "type": "inspection",
-            "desc": "combined 3",
-            "player_orientation": [1.3971598885096637,0.4534518124014176,2.712345370226539]
+            "desc": "face 4",
+            "face": 4,
+            "player_orientation": [0,0,0]
+        },
+        {
+            "type": "inspection",
+            "desc": "face 5",
+            "face": 5,
+            "player_orientation": [0,0,0]
         }
     ]
 ]

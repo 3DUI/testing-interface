@@ -1,6 +1,7 @@
 define(["three", "dist/build_scene", "dist/model_rotation_controller"], function(THREE, SceneBuilder, ModelController){
     return function(){
         return {
+            materialsCallback: function(materials){return materials;},
             setId: function(id){this.loopId = id; return this;},
             setModelUrl: function(modelUrl){this.modelUrl = modelUrl; return this;},
             setInputBus: function(inputBus){this.inputBus = inputBus; return this;},
@@ -32,7 +33,8 @@ define(["three", "dist/build_scene", "dist/model_rotation_controller"], function
                 var that = this;
                 var loader = new THREE.JSONLoader();
                 loader.load(this.modelUrl, function(geometry, materials) {
-                    var material = new THREE.MeshFaceMaterial(materials),
+                    window.log.debug(materials);
+                    var material = new THREE.MeshFaceMaterial(that.materialsCallback(materials)),
                         model = new THREE.Mesh(geometry, material),
                         controller = ModelController.new(that.loopId, model, that.inputBus, that.rotationBuilder),
                         sceneBuilder = SceneBuilder.new();

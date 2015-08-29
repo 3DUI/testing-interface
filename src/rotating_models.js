@@ -25,6 +25,7 @@ define(["jquery", "dist/render_loop", "dist/mouse_input_bus", "dist/two_axis_val
                       background:new THREE.Color().setRGB( 0.7, 0.5, 0.7 )},
                       };
         var playerController,
+            highlightedColour = 0xff0000,
             playerControllerName,
             inputBus = MouseInputBus("#three"),
             controllers = {},
@@ -40,6 +41,12 @@ define(["jquery", "dist/render_loop", "dist/mouse_input_bus", "dist/two_axis_val
                inputBus.deregisterConsumer("up", id+"_rotateModelMouseUp");
                inputBus.deregisterConsumer("move", id+"_rotateModelMouseMove");           
                 var builder = RotationSceneBuilder();
+                builder.materialsCallback = function(materials){
+                    if(task.type === "inspection"){
+                        materials[task.face].color.setHex(highlightedColour);
+                    }
+                    return materials;
+                }
                 builder.setModelUrl(task.type === "orientation" ? experiment.orientationModelUrl : experiment.inspectionModelUrl).setInputBus(inputBus).setRenderLoop(RenderLoop);
                 return builder.setId(id).setView(view).setRotationBuilder(rotationBuilder).build(
                     function(controller){
