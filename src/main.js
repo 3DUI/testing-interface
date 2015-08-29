@@ -59,7 +59,6 @@ requirejs(["dist/logger", "dist/capture_participant_details", "dist/uuid", "dist
     Pipeline.add(CaptureParticipantDetails);
     addManual("documentation/experiment.md");
     addManual("documentation/controllers.md");
-
     for(var i = 0; i < 3; i++){
         addControllerManual(i);
         addExperiment(i, 

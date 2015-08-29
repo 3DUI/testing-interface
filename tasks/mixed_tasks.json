@@ -1,69 +1,77 @@
 [
-    {
-        "type": "orientation",
-        "desc": "simple x",
-        "ref_orientation":[0.5235987755982988, 0, 0],
-        "player_orientation": [0, 0, 0]
-    },
-    {
-        "type": "orientation",
-        "desc": "simple z",
-        "ref_orientation": [0, 0, 1.5707963267948966],
-        "player_orientation": [0, 0, 0]
-    },
-    {
-        "type": "orientation",
-        "desc": "simple x + y",
-        "ref_orientation":[0.7853981633974483, 1.0471975511965976, 0],
-        "player_orientation": [0, 0, 0]
-    },
-    {
-        "type": "orientation",
-        "desc": "simple y + z",
-        "ref_orientation":[0, 0.6283185307179586, 1.5707963267948966],
-        "player_orientation": [0, 0, 0]
-    },
-    {
-        "type": "orientation",
-        "desc": "complex 1",
-        "ref_orientation":  [ 0.7872753437999863, 4.366753504389396, 0.689998976481856 ],
-        "player_orientation": [0, 0, 0]
-    },
-    {
-        "type": "orientation",
-        "desc": "complex 2",
-        "ref_orientation": [ 6.174415524884364, 3.5323666664248576, 3.8646647534012346 ],
-        "player_orientation": [0, 0, 0]
-    },
-    {
-        "type": "orientation",
-        "desc": "complex 3",
-        "ref_orientation": [ 2.608489335984854, 4.840620622353082, 2.8333712292247593 ],
-        "player_orientation": [0, 0, 0]
-    },
-    {
-        "type": "inspection",
-        "desc": "just x",
-        "player_orientation": [4.1976196760308073,0 , 0]
-    },
-    {
-        "type": "inspection",
-        "desc": "just y",
-        "player_orientation": [0, 3.2112495722389087, 0]
-    },
-    {
-        "type": "inspection",
-        "desc": "combined 1",
-        "player_orientation": [4.788936847633103,4.913950340258814,4.128785007011311]
-    },
-    {
-        "type": "inspection",
-        "desc": "combined 2",
-        "player_orientation": [0.7037277964580829,5.612775910199867,3.919224306548633]
-    },
-    {
-        "type": "inspection",
-        "desc": "combined 3",
-        "player_orientation": [1.3971598885096637,0.4534518124014176,2.712345370226539]
-    }
+    [
+        {
+            "type": "orientation",
+            "desc": "simple x",
+            "ref_orientation":[0.5235987755982988, 0, 0],
+            "player_orientation": [0, 0, 0]
+        },
+        {
+            "type": "orientation",
+            "desc": "simple z",
+            "ref_orientation": [0, 0, 1.5707963267948966],
+            "player_orientation": [0, 0, 0]
+        },
+        {
+            "type": "orientation",
+            "desc": "simple x + y",
+            "ref_orientation":[0.7853981633974483, 1.0471975511965976, 0],
+            "player_orientation": [0, 0, 0]
+        },
+        {
+            "type": "orientation",
+            "desc": "simple y + z",
+            "ref_orientation":[0, 0.6283185307179586, 1.5707963267948966],
+            "player_orientation": [0, 0, 0]
+        }
+    ],
+    [
+        {
+            "type": "orientation",
+            "desc": "complex 1",
+            "ref_orientation":  [ 0.7872753437999863, 4.366753504389396, 0.689998976481856 ],
+            "player_orientation": [0, 0, 0]
+        },
+        {
+            "type": "orientation",
+            "desc": "complex 2",
+            "ref_orientation": [ 6.174415524884364, 3.5323666664248576, 3.8646647534012346 ],
+            "player_orientation": [0, 0, 0]
+        },
+        {
+            "type": "orientation",
+            "desc": "complex 3",
+            "ref_orientation": [ 2.608489335984854, 4.840620622353082, 2.8333712292247593 ],
+            "player_orientation": [0, 0, 0]
+        }
+    ],
+    [
+        {
+            "type": "inspection",
+            "desc": "just x",
+            "player_orientation": [4.1976196760308073,0 , 0]
+        },
+        {
+            "type": "inspection",
+            "desc": "just y",
+            "player_orientation": [0, 3.2112495722389087, 0]
+        }
+    ],
+    [
+        {
+            "type": "inspection",
+            "desc": "combined 1",
+            "player_orientation": [4.788936847633103,4.913950340258814,4.128785007011311]
+        },
+        {
+            "type": "inspection",
+            "desc": "combined 2",
+            "player_orientation": [0.7037277964580829,5.612775910199867,3.919224306548633]
+        },
+        {
+            "type": "inspection",
+            "desc": "combined 3",
+            "player_orientation": [1.3971598885096637,0.4534518124014176,2.712345370226539]
+        }
+    ]
 ]

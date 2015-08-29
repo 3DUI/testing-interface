@@ -28,7 +28,12 @@ define(["jquery", "dist/render_loop", "dist/mouse_input_bus", "dist/two_axis_val
             playerControllerName,
             inputBus = MouseInputBus("#three"),
             controllers = {},
-            i = 0,
+            i = 0, // TODO: remove
+            totalTasksCompleted = 0,
+            totalTasks = 0,
+            currentGroup = -1,
+            currentIndex,
+            possibleIndices = [], // TODO
 
             setupScene = function(id, rotationBuilder, task, view){
                inputBus.deregisterConsumer("down", id+"_rotateModelMouseDown");
@@ -61,8 +66,7 @@ define(["jquery", "dist/render_loop", "dist/mouse_input_bus", "dist/two_axis_val
                 $(hideId).hide();
                 $(showId).show();
             }, //TODO: set this to state in the react component
-            setupScenes = function(i, tasks){
-               var task = tasks[i];
+            setupScenes = function(task){
                RenderLoop.removeView("ref");
                RenderLoop.removeView("player");
                if(task.type === "orientation"){
@@ -75,26 +79,57 @@ define(["jquery", "dist/render_loop", "dist/mouse_input_bus", "dist/two_axis_val
                }
             },
 
-            loadTask = function(tasks){
-                if(i < tasks.length){
-                    console.log("next task", i, tasks);
-                    setupScenes(i, tasks);
-                    UserFeedback(experiment.title, i, tasks, playerControllerName);
+            loadTask = function(tasks, group, index){
+                window.log.debug("Loading tasks", tasks, group, index);
+                // TODO: MAKE IT SO WE DON'T HAVE TO DO THIS
+                if(group == -1){
+                    return nextTask(tasks, true);
+                }
+                var task;
+                if(group < tasks.length && index < tasks[group].length){
+                    task = tasks[group][index];
+                    setupScenes(task);
+                    UserFeedback(experiment.title, task, totalTasksCompleted, totalTasks, playerControllerName);
                     return true;
                 }
                 return false;
             },
-    
-            nextTask = function(tasks){
-                i++;
-                if(i == tasks.length){
-                    if(experiment.limit){
-                        i = 0;
-                    } else {
-                        teardown();
-                    }
+
+            shuffle = function(arr){
+                for(var i = arr.length - 1; i > 0; i--){
+                    var j = Math.floor(Math.random() * (i+1));
+                    var temp = arr[i];
+                    arr[i] = arr[j];
+                    arr[j] = temp;
                 }
-                loadTask(tasks);
+                return arr;
+            },
+
+            nextTask = function(tasks, notCompleted){
+                if(!notCompleted){
+                    totalTasksCompleted++;
+                }
+                if(possibleIndices.length == 0){
+                    currentGroup++;
+                    if(currentGroup == tasks.length){
+                        if(experiment.limit){
+                            totalTasksCompleted = 0;
+                            currentGroup = 0;
+                        } else {
+                            teardown();
+                            return;
+                        }
+                    }
+                    var numTasks = tasks[currentGroup].length,
+                        indices = [];
+                    for(var i = 0; i < numTasks; i++){
+                        indices.push(i);   
+                    }
+                    possibleIndices = shuffle(indices);
+                    window.log.debug("Set possible indices to", possibleIndices);
+                }
+                currentIndex = possibleIndices.pop();
+                loadTask(tasks, currentGroup, currentIndex);
             },
 
             loadRotationController = function(rotationController, tasks){
@@ -103,7 +138,7 @@ define(["jquery", "dist/render_loop", "dist/mouse_input_bus", "dist/two_axis_val
                 enable_buttons();
                 disable_button(rotationController);
                 if(tasks){
-                    loadTask(tasks);
+                    loadTask(tasks, currentGroup, currentIndex);
                 }
             },
             rotationControllers = {
@@ -127,6 +162,13 @@ define(["jquery", "dist/render_loop", "dist/mouse_input_bus", "dist/two_axis_val
                 inputBus.teardown();
                 callback();
             }, 
+            countAndSetTotal = function(tasks){
+                for(var i = 0; i < tasks.length; i++){
+                    for(var j = 0; j < tasks[i].length; j++){
+                       totalTasks++; 
+                    }
+                }
+            },
             limitCallback = experiment.limit? teardown: undefined,
             timer = new Timer("#timer", experiment.limit, limitCallback);
 
@@ -137,6 +179,7 @@ define(["jquery", "dist/render_loop", "dist/mouse_input_bus", "dist/two_axis_val
         RenderLoop.start();
         timer.start();
         $.getJSON(experiment.taskUrl, function(data) {
+            countAndSetTotal(data);
             $("#save").click(function(){
                 var rotation = controllers.player.model.rotation;
                 window.log.saveLog("saving user task", JSON.stringify(data[i]), JSON.stringify([rotation.x, rotation.y, rotation.z]), timer.time);
@@ -144,7 +187,7 @@ define(["jquery", "dist/render_loop", "dist/mouse_input_bus", "dist/two_axis_val
             });
             $("#reload").click(function(){
                 window.log.debug("reload","task", data[i], "orientation", controllers.player.model.rotation);
-                loadTask(data);
+                loadTask(data, currentGroup, currentIndex);
             });
             for(var key in rotationControllers){
                 if(rotationControllers.hasOwnProperty(key)){
@@ -156,7 +199,7 @@ define(["jquery", "dist/render_loop", "dist/mouse_input_bus", "dist/two_axis_val
                     })(key)
                 }
             }
-            loadTask(data);
+            loadTask(data, currentGroup, currentIndex);
         });
     };
 });
