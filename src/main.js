@@ -1,4 +1,4 @@
-requirejs(["dist/logger", "dist/capture_participant_details", "dist/uuid", "dist/before_unload", "dist/generate_task","dist/pipeline","dist/rotating_models","dist/confirm_ready"], function(Logger, CaptureParticipantDetails, generateUUID, BeforeUnloadController, GenerateTask, Pipeline, RotatingModels, ConfirmReady){
+requirejs(["dist/logger", "dist/capture_participant_details", "dist/uuid", "dist/before_unload", "dist/generate_task","dist/pipeline","dist/rotating_models","dist/confirm_ready", "jquery", "dist/render_manual"], function(Logger, CaptureParticipantDetails, generateUUID, BeforeUnloadController, GenerateTask, Pipeline, RotatingModels, ConfirmReady, $, RenderManual){
     window.log = Logger;
     window.log.header = "3DUI";
     window.log.meta.uuid = generateUUID();
@@ -31,11 +31,29 @@ requirejs(["dist/logger", "dist/capture_participant_details", "dist/uuid", "dist
         })(i);
     }
 
+    var addManual = function(i){
+        var controllerManual = {
+            discrete: "documentation/discrete.md",
+            twoaxis: "documentation/two_axis.md",
+            arcball: "documentation/arcball.md"
+        };
+        (function(index){
+            Pipeline.add(function(callback){
+                var controllerName = window.log.meta.experimentDesign.controllers[index],
+                    manualUrl = controllerManual[controllerName];
+                $.get(manualUrl, function( data ) {
+                   RenderManual(data, controllerName, callback); 
+                });
+            });
+        })(i);
+    }
+
     for(var i = 0; i < 3; i++){
+        addManual(i);
         addExperiment(i, 
             {title: "Training",
              limit: 5000});
-        addConfirmation(i)
+        addConfirmation(i);
         addExperiment(i, 
             {title: "Evaluation",
              limit: undefined});

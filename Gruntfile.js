@@ -34,7 +34,7 @@ module.exports = function(grunt){
           }
         },
         watch: {
-          files: ['Gruntfile.js', 'src/**/*.js', 'test/**/*.js', 'bower.json', 'index.html', '**/*.json'],
+          files: ['Gruntfile.js', 'src/**/*.js*', 'test/**/*.js', 'bower.json', 'index.html', '**/*.json'],
           tasks: ['build'],
           options: {
             atBegin: true,

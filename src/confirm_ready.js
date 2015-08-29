@@ -1,4 +1,4 @@
-define(["react"], function(React, ExperimentalDesign){
+define(["react"], function(React){
     return function(name, callback){
         var ConfirmReady = React.createClass({
             submit: function(){
