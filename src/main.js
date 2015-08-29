@@ -1,4 +1,4 @@
-requirejs(["dist/logger", "dist/capture_participant_details", "dist/uuid", "dist/before_unload", "dist/generate_task","dist/pipeline","dist/rotating_models","dist/confirm_ready", "jquery", "dist/render_manual", "dist/final_screen"], function(Logger, CaptureParticipantDetails, generateUUID, BeforeUnloadController, GenerateTask, Pipeline, RotatingModels, ConfirmReady, $, RenderManual, FinalScreen){
+requirejs(["dist/logger", "dist/capture_participant_details", "dist/uuid", "dist/before_unload", "dist/generate_task","dist/pipeline","dist/rotating_models","dist/confirm_ready", "jquery", "dist/render_manual", "dist/final_screen", "Keypress"], function(Logger, CaptureParticipantDetails, generateUUID, BeforeUnloadController, GenerateTask, Pipeline, RotatingModels, ConfirmReady, $, RenderManual, FinalScreen, Keypress){
     window.log = Logger;
     window.log.header = "3DUI";
     window.log.meta.uuid = generateUUID();
@@ -73,4 +73,9 @@ requirejs(["dist/logger", "dist/capture_participant_details", "dist/uuid", "dist
     }
     Pipeline.runNext();
     window.genTask = GenerateTask;
+
+    var listener = new Keypress.Listener();
+    listener.simple_combo("shift r", function() {
+        window.log.debug("Report issued"); // TODO: have this be more comprehensive
+    });
 });
