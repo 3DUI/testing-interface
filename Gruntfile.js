@@ -5,6 +5,7 @@ module.exports = function(grunt){
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-devserver');
     grunt.loadNpmTasks('grunt-shell');
+    grunt.loadNpmTasks('grunt-babel');
 
     grunt.initConfig({
         bowerRequirejs: {
@@ -20,7 +21,7 @@ module.exports = function(grunt){
         },
         jshint: {
           // define the files to lint
-          files: ['Gruntfile.js', 'src/**/*.js', 'test/**/*.js'],
+          files: ['Gruntfile.js', 'dist/**/*.js', 'test/**/*.js'],
           // configure JSHint (documented at http://www.jshint.com/docs/)
           options: {
               // more options here if you want to override JSHint defaults
@@ -34,10 +35,11 @@ module.exports = function(grunt){
         },
         watch: {
           files: ['Gruntfile.js', 'src/**/*.js', 'test/**/*.js', 'bower.json', 'index.html', '**/*.json'],
-          tasks: ['build', 'lint'],
+          tasks: ['build'],
           options: {
             atBegin: true,
             livereload: true,
+            livereloadOnErro: false,
           },
         },
         devserver: {
@@ -54,8 +56,23 @@ module.exports = function(grunt){
                 command: 'bundle exec jekyll serve'
             }
        },
+        babel: {
+            options: {
+                sourceMap: true
+            },
+            dist: {
+                files:[
+                    {
+                        expand: true,
+                        cwd: 'src/',
+                        src: ['*.js*'],
+                        dest: 'dist/',
+                    }
+                ]
+            }
+        },
     });
-    grunt.registerTask('build', ['bowerRequirejs']);
+    grunt.registerTask('build', ['bowerRequirejs', 'babel']);
     grunt.registerTask('lint', ['jshint']);
     grunt.registerTask('default', ['build', 'devserver', 'watch']);
     grunt.registerTask('auto', ['build', 'watch']);
