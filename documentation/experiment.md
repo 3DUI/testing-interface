@@ -1,8 +1,3 @@
----
-layout: default
-title: Evaluation
----
-
 # Evaluation Documentation
 
 ## Introduction

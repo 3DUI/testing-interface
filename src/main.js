@@ -5,8 +5,6 @@ requirejs(["dist/logger", "dist/capture_participant_details", "dist/uuid", "dist
     if (document.location.hostname !== "localhost"){
        BeforeUnloadController.stopUnload();
     }
-    Pipeline.finalNode = FinalScreen;
-    Pipeline.add(CaptureParticipantDetails);
 
     var addExperiment = function(index, experimentConfig){
         (function(experimentIndex, config){
@@ -32,8 +30,8 @@ requirejs(["dist/logger", "dist/capture_participant_details", "dist/uuid", "dist
         })(i);
     }
 
-    var addManual = function(i){
-        var controllerManual = {
+    var addControllerManual = function(i){
+        var manual = {
             discrete: "documentation/discrete.md",
             twoaxis: "documentation/two_axis.md",
             arcball: "documentation/arcball.md"
@@ -41,16 +39,29 @@ requirejs(["dist/logger", "dist/capture_participant_details", "dist/uuid", "dist
         (function(index){
             Pipeline.add(function(callback){
                 var controllerName = window.log.meta.experimentDesign.controllers[index],
-                    manualUrl = controllerManual[controllerName];
+                    manualUrl = manual[controllerName];
                 $.get(manualUrl, function( data ) {
-                   RenderManual(data, controllerName, callback); 
+                   RenderManual(data, callback); 
                 });
             });
         })(i);
     }
 
-    for(var i = 0; i < 0; i++){
-        addManual(i);
+    var addManual = function(manualUrl){
+        Pipeline.add(function(callback){
+            $.get(manualUrl, function(data){
+                RenderManual(data, callback);
+            });
+        });
+    }
+
+    Pipeline.finalNode = FinalScreen;
+    Pipeline.add(CaptureParticipantDetails);
+    addManual("documentation/experiment.md");
+    addManual("documentation/controllers.md");
+
+    for(var i = 0; i < 3; i++){
+        addControllerManual(i);
         addExperiment(i, 
             {title: "Training",
              limit: 5000});
