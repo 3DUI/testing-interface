@@ -14,7 +14,7 @@ requirejs(["dist/logger", "dist/capture_participant_details", "dist/uuid", "dist
                     models = experiment.models;
                 RotatingModels(callback,{
                     title: config.title, 
-                    taskUrl: "tasks/mixed_tasks.json", // TODO: USE DIFFERENT TASKS
+                    taskUrl: config.taskUrl,
                     orientationModelUrl: models[experimentIndex],
                     inspectionModelUrl: "models/ico_sphere_model.json",
                     controllerKey: controllers[experimentIndex],
@@ -63,10 +63,12 @@ requirejs(["dist/logger", "dist/capture_participant_details", "dist/uuid", "dist
         addControllerManual(i);
         addExperiment(i, 
             {title: "Training",
-             limit: 5000});
+             taskUrl:"tasks/training_tasks.json",
+             limit: 10000});
         addConfirmation(i);
         addExperiment(i, 
             {title: "Evaluation",
+             taskUrl:"tasks/mixed_tasks.json",
              limit: undefined});
     }
     Pipeline.runNext();
