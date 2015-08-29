@@ -17,7 +17,8 @@
     "react": "~0.13.3",
     "threejs": "*",
     "jquery": "~2.1.4",
-    "bootstrap": "~3.3.5"
+    "bootstrap": "~3.3.5",
+    "marked": "~0.3.5"
   },
   "devDependencies": {}
 }

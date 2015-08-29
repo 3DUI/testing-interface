@@ -10,7 +10,8 @@ var require = {
     threejs: 'bower_components/threejs/build/three',
     three: 'src/lib/three',
     jquery: 'bower_components/jquery/dist/jquery',
-    bootstrap: 'bower_components/bootstrap/dist/js/bootstrap'
+    bootstrap: 'bower_components/bootstrap/dist/js/bootstrap',
+    marked: 'bower_components/marked/lib/marked'
   },
   packages: [
 

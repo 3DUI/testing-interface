@@ -10,7 +10,6 @@ define(["react"], function(React, ExperimentalDesign){
                     discrete: "Discrete Sliders",
                     twoaxis:  "Two Axis Valuator",
                     arcball: "Arcball"}
-               asdasd{ 
                 return <div id="confirm" className="container-fluid">
                     <div className="row">
                         <div className="col-xs-6 col-xs-offset-3">

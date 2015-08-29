@@ -44,7 +44,6 @@ module.exports = function(grunt){
         },
         devserver: {
             options: {
-                'async': false,
             },
             server: {},
         },
@@ -74,7 +73,7 @@ module.exports = function(grunt){
     });
     grunt.registerTask('build', ['bowerRequirejs', 'babel']);
     grunt.registerTask('lint', ['jshint']);
-    grunt.registerTask('default', ['build', 'devserver', 'watch']);
+    grunt.registerTask('default', ['watch']);
     grunt.registerTask('auto', ['build', 'watch']);
     grunt.registerTask('test', ['build', 'lint', 'karma']);
     grunt.registerTask('serve', ['shell']);
