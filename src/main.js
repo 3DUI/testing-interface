@@ -1,10 +1,11 @@
-requirejs(["dist/logger", "dist/capture_participant_details", "dist/uuid", "dist/before_unload", "dist/generate_task","dist/pipeline","dist/rotating_models","dist/confirm_ready", "jquery", "dist/render_manual"], function(Logger, CaptureParticipantDetails, generateUUID, BeforeUnloadController, GenerateTask, Pipeline, RotatingModels, ConfirmReady, $, RenderManual){
+requirejs(["dist/logger", "dist/capture_participant_details", "dist/uuid", "dist/before_unload", "dist/generate_task","dist/pipeline","dist/rotating_models","dist/confirm_ready", "jquery", "dist/render_manual", "dist/final_screen"], function(Logger, CaptureParticipantDetails, generateUUID, BeforeUnloadController, GenerateTask, Pipeline, RotatingModels, ConfirmReady, $, RenderManual, FinalScreen){
     window.log = Logger;
     window.log.header = "3DUI";
     window.log.meta.uuid = generateUUID();
     if (document.location.hostname !== "localhost"){
        BeforeUnloadController.stopUnload();
     }
+    Pipeline.finalNode = FinalScreen;
     Pipeline.add(CaptureParticipantDetails);
 
     var addExperiment = function(index, experimentConfig){
@@ -48,7 +49,7 @@ requirejs(["dist/logger", "dist/capture_participant_details", "dist/uuid", "dist
         })(i);
     }
 
-    for(var i = 0; i < 3; i++){
+    for(var i = 0; i < 0; i++){
         addManual(i);
         addExperiment(i, 
             {title: "Training",

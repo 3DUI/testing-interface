@@ -1,6 +1,7 @@
 define(function(){
     return {
         nodes: [],
+        finalNode: null,
         /**
          * Takes a function which accepts one argument - a callback, to be called when the function has finished running
          */
@@ -12,7 +13,11 @@ define(function(){
         },
         runNext: function(){
             var node = this.nodes.shift();
-            node();
+            if(node){
+                node();
+            } else {
+                this.finalNode();
+            }
         }
     };
 });
