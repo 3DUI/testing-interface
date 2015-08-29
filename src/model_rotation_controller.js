@@ -4,16 +4,32 @@ define(["three"], function(THREE){
             rotationHandler: undefined,
             inputBus: inputBus,
             modelId: modelId,
+            crosshairRadius: 0.01,
+            crosshairColour: 0x000000,
+            crosshairLineWidth: 2,
            init: function(scene, camera, light){
                this.model = model;
                scene.add(this.model);
                this.rotationHandler = rotationHandlerMaker.new(this.model, scene, camera);
-               camera.position.z = 10; // TODO: make configurable
+               camera.position.z = 7.5; // TODO: make configurable
                this.light = light;
                this.light.position.set(0,0,10);
                this.light.target = this.model;
                scene.add(this.light);
                this.camera = camera;
+               this.scene = scene;
+           },
+           drawCrosshairs: function(){
+               window.log.debug("Drawing crosshairs");
+                var segments = 64,
+                geometry = new THREE.CircleGeometry(this.crosshairRadius, segments);
+                geometry.vertices.shift(); // remove center
+
+                this.crosshair = new THREE.Line(geometry, new THREE.LineBasicMaterial({
+                        color: this.crosshairColour,
+                        linewidth: this.crosshairLineWidth}));
+                this.crosshair.position.set(0,0,7);
+                this.scene.add(this.crosshair);
            },
            inBounds: function(x, y){
                return x >= this.leftBound && x <= this.rightBound && 

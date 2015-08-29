@@ -55,6 +55,9 @@ define(["jquery", "dist/render_loop", "dist/mouse_input_bus", "dist/two_axis_val
                         rot.y = task[id + "_orientation"][1];
                         rot.z = task[id + "_orientation"][2];
                         controllers[id] = controller;
+                        if(task.type === "inspection"){
+                            controller.drawCrosshairs();
+                        }
                     }
                 );
             },

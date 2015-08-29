@@ -4,7 +4,7 @@ define(["three", "dist/mouse_to_world", "dist/rotation_helper"], function(THREE,
             unhiddenOpacity: 0.3,
             rotatingOpacity: 0.5,
             radius: 4, // TODO: make this configurable 
-            displayRadius: 4.50, 
+            displayRadius: 5, 
             rotating: false,
 
             init: function(model, scene, camera){
