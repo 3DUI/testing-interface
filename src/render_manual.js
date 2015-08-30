@@ -15,9 +15,7 @@ define(["react","marked"], function(React, Marked){
                             <legend>Continue</legend>
                             Press below to confirm you've understood everything above and are ready to continue. If you need to refer back to anything you've read above, please use the paper versions. 
                         </div>
-                        <div className="row">
                           <button className="btn btn-default" onClick={this.submit}>Ready to Continue</button>
-                        </div>
                     </div>
                 </div>
             }

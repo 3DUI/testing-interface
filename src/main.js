@@ -1,4 +1,4 @@
-requirejs(["dist/logger", "dist/capture_participant_details", "dist/uuid", "dist/before_unload", "dist/generate_task","dist/pipeline","dist/rotating_models","dist/confirm_ready", "jquery", "dist/render_manual", "dist/final_screen", "Keypress"], function(Logger, CaptureParticipantDetails, generateUUID, BeforeUnloadController, GenerateTask, Pipeline, RotatingModels, ConfirmReady, $, RenderManual, FinalScreen, Keypress){
+requirejs(["dist/logger", "dist/capture_participant_details", "dist/uuid", "dist/before_unload", "dist/generate_task","dist/pipeline","dist/rotating_models","dist/confirm_ready", "jquery", "dist/render_manual", "dist/final_screen", "Keypress", "dist/mrt_1", "dist/mrt_2", "dist/mrt_test"], function(Logger, CaptureParticipantDetails, generateUUID, BeforeUnloadController, GenerateTask, Pipeline, RotatingModels, ConfirmReady, $, RenderManual, FinalScreen, Keypress, MRT1, MRT2, MRTTest){
     window.log = Logger;
     window.log.header = "3DUI";
     window.log.meta.uuid = generateUUID();
@@ -57,7 +57,11 @@ requirejs(["dist/logger", "dist/capture_participant_details", "dist/uuid", "dist
 
     Pipeline.finalNode = FinalScreen;
     Pipeline.add(CaptureParticipantDetails);
-    addManual("documentation/experiment.md");
+   // addManual("documentation/experiment.md");
+    Pipeline.add(MRT1);
+    Pipeline.add(MRT2);
+    addManual("documentation/mrt_instructions.md");
+    Pipeline.add(MRTTest);
     addManual("documentation/controllers.md");
     for(var i = 0; i < 3; i++){
         addControllerManual(i);

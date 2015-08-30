@@ -33,6 +33,7 @@ define(["dist/mini_daemon", "jquery"], function(MiniDaemon, $){
         if(this.limit && this.limitCallback){
             if(this.time > this.limit){
                 this.limitCallback();
+                this.stop();
             }
         }
     };
