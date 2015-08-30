@@ -26,7 +26,7 @@ define(["react", "dist/local_object"], function(React, LocalObject){
                             <div className="row">
                                 <legend>Participant Information</legend>
                                 <div className="form-group">
-                                      <label className="col-md-4 control-label" for="participant_input">Particpant Number</label>  
+                                      <label className="col-md-4 control-label" htmlFor="participant_input">Particpant Number</label>  
                                         <div className="col-md-5">
                                               <input id="participant_input" name="participant_input" type="text" placeholder="12345" className="form-control input-md" min="0" step="1" data-bind="value:replyNumber" required="" onChange={this.handleChange} />
                                                 <span className="help-block">The participant number given to you, attached to your formal consent forms.</span>  
