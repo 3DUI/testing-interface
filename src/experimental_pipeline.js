@@ -1,4 +1,4 @@
-define(["dist/capture_participant_details", "dist/pipeline","dist/rotating_models","dist/confirm_ready", "dist/render_manual", "dist/final_screen", "dist/mrt_1", "dist/mrt_2", "dist/mrt_test", "dist/sus", "dist/reset_page", "dist/experiment_design", "dist/local_object"], function(CaptureParticipantDetails, Pipeline, RotatingModels, ConfirmReady, RenderManual, FinalScreen, MRT1, MRT2, MRTTest, SUS, ResetPage, ExperimentDesign, LocalObject){
+define(["dist/capture_participant_details", "dist/pipeline","dist/rotating_models","dist/experiment_task", "dist/render_manual", "dist/final_screen", "dist/mrt_1", "dist/mrt_2", "dist/mrt_test", "dist/sus", "dist/reset_page", "dist/experiment_design", "dist/local_object"], function(CaptureParticipantDetails, Pipeline, RotatingModels, ExperimentalTask, RenderManual, FinalScreen, MRT1, MRT2, MRTTest, SUS, ResetPage, ExperimentDesign, LocalObject){
     function ExperimentalPipeline(){
         this.pipeline = new Pipeline("pipeline", FinalScreen, ResetPage, false);
         this.pipeline.add(CaptureParticipantDetails);
@@ -14,8 +14,7 @@ define(["dist/capture_participant_details", "dist/pipeline","dist/rotating_model
                 {title: "Training",
                  taskUrl:"tasks/training_tasks.json",
                  limit: 10000});
-            this.addConfirmation(i);
-            this.addExperiment(i, 
+            this.addTasks(i,
                 {title: "Evaluation",
                  taskUrl:"tasks/mixed_tasks.json",
                  limit: undefined});
@@ -53,13 +52,23 @@ define(["dist/capture_participant_details", "dist/pipeline","dist/rotating_model
         })(index, experimentConfig);
     }
 
-    ExperimentalPipeline.prototype.addConfirmation = function(i){
+    ExperimentalPipeline.prototype.addTasks = function(index, experimentConfig){
         var that = this;
-        (function(index){
+        (function(experimentIndex, config){
             that.pipeline.add(function(callback){
-               ConfirmReady(that.currentExperiment().controllers[index], callback);   
-            });
-        })(i);
+                var experiment = that.currentExperiment(),
+                    controllers = experiment.controllers,
+                    models = experiment.models;
+                ExperimentalTask(that.currentExperiment().controllers[index],{
+                    title: config.title, 
+                    taskUrl: config.taskUrl,
+                    orientationModelUrl: models[experimentIndex],
+                    inspectionModelUrl: "models/ico_sphere_model.json",
+                    controllerKey: controllers[experimentIndex],
+                    limit: config.limit},
+                    callback)
+                });
+        })(index, experimentConfig);
     }
 
     ExperimentalPipeline.prototype.addControllerManual = function(i){
