@@ -1,4 +1,4 @@
-requirejs(["dist/logger", "dist/capture_participant_details", "dist/uuid", "dist/before_unload", "dist/generate_task","dist/pipeline","dist/rotating_models","dist/confirm_ready", "jquery", "dist/render_manual", "dist/final_screen", "Keypress", "dist/mrt_1", "dist/mrt_2", "dist/mrt_test"], function(Logger, CaptureParticipantDetails, generateUUID, BeforeUnloadController, GenerateTask, Pipeline, RotatingModels, ConfirmReady, $, RenderManual, FinalScreen, Keypress, MRT1, MRT2, MRTTest){
+requirejs(["dist/logger", "dist/capture_participant_details", "dist/uuid", "dist/before_unload", "dist/generate_task","dist/pipeline","dist/rotating_models","dist/confirm_ready", "jquery", "dist/render_manual", "dist/final_screen", "Keypress", "dist/mrt_1", "dist/mrt_2", "dist/mrt_test", "dist/sus"], function(Logger, CaptureParticipantDetails, generateUUID, BeforeUnloadController, GenerateTask, Pipeline, RotatingModels, ConfirmReady, $, RenderManual, FinalScreen, Keypress, MRT1, MRT2, MRTTest, SUS){
     window.log = Logger;
     window.log.header = "3DUI";
     window.log.meta.uuid = generateUUID();
@@ -55,9 +55,18 @@ requirejs(["dist/logger", "dist/capture_participant_details", "dist/uuid", "dist
         });
     }
 
+    var addSUS = function(i){
+        (function(index){
+            Pipeline.add(function(callback){
+                var controllerName = window.log.meta.experimentDesign.controllers[index];
+                SUS(controllerName, callback);
+            });
+        })(i);
+    }
+
     Pipeline.finalNode = FinalScreen;
     Pipeline.add(CaptureParticipantDetails);
-   // addManual("documentation/experiment.md");
+    addManual("documentation/experiment.md");
     Pipeline.add(MRT1);
     Pipeline.add(MRT2);
     addManual("documentation/mrt_instructions.md");
@@ -74,6 +83,7 @@ requirejs(["dist/logger", "dist/capture_participant_details", "dist/uuid", "dist
             {title: "Evaluation",
              taskUrl:"tasks/mixed_tasks.json",
              limit: undefined});
+       addSUS(i);
     }
     Pipeline.runNext();
     window.genTask = GenerateTask;
