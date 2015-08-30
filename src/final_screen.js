@@ -2,6 +2,7 @@ define(["react"], function(React){
     return function(){
         var FinalScreen = React.createClass({
             render: function(){
+
                 return <div id="final" className="container-fluid">
                     <div className="row">
                         <div className="col-xs-6 col-xs-offset-3">

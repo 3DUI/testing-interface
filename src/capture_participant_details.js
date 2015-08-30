@@ -1,4 +1,4 @@
-define(["react", "dist/experiment_design"], function(React, ExperimentalDesign){
+define(["react", "dist/local_object"], function(React, LocalObject){
     return function(callback){
         var CaptureParticipants = React.createClass({
             handleChange: function(event){
@@ -7,9 +7,9 @@ define(["react", "dist/experiment_design"], function(React, ExperimentalDesign){
             submit: function(){
                var val = this.state.value;
                if(val){
-                    window.log.meta.participantNumber = val;
-                    window.log.meta.experimentDesign = ExperimentalDesign(val);
                     React.unmountComponentAtNode(document.getElementById('content'));
+                    var participantNumber = new LocalObject("participant_number", true);
+                    participantNumber.set("val", val);
                     callback();
                } else {
                     alert("Participant numbers are only integers. Please enter a valid integer");

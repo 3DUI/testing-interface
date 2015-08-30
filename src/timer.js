@@ -59,12 +59,22 @@ define(["dist/mini_daemon", "jquery"], function(MiniDaemon, $){
     };
 
     Timer.prototype.pause = function(){
-        this.daemon.pause();
+        if(this.daemon){
+            this.daemon.pause();
+            return true;
+        } else {
+            return false;
+        }
     };
 
     Timer.prototype.stop = function(){
-        this.daemon.pause();
-        this.daemon = null;
+        if(this.daemon){
+            this.daemon.pause();
+            this.daemon = null;
+            return true;
+        } else {
+            return false;
+        }
     };
     return Timer;
 });

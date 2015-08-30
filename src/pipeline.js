@@ -1,10 +1,11 @@
-define(function(){
-    function Pipeline(){
-    
+define(["dist/local_object"],  function(LocalObject){
+    function Pipeline(id, finalNode, resetPage, overwrite){
+        this.id = id;
+        this.finalNode = finalNode;
+        this.resetPage = resetPage;
+        this.indexObj = new LocalObject(this.id, overwrite);
     }
-    Pipeline.prototype.index = -1;
     Pipeline.prototype.nodes = [];
-    Pipeline.prototype.finalNode = null;
     Pipeline.prototype.add = function(runFn){
         var that = this;
         this.nodes.push(function(){
@@ -12,14 +13,36 @@ define(function(){
         });
     };
 
+    Pipeline.prototype.start = function(){
+        var that = this;
+        if(this.indexObj.get("index") === undefined){
+            this.run(0);
+        } else {
+            this.resetPage(function(reset){
+                if(reset){
+                    that.run(0);
+                } else {
+                    that.run(that.indexObj.get("index"));
+                }
+            });
+        }
+    };
+
     Pipeline.prototype.runNext = function(){
-        var node = this.nodes[++this.index];
+        var index = this.indexObj.get("index") + 1;
+        this.run(index);
+    };
+
+    Pipeline.prototype.run = function(index){
+        this.indexObj.set("index", index); 
+        var node = this.nodes[index];
         if(node){
             node();
         } else {
             this.finalNode();
+            this.indexObj = new LocalObject(this.id, true);
         }
-    };
+    }
     console.log("pipeline", Pipeline);
     return Pipeline;
 });

@@ -16,7 +16,7 @@ define(function(){
     }
 
     LocalObject.prototype.key = function(){
-        return "local_object_3dui_object" + id;
+        return "local_object_3dui_object" + this.id;
     }
 
     LocalObject.prototype.fetch = function(){
