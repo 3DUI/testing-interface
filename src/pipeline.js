@@ -18,13 +18,18 @@ define(["dist/local_object"],  function(LocalObject){
         if(this.indexObj.get("index") === undefined){
             this.run(0);
         } else {
-            this.resetPage(function(reset){
-                if(reset){
-                    that.run(0);
-                } else {
-                    that.run(that.indexObj.get("index"));
-                }
-            });
+            var index = that.indexObj.get("index");
+            if(index === 0){
+                this.run(0);
+            } else {
+                this.resetPage(function(reset){
+                    if(reset){
+                        that.run(0);
+                    } else {
+                        that.run(index);
+                    }
+                });
+            }
         }
     };
 
