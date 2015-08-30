@@ -10,14 +10,12 @@ define(["react"], function(React){
                 return <div id="confirm" className="container-fluid">
                     <div className="row">
                         <div className="col-xs-6 col-xs-offset-3">
-                            <div className="row">
+                            <div className="form-group">
                                 <legend>Resume previous session</legend>
                                 We have detected that you abandoned a previous session. Would you like to resume it? Note that if you chose to abandon this session, there will be no way to recover that data.
                             </div>
-                            <div className="row">
                               <button className="btn btn-default" onClick={function(){that.submit(false)}}>Resume</button>
                               <button className="btn btn-default" onClick={function(){that.submit(true)}}>Restart (possibly losing data)</button>
-                            </div>
                           </div>
                     </div>
                 </div>

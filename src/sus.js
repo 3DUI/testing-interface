@@ -1,4 +1,4 @@
-define(["react"], function(React){
+define(["react", "dist/name_map"], function(React, NameMap){
     return function(controllerName, callback){
         var SUS = React.createClass({
             submit: function(){
@@ -9,11 +9,7 @@ define(["react"], function(React){
                 // TODO
             },
             render: function(){
-                var that = this;
-                var nameMap = {
-                    discrete: "Discrete Sliders",
-                    twoaxis:  "Two Axis Valuator",
-                    arcball: "Arcball"},
+                var that = this,
                     questionTexts = [
                         "I think that I would like to use this system frequently",
                         "I found the system unnecessarily complex",
@@ -35,7 +31,7 @@ define(["react"], function(React){
                         var buttons = [];
                         for(var i = 0; i < 5; i++){
                             buttons.push(
-                                <td>
+                                <td style={{width: "16%"}}>
                                     <div class="radio">
                                         <input 
                                             type="radio" 
@@ -54,25 +50,33 @@ define(["react"], function(React){
                     });
                 return <div id="confirm" className="container">
                     <div className="row">
-                        <h1> Usability Questionnaire for {nameMap[this.props.controllerName]}</h1>
+                        <h1> Usability Questionnaire for {NameMap(this.props.controllerName)}</h1>
+                    </div>
+                    <div className="row" style={{"padding-top": "20px", "padding-bottom":"10px"}}>
+                        Now that you've completed an evaluation for the {NameMap(this.props.controllerName)} controller, we'd like to ask you to assess its usability.
+                    </div>
+                    <div className="row" style={{"padding-top": "20px", "padding-bottom":"10px"}}>
+                        <strong>Please fill the following questions to the best of your ability.</strong>
                     </div>
                     <div className="row">
-                        <table className="table table-bordered">
+                        <table className="table table-striped">
                             <thead> <tr>
                                 <td></td>
-                                <td>Strongly Disagree</td>
+                                <td>Strongly <br /> Disagree</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
-                                <td>Strongly Agree</td>
+                                <td>Strongly <br /> Agree</td>
                             </tr> </thead>
                             <tbody>
                                 {questions}
                             </tbody>
                         </table>
                     </div>
-                    <div className="row">
-                      <button className="btn btn-default" onClick={this.submit}>Confirm</button>
+                    <div className="row" style={{"padding-bottom":"20px"}}>
+                      <center>
+                      <button className="btn btn-default btn-lg" onClick={this.submit}>Submit</button>
+                      </center>
                     </div>
                 </div>
             }

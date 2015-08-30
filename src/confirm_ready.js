@@ -1,4 +1,4 @@
-define(["react"], function(React){
+define(["react", "dist/name_map"], function(React, NameMap){
     return function(name, callback){
         var ConfirmReady = React.createClass({
             submit: function(){
@@ -6,20 +6,14 @@ define(["react"], function(React){
                 callback();
             },
             render: function(){
-                var nameMap = {
-                    discrete: "Discrete Sliders",
-                    twoaxis:  "Two Axis Valuator",
-                    arcball: "Arcball"}
                 return <div id="confirm" className="container-fluid">
                     <div className="row">
                         <div className="col-xs-6 col-xs-offset-3">
-                            <div className="row">
+                            <div className="form-group">
                                 <legend>Confirm</legend>
-                                Are you ready to start the evaluation of {nameMap[this.props.name]}? Once you click confirm, the evaluation will start immediately.
+                                Are you ready to start the evaluation of {NameMap(this.props.name)}? Once you click confirm, the evaluation will start immediately.
                             </div>
-                            <div className="row">
                               <button className="btn btn-default" onClick={this.submit}>Confirm</button>
-                            </div>
                           </div>
                     </div>
                 </div>

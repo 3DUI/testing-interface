@@ -20,6 +20,7 @@ define(["react"], function(React){
                 })(i)
             }
             return <div className="row">
+                <h3>Q{this.props.num}</h3>
                 <div className="row">
                     <img src={this.props.imgSrc} />
                 </div>

@@ -11,7 +11,7 @@ define(["react","marked"], function(React, Marked){
                     <div className="row" dangerouslySetInnerHTML={{__html: markup}} >
                     </div>
                     <div className="row">
-                        <div className="row">
+                        <div className="form-group">
                             <legend>Continue</legend>
                             Press below to confirm you've understood everything above and are ready to continue. If you need to refer back to anything you've read above, please use the paper versions. 
                         </div>

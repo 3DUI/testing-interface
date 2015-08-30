@@ -1,6 +1,6 @@
 // TODO: break this up into smaller modules
 // TODO: make this a react component
-define(["jquery", "dist/render_loop", "dist/mouse_input_bus", "dist/two_axis_valuator", "dist/arcball", "dist/discrete", "dist/dummy_rotation_handler", "dist/build_rotation_scene", "dist/user_feedback", "dist/timer", "react", "dist/experiment_ui"], function($, RenderLoop, MouseInputBus, TwoAxisValuator, Arcball, Discrete, DummyRotationHandler, RotationSceneBuilder, UserFeedback, Timer, React, ExperimentUI){
+define(["jquery", "dist/render_loop", "dist/mouse_input_bus", "dist/two_axis_valuator", "dist/arcball", "dist/discrete", "dist/dummy_rotation_handler", "dist/build_rotation_scene", "dist/user_feedback", "dist/timer", "react", "dist/experiment_ui", "dist/name_map"], function($, RenderLoop, MouseInputBus, TwoAxisValuator, Arcball, Discrete, DummyRotationHandler, RotationSceneBuilder, UserFeedback, Timer, React, ExperimentUI, NameMap){
     return function(callback, experiment){
         React.render(
             <ExperimentUI 
@@ -152,9 +152,9 @@ define(["jquery", "dist/render_loop", "dist/mouse_input_bus", "dist/two_axis_val
                 }
             },
             rotationControllers = {
-                discrete: {id:"#discrete", controller: Discrete, name: "Discrete Sliders"},
-                twoaxis: {id:"#two-axis", controller: TwoAxisValuator, name: "Two Axis Valuator"},
-                arcball: {id:"#arcball", controller: Arcball, name: "Arcball"}
+                discrete: {id:"#discrete", controller: Discrete, name: NameMap("discrete")},
+                twoaxis: {id:"#two-axis", controller: TwoAxisValuator, name: NameMap("twoaxis")},
+                arcball: {id:"#arcball", controller: Arcball, name: NameMap("arcball")}
             },
             enable_buttons = function(){
                 for(var key in rotationControllers){

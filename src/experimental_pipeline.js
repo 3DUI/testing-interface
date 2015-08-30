@@ -7,6 +7,7 @@ define(["dist/capture_participant_details", "dist/pipeline","dist/rotating_model
         this.pipeline.add(MRT2);
         this.addManual("documentation/mrt_instructions.md");
         this.pipeline.add(MRTTest);
+        this.addManual("documentation/tasks.md");
         this.addManual("documentation/controllers.md");
         for(var i = 0; i < 3; i++){
             this.addControllerManual(i);

@@ -21,7 +21,7 @@ define(["react", "dist/local_object"], function(React, LocalObject){
                         <div className="col-xs-6 col-xs-offset-3">
                             <div className="row">
                                 <legend>Welcome</legend>
-                                Thank you for participating in our evaluation! Before you begin, could you please enter your participant number below. Once you've submitted, you will be given instructions for how to use the interface.
+                                Thank you for participating in our evaluation! Before you begin, could you please enter your participant number below. Once you've submitted this, you will be given instructions for how the experiment will progress.
                             </div>
                             <div className="row">
                                 <legend>Participant Information</legend>
