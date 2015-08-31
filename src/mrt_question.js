@@ -25,7 +25,7 @@ define(["react"], function(React){
                     <img src={this.props.imgSrc} />
                 </div>
                 <div className="row">
-                    <b>Which two drawings are correct?</b>
+                    <b>Which two drawings match the one on the left?</b>
                 </div>
                 <div className="row">
                     {questions}

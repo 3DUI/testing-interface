@@ -13,7 +13,7 @@ define(["react","marked"], function(React, Marked){
                     <div className="row">
                         <div className="form-group">
                             <legend>Continue</legend>
-                            Press below to confirm you've understood everything above and are ready to continue. If you need to refer back to anything you've read above, please use the paper versions. 
+                            Press the button below to confirm you've understood everything above and are ready to continue. If you need to refer back to anything read above, you can consult the hard copy of the manual.
                         </div>
                           <button className="btn btn-default" onClick={this.submit}>Ready to Continue</button>
                     </div>

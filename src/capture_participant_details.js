@@ -18,13 +18,12 @@ define(["react", "dist/local_object"], function(React, LocalObject){
             render: function(){
                 return <div id="capture" className="container-fluid">
                     <div className="row">
-                        <div className="col-xs-6 col-xs-offset-3">
+                        <div className="col-xs-8 col-xs-offset-2">
                             <div className="row">
                                 <legend>Welcome</legend>
-                                Thank you for participating in our evaluation! Before you begin, could you please enter your participant number below. Once you've submitted this, you will be given instructions for how the experiment will progress.
+                                <div>Thank you for participating in our evaluation of rotation controllers. Before you begin, could you please enter your participant number below. Once you've submitted this, you will be given instructions for how the experiment will progress.</div>
                             </div>
-                            <div className="row">
-                                <legend>Participant Information</legend>
+                            <div className="row" style={{"padding-top":"10px"}}>
                                 <div className="form-group">
                                       <label className="col-md-4 control-label" htmlFor="participant_input">Particpant Number</label>  
                                         <div className="col-md-5">

@@ -6,7 +6,7 @@ define(["jquery"], function($){
         if(task.type == "orientation"){
             explanation = "Orientation Task: Rotate the object on the right to match the object on the left";
         } else if(task.type == "inspection"){
-            explanation = "Inspection Task: Rotate the object until you find the red patch.";
+            explanation = "Inspection Task: Rotate the object until the black circle is on the red patch";
         }
         $("#header-explanation").html(explanation);
     };
