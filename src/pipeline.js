@@ -39,6 +39,8 @@ define(["dist/local_object"],  function(LocalObject){
     };
 
     Pipeline.prototype.run = function(index){
+        window.log.saveLog("running pipeline index", index);
+        window.log.meta.pipeline_index = index;
         this.indexObj.set("index", index); 
         var node = this.nodes[index];
         if(node){

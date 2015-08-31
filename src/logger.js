@@ -25,8 +25,16 @@ define(function(){
             console.log.apply(console, this.argsToArray([logMsg], arguments));
         },
 
+        getRawSavedLogs: function(){
+            return localStorage.getItem(LOCAL_STORAGE_KEY);
+        },
+
         getSavedLogs: function() {
-            return JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];
+            return JSON.parse(this.getRawSavedLogs()) || [];
+        },
+
+        clearLogs: function(){
+            localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify([]));
         },
 
         saveLog: function() {

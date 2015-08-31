@@ -10,6 +10,8 @@ define(["react", "dist/local_object"], function(React, LocalObject){
                     React.unmountComponentAtNode(document.getElementById('content'));
                     var participantNumber = new LocalObject("participant_number", true);
                     participantNumber.set("val", val);
+                    window.log.meta.participant_number = val;
+                    window.log.saveLog("entered participant number", val);
                     callback();
                } else {
                     alert("Participant numbers are only integers. Please enter a valid integer");
@@ -32,7 +34,7 @@ define(["react", "dist/local_object"], function(React, LocalObject){
                                        </div>
                                 </div>
 
-                              <button id="submit-participant-number" className="btn  btn-default" onClick={this.submit}>Submit</button>
+                              <button id="submit-participant-number" className="btn  btn-default" onClick={this.submit}>I confirm I have signed the informed consent form for this experiment</button>
                             </div>
                           </div>
                     </div>

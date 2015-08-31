@@ -1,12 +1,10 @@
 define(["react", "dist/mrt_question", "dist/timer"], function(React, MRTQuestion,Timer){
     return function(callback){
+        var TEST_LIMIT = 10*60*1000;
+        var answers = {};
         var Test = React.createClass({
-            submit: function(){
-                React.unmountComponentAtNode(document.getElementById('content'));
-                callback();
-            },
-            selectedAnswer: function(id, num, selected){
-                // TODO
+            selectedAnswer: function(qid, num, selected){
+                answers[qid+"_"+num] = selected;
             },
             render: function(){
                 var that = this;
@@ -34,7 +32,12 @@ define(["react", "dist/mrt_question", "dist/timer"], function(React, MRTQuestion
             document.getElementById("content")
         );
         
-        var timer = new Timer("#timer", 1000*5, callback);
+        var timerCallback = function(){
+            React.unmountComponentAtNode(document.getElementById('content'));
+            window.log.saveLog("mrt test results", answers);
+            callback();
+        };
+        var timer = new Timer("#timer", TEST_LIMIT, timerCallback);
         timer.start();
     }
 });

@@ -192,7 +192,7 @@ define(["jquery", "dist/render_loop", "dist/mouse_input_bus", "dist/two_axis_val
             countAndSetTotal(data);
             $("#save").click(function(){
                 var rotation = controllers.player.model.rotation;
-                window.log.saveLog("saving user task", JSON.stringify(data[i]), JSON.stringify([rotation.x, rotation.y, rotation.z]), timer.time);
+                window.log.saveLog("saving user task", currentGroup, currentIndex, rotation.x, rotation.y, rotation.z, timer.time);
                 nextTask(data);
             });
             $("#reload").click(function(){

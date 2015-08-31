@@ -1,12 +1,18 @@
 define(["react", "dist/name_map"], function(React, NameMap){
     return function(controllerName, callback){
+        var answers = {};
         var SUS = React.createClass({
             submit: function(){
+                window.log.saveLog("sus evaluation results", controllerName, answers);
                 React.unmountComponentAtNode(document.getElementById('content'));
                 callback();
             },
             selectedAnswer: function(row, index, selected){
                 // TODO
+                for(var i = 0; i < 5; i++){
+                    delete answers[row+"_"+i];
+                }
+                answers[row+"_"+index] = selected;
             },
             render: function(){
                 var that = this,
@@ -32,7 +38,7 @@ define(["react", "dist/name_map"], function(React, NameMap){
                         for(var i = 0; i < 5; i++){
                             buttons.push(
                                 <td style={{width: "16%"}}>
-                                    <div class="radio">
+                                    <div>
                                         <input 
                                             type="radio" 
                                             name={"sus-radio-row-"+row} 
@@ -52,10 +58,10 @@ define(["react", "dist/name_map"], function(React, NameMap){
                     <div className="row">
                         <h1> Usability Questionnaire for {NameMap(this.props.controllerName)}</h1>
                     </div>
-                    <div className="row" style={{"padding-top": "20px", "padding-bottom":"10px"}}>
+                    <div className="row" style={{"paddingTop": "20px", "paddingBottom":"10px"}}>
                         Now that you've completed an evaluation for the {NameMap(this.props.controllerName)} controller, we'd like to ask you to assess its usability.
                     </div>
-                    <div className="row" style={{"padding-top": "20px", "padding-bottom":"10px"}}>
+                    <div className="row" style={{"paddingTop": "20px", "paddingBottom":"10px"}}>
                         <strong>Please fill the following questions to the best of your ability.</strong>
                     </div>
                     <div className="row">
@@ -73,7 +79,7 @@ define(["react", "dist/name_map"], function(React, NameMap){
                             </tbody>
                         </table>
                     </div>
-                    <div className="row" style={{"padding-bottom":"20px"}}>
+                    <div className="row" style={{"paddingBottom":"20px"}}>
                       <center>
                       <button className="btn btn-default btn-lg" onClick={this.submit}>Submit</button>
                       </center>

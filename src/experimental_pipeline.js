@@ -1,4 +1,7 @@
 define(["dist/capture_participant_details", "dist/pipeline","dist/rotating_models","dist/experiment_task", "dist/render_manual", "dist/final_screen", "dist/mrt_1", "dist/mrt_2", "dist/mrt_test", "dist/sus", "dist/reset_page", "dist/experiment_design", "dist/local_object"], function(CaptureParticipantDetails, Pipeline, RotatingModels, ExperimentalTask, RenderManual, FinalScreen, MRT1, MRT2, MRTTest, SUS, ResetPage, ExperimentDesign, LocalObject){
+
+    var TRAINING_LIMIT = 3 * 60 * 1000;
+
     function ExperimentalPipeline(){
         this.pipeline = new Pipeline("pipeline", FinalScreen, ResetPage, false);
         this.pipeline.add(CaptureParticipantDetails);
@@ -14,7 +17,7 @@ define(["dist/capture_participant_details", "dist/pipeline","dist/rotating_model
             this.addExperiment(i, 
                 {title: "Training",
                  taskUrl:"tasks/training_tasks.json",
-                 limit: 10000});
+                 limit: TRAINING_LIMIT});
             this.addTasks(i,
                 {title: "Evaluation",
                  taskUrl:"tasks/mixed_tasks.json",

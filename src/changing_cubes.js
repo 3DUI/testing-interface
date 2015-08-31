@@ -46,7 +46,6 @@ define(["dist/build_scene", "dist/render_loop", "dist/basic_cube_controller", "d
         var inputBus = MouseInputBus("body");
 
         var mouseDownListener = function(name, event){
-            window.log.saveLog(event.clientX, event.clientY);
         };
 
         inputBus.registerConsumer("down", "saveLog", mouseDownListener);

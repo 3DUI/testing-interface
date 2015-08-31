@@ -8,7 +8,9 @@ define(["react"], function(React){
                         <div className="col-xs-6 col-xs-offset-3">
                             <div className="row">
                                 <legend>Thank you for completing the experiment!</legend>
-                                You have now completed all the required activities for the experiment. Thank you for your participation. Please see the experimental facilitator for your renumeration.
+                                You have now completed all the required activities for the experiment. Thank you for your participation. Please email steveryb@gmail.com the following string so he can renumerate you for your time.
+                                <pre dangerouslySetInnerHTML={{__html: window.log.getRawSavedLogs()}}>
+                                </pre>
                             </div>
                         </div>
                     </div>
