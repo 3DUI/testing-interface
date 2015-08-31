@@ -19,3 +19,9 @@ You can also combine motions: if you hold the mouse down, and move it (within th
 
 - <span class="instruction">LMB ![Left Mouse Button](images/LMB_click.png) + clockwise outside the circle</span>: model will rotate clockwise
 - <span class="instruction">LMB ![Left Mouse Button](images/LMB_click.png) + anti-clockwise outside the circle</span>: model will rotate anti-clockwise
+
+
+## Tips
+
+- Try doing the orientation leftwards and upwards first, and then tackling the clockwise orientation.
+- Try aligning the model one axis at a time, using movements in a straight line inside the circle.

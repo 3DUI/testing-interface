@@ -8,3 +8,8 @@ As shown above, in the Arcball Controller the model is centered within a 3D sphe
 - <span class="instruction">LMB ![Left Mouse Button](images/LMB_click.png) + moving left along the sphere</span>: model will rotate leftwards
 - <span class="instruction">LMB ![Left Mouse Button](images/LMB_click.png) + moving diagonally along the sphere</span>: model will move diagonally according to the direction you trace out with the mouse
 - <span class="instruction">LMB ![Left Mouse Button](images/LMB_click.png) + moving clockwise/anti-clockwise along the edge of the sphere</span>: model will move clockwise/anti-clockwise
+
+## Tips
+
+- Try "grabbing" a piece of the model and then dragging it to where it should be
+- Try to do the orientation on the upwards and leftwards rotations first, then try do the clockwise rotation last.

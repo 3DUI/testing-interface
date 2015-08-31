@@ -10,3 +10,8 @@ If you haven't yet, please consult the section of the hard copy manual describin
 - <span class="instruction">LMB ![Left Mouse Button](images/LMB_click.png) on the red slider + moving up/down</span>: model will rotate up/down
 - <span class="instruction">LMB ![Left Mouse Button](images/LMB_click.png) on the blue slider + moving clockwise/anticlockwise</span>: model will rotate clockwise/anticlockwise
 - <span class="instruction">LMB ![Left Mouse Button](images/LMB_click.png) in between the sliders + moving in any direction</span>: model will rotate in the direction you move it (see the hard copy manual on the Arcball controller).
+
+## Tips
+
+- Try using the Arcball controller to get the model roughly where you want it. Then, use the sliders to position it accurately.
+- Try positioning the model one axis at a time, using each slider in turn. 
