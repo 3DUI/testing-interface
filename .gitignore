@@ -36,3 +36,6 @@ _site
 
 # Vim
 *.bak
+
+# Temporary blender files
+*.blend1
