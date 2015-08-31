@@ -36,6 +36,3 @@ _site
 
 # Vim
 *.bak
-
-# Compiled files
-dist/
