@@ -12,7 +12,8 @@ var require = {
     jquery: 'bower_components/jquery/dist/jquery',
     bootstrap: 'bower_components/bootstrap/dist/js/bootstrap',
     marked: 'bower_components/marked/lib/marked',
-    Keypress: 'bower_components/Keypress/keypress-2.1.3.min'
+    Keypress: 'bower_components/Keypress/keypress-2.1.3.min',
+    requirejs: 'bower_components/requirejs/require'
   },
   packages: [
 
