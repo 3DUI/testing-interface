@@ -7,6 +7,7 @@ define(["react"], function(React){
         render: function(){
             var that = this;
             var questions = [];
+            var labels = [];
             for(var i = 0; i < 4; i++){
                 (function(index){
                     questions.push(
@@ -19,10 +20,22 @@ define(["react"], function(React){
                     );
                 })(i)
             }
+            for(var i = 0; i < 4; i++){
+                (function(index){
+                    labels.push(
+                        <div style={{"position":"absolute", "left":(250+135*index) + "px"}}>
+                            <b>{index + 1}</b>
+                        </div>
+                    )
+                })(i)
+            }
             return <div className="row">
                 <h3>Q{this.props.num}</h3>
                 <div className="row">
-                    <img src={this.props.imgSrc} />
+                    <div style={{"position":"relative", "padding-bottom":"30px"}}>
+                        <img src={this.props.imgSrc} />
+                        {labels}
+                    </div>
                 </div>
                 <div className="row">
                     <b>Which two drawings match the one on the left?</b>
