@@ -15,3 +15,7 @@ If you haven't yet, please consult the section of the hard copy manual describin
 
 - Try using the Arcball controller to get the model roughly where you want it. Then, use the sliders to position it accurately.
 - Try positioning the model one axis at a time, using each slider in turn. 
+
+## What's next
+
+You will now start 3 minutes of training for the Discrete controller. After that, you will start the evaluation of the controller.

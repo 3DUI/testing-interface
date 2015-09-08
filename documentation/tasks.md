@@ -2,6 +2,14 @@
 
 Here we describe the interface as a whole, along with how to complete each task.
 
+## Training and Evaluation
+
+To give you time to familiarise yourself with the controller, you will be given 3 minutes training time before the evaluation begins. In this time, you should try complete the given tasks as quickly and accurately as you can to practice for the evaluation. If you finish the given tasks before the time limit elapses, it will restart at Task 1.
+
+After training concludes, you will start the evaluation of the controller. Here, you will be given no time limit and will be asked to complete 12 tasks. Please complete these tasks as quickly and accurately as you can. 
+
+Training will always preceed an evaluation. The stage you are in will always be shown at the top of the page, along with the controller and the number of tasks you have left.
+
 ## Interface
 
 ![Experiment Interface](images/interface.png)

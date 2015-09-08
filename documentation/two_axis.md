@@ -25,3 +25,7 @@ You can also combine motions: if you hold the mouse down, and move it (within th
 
 - Try doing the orientation leftwards and upwards first, and then tackling the clockwise orientation.
 - Try aligning the model one axis at a time, using movements in a straight line inside the circle.
+
+## What's next
+
+You will now start 3 minutes of training for the Two Axis Valuator controller. After that, you will start the evaluation of the controller.

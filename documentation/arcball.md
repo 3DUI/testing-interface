@@ -13,3 +13,7 @@ As shown above, in the Arcball Controller the model is centered within a 3D sphe
 
 - Try "grabbing" a piece of the model and then dragging it to where it should be
 - Try to do the orientation on the upwards and leftwards rotations first, then try do the clockwise rotation last.
+
+## What's nextt
+
+You will now start 3 minutes of training for the Arcball controller. After that, you will start the evaluation of the controller.
