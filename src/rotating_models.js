@@ -192,7 +192,8 @@ define(["jquery", "dist/render_loop", "dist/mouse_input_bus", "dist/two_axis_val
             countAndSetTotal(data);
             $("#save").click(function(){
                 var rotation = controllers.player.model.rotation;
-                window.log.saveLog("saving user task", currentGroup, currentIndex, rotation.x, rotation.y, rotation.z, timer.time);
+                var quaternion = controllers.player.model.quaternion;
+                window.log.saveLog("saving user task", currentGroup, currentIndex, [rotation.x, rotation.y, rotation.z], [quaternion.x, quaternion.y, quaternion.z, quaternion.w], timer.time);
                 nextTask(data);
             });
             $("#reload").click(function(){
