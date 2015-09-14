@@ -4,7 +4,7 @@ Here we describe the interface as a whole, along with how to complete each task.
 
 ## Training and Evaluation
 
-To give you time to familiarise yourself with the controller, you will be given 3 minutes training time before the evaluation begins. Here, you will do the training tasks until the timer finishes, with the tasks looping if you finish all of them in the alotted time. During the evaluation, you will be given no time limit and will be asked to complete 12 tasks. Please complete these tasks as quickly and accurately as you can. 
+To give you time to familiarise yourself with the controller, you will be given 3 minutes training time before the evaluation begins. Here, you will do the training tasks until the timer finishes, with the tasks looping if you finish all of them in the allotted time. During the evaluation, you will be given no time limit and will be asked to complete 12 tasks. Please complete these tasks as quickly and accurately as you can. 
 
 Training will always preceed an evaluation. The stage you are in will always be shown at the top of the page, along with the controller and the number of tasks you have left.
 

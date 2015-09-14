@@ -10,7 +10,7 @@ For each task you are asked to complete, we ask that you do so quickly and accur
 
 The procedure of the evaluation is as follows. The evaluation coordinator will be directing this process. 
 
-1. If you have not yet filled in the signup questionnaire, you will be given time to do so.
+1. If you have not yet filled in the sign up questionnaire, you will be given time to do so.
 2. After finishing this section of the manual, you will be asked to complete a Mental Rotations Test (MRT).
 3. You will then be asked to evaluate three different rotation controllers. The documentation for the these controllers is presented in a booklet in front of you. It will also be shown before using that controller. The evaluation is done in two stages:
     - First, you will be given 3 minutes of training time to familiarise yourself with the controller. 
