@@ -79,6 +79,11 @@ define(["react", "dist/name_map"], function(React, NameMap){
                         </table>
                     </div>
                     <div className="row" style={{"paddingBottom":"20px"}}>
+                        Do you have any other feedback (positive or negative) about the controller? 
+                        <br />
+                        <textarea className="form-control" rows="4" onChange={function(event){answers["text"] = event.target.value}} />
+                    </div>
+                    <div className="row" style={{"paddingBottom":"20px"}}>
                       <center>
                       <button className="btn btn-default btn-lg" onClick={this.submit}>Submit</button>
                       </center>

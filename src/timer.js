@@ -32,10 +32,14 @@ define(["dist/mini_daemon", "jquery"], function(MiniDaemon, $){
         this.writeTime(timeInMilli);
         if(this.limit && this.limitCallback){
             if(this.time > this.limit){
-                this.limitCallback();
-                this.stop();
+                this.kill();
             }
         }
+    };
+
+    Timer.prototype.kill = function(){
+        this.limitCallback();
+        this.stop();
     };
 
     Timer.prototype.restart = function(){
@@ -56,6 +60,7 @@ define(["dist/mini_daemon", "jquery"], function(MiniDaemon, $){
             this.time = 0;
         }
         this.daemon.start();
+        window.timer = this;
     };
 
     Timer.prototype.pause = function(){
@@ -68,6 +73,7 @@ define(["dist/mini_daemon", "jquery"], function(MiniDaemon, $){
     };
 
     Timer.prototype.stop = function(){
+        window.timer = null;
         if(this.daemon){
             this.daemon.pause();
             this.daemon = null;

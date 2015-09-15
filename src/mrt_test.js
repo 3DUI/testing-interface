@@ -18,10 +18,20 @@ define(["react", "dist/mrt_question", "dist/timer"], function(React, MRTQuestion
                   return <MRTQuestion key={"test_"+i} num={i+1} imgSrc={src} selectedAnswer={that.selectedAnswer} qid={"test_"+i}/>  
                 });
                 return <div id="confirm" className="container">
-                    <div className="row">
-                        <h1> MRT Test </h1>
-                        <h2 id="timer"></h2>
-                    </div>
+                    <nav className="navbar navbar-default navbar-fixed-top">
+                        <div className="container">
+                            <div className="navbar-header">
+                                 <span className="navbar-brand">MRT Test</span>
+                            </div>
+                            <div className="navbar-collapse collapse">
+                                <ul className="nav navbar-nav">
+                                    <li>
+                                     <span id="timer" className="navbar-brand">MRT Test</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </nav>
                     {questions}
                 </div>
             }
