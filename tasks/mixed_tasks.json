@@ -49,31 +49,31 @@
         {
             "type": "inspection",
             "desc": "face 1",
-            "face": 1,
+            "model":"models/ico_sphere_model_1.json",
             "player_orientation": [0,0,0]
         },
         {
             "type": "inspection",
             "desc": "face 2",
-            "face": 2,
+            "model":"models/ico_sphere_model_2.json",
             "player_orientation": [0,0,0]
         },
         {
             "type": "inspection",
             "desc": "face 3",
-            "face": 3,
+            "model":"models/ico_sphere_model_3.json",
             "player_orientation": [0,0,0]
         },
         {
             "type": "inspection",
             "desc": "face 4",
-            "face": 4,
+            "model":"models/ico_sphere_model_4.json",
             "player_orientation": [0,0,0]
         },
         {
             "type": "inspection",
             "desc": "face 5",
-            "face": 5,
+            "model":"models/ico_sphere_model_5.json",
             "player_orientation": [0,0,0]
         }
     ]

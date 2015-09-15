@@ -5,7 +5,7 @@ define(["three"], function(THREE){
             inputBus: inputBus,
             modelId: modelId,
             crosshairRadius: 0.01,
-            crosshairColour: 0x000000,
+            crosshairColour: 0xff0000,
             crosshairLineWidth: 2,
            init: function(scene, camera, light){
                this.model = model;

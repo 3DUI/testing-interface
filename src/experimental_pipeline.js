@@ -1,4 +1,4 @@
-define(["dist/capture_participant_details", "dist/pipeline","dist/rotating_models","dist/experiment_task", "dist/render_manual", "dist/final_screen", "dist/mrt_1", "dist/mrt_2", "dist/mrt_test", "dist/sus", "dist/reset_page", "dist/experiment_design", "dist/local_object"], function(CaptureParticipantDetails, Pipeline, RotatingModels, ExperimentalTask, RenderManual, FinalScreen, MRT1, MRT2, MRTTest, SUS, ResetPage, ExperimentDesign, LocalObject){
+define(["dist/capture_participant_details", "dist/pipeline","dist/rotating_models","dist/experiment_task", "dist/render_manual", "dist/final_screen", "dist/mrt_1", "dist/mrt_2", "dist/mrt_test", "dist/sus", "dist/reset_page", "dist/experiment_design", "dist/local_object", "dist/time_out"], function(CaptureParticipantDetails, Pipeline, RotatingModels, ExperimentalTask, RenderManual, FinalScreen, MRT1, MRT2, MRTTest, SUS, ResetPage, ExperimentDesign, LocalObject, TimeOut){
 
     var TRAINING_LIMIT = 3 * 60 * 1000;
 
@@ -10,6 +10,7 @@ define(["dist/capture_participant_details", "dist/pipeline","dist/rotating_model
         this.pipeline.add(MRT2);
         this.addManual("documentation/mrt_instructions.md");
         this.pipeline.add(MRTTest);
+        this.pipeline.add(TimeOut);
         this.addManual("documentation/tasks.md");
         this.addManual("documentation/controllers.md");
         for(var i = 0; i < 3; i++){
@@ -18,6 +19,7 @@ define(["dist/capture_participant_details", "dist/pipeline","dist/rotating_model
                 {title: "Training",
                  taskUrl:"tasks/training_tasks.json",
                  limit: TRAINING_LIMIT});
+            this.pipeline.add(TimeOut);
             this.addTasks(i,
                 {title: "Evaluation",
                  taskUrl:"tasks/mixed_tasks.json",

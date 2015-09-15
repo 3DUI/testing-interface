@@ -4,7 +4,7 @@ define(["jquery", "dist/render_loop", "dist/mouse_input_bus", "dist/two_axis_val
     return function(callback, experiment){
         React.render(
             <ExperimentUI 
-                timed= {experiment.limit ? "true" : "false"}
+                timed={experiment.limit ? "true" : "false"}
                 title={experiment.title}/>,
             document.getElementById("content")
         );
@@ -42,12 +42,9 @@ define(["jquery", "dist/render_loop", "dist/mouse_input_bus", "dist/two_axis_val
                inputBus.deregisterConsumer("move", id+"_rotateModelMouseMove");           
                 var builder = RotationSceneBuilder();
                 builder.materialsCallback = function(materials){
-                    if(task.type === "inspection"){
-                        materials[task.face].color.setHex(highlightedColour);
-                    }
                     return materials;
                 }
-                builder.setModelUrl(task.type === "orientation" ? experiment.orientationModelUrl : experiment.inspectionModelUrl).setInputBus(inputBus).setRenderLoop(RenderLoop);
+                builder.setModelUrl(task.type === "orientation" ? experiment.orientationModelUrl : task.model).setInputBus(inputBus).setRenderLoop(RenderLoop);
                 return builder.setId(id).setView(view).setRotationBuilder(rotationBuilder).build(
                     function(controller){
                         var rot = controller.model.rotation;
