@@ -2,7 +2,9 @@
 
 ![Screenshot showing the Arcball Controller](images/arcball.png)
 
-As shown above, in the Arcball Controller the model is centered within a 3D sphere. To rotate the object, you hold down the left mouse button and mouse the mouse along the surface of the sphere. The object will move as if you have push the object along the direction you're moving the mouse. When rotating, the sphere will become more opaque. For example,
+As shown above, in the Arcball Controller the model is centered within a 3D sphere. To rotate the object, you hold down the left mouse button and move the mouse along the surface of the sphere. The object will move as if you are pushing the sphere the direction you're moving the mouse. While rotating, the sphere will become more opaque.
+
+Some example moves and responses,
 
 - <span class="instruction">LMB ![Left Mouse Button](images/LMB_click.png) + moving up along the sphere</span>: model will rotate upwards
 - <span class="instruction">LMB ![Left Mouse Button](images/LMB_click.png) + moving left along the sphere</span>: model will rotate leftwards
@@ -12,7 +14,7 @@ As shown above, in the Arcball Controller the model is centered within a 3D sphe
 ## Tips
 
 - Try "grabbing" a piece of the model and then dragging it to where it should be
-- Try to do the orientation on the upwards and leftwards rotations first, then try do the clockwise rotation last.
+- Try to do the orientation on the upwards and leftwards rotations first. Only try to do the clockwise rotation last.
 
 ## What's next
 

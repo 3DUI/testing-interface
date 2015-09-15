@@ -2,7 +2,7 @@
 
 ![Screenshot showing the Discrete Controller](images/discrete.png)
 
-In the Discrete Controller, the model is centered within three   sliders. Each slider allows you to rotate the object in a different direction. If you try select between the sliders, you can rotate using the Arcball controller. If you rotate using a slider the slider will turn white. If you rotate using the Arcball controller, the sphere inside the sliders will become more opaque.
+In the Discrete Controller, the model is centered within three sliders. Each slider allows you to rotate the object in a different direction. If you select between the sliders, you can rotate using the Arcball controller. If you rotate using a slider the slider will turn white. If you rotate using the Arcball controller, the sphere inside the sliders will become more opaque.
 
 If you haven't yet, please consult the section of the hard copy manual describing the Arcball controller.
 
@@ -13,8 +13,8 @@ If you haven't yet, please consult the section of the hard copy manual describin
 
 ## Tips
 
-- Try using the Arcball controller to get the model roughly where you want it. Then, use the sliders to position it accurately.
 - Try positioning the model one axis at a time, using each slider in turn. 
+- Alternatively, try using the Arcball controller to get the model roughly where you want it. Then, use the sliders to position it accurately.
 
 ## What's next
 

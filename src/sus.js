@@ -61,7 +61,7 @@ define(["react", "dist/name_map"], function(React, NameMap){
                         Now that you've completed an evaluation for the {NameMap(this.props.controllerName)} controller, we'd like to ask you to assess its usability.
                     </div>
                     <div className="row" style={{"paddingTop": "20px", "paddingBottom":"10px"}}>
-                        <strong>Please fill the following questions to the best of your ability.</strong>
+                        <strong>Please complete the following questions to the best of your ability.</strong>
                     </div>
                     <div className="row">
                         <table className="table table-striped">

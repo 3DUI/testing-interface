@@ -4,7 +4,7 @@ Here we describe the interface as a whole, along with how to complete each task.
 
 ## Training and Evaluation
 
-To give you time to familiarise yourself with the controller, you will be given 3 minutes training time before the evaluation begins. Here, you will do the training tasks until the timer finishes, with the tasks looping if you finish all of them in the allotted time. During the evaluation, you will be given no time limit and will be asked to complete 12 tasks. Please complete these tasks as quickly and accurately as you can. 
+To give you time to familiarise yourself with the controller, you will be given 3 minutes training time before the evaluation begins. Here, you will do the training tasks until the timer finishes, with the tasks looping if you finish all of them in the allotted time. During the actual evaluation, you will be given no time limit and will be asked to complete 12 tasks. Please complete these tasks as quickly and accurately as you can. 
 
 Training will always preceed an evaluation. The stage you are in will always be shown at the top of the page, along with the controller and the number of tasks you have left.
 
@@ -40,4 +40,4 @@ Once the _Model to Rotate_ is aligned the same as the _Reference Orientation_ mo
 
 Inspection matching tasks involve you trying to find a particular symbol - the letter "i" - on the model you're rotating. Here, there is only one screen: __Model to Rotate__.
 
-You must rotate this model until you find the "i". Once you have, you should position the center of the controller, marked with a small red circle, on the dot of the "i" as shown above. After encircling the dot of the "i", you should submit the task.
+You must rotate this model until you find the side containing only the symbol "i". Once you have, you must position the center of the controller, marked with a small red circle, on the dot of the "i" as shown above. After encircling the dot of the "i", you should submit the task.

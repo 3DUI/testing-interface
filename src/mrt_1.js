@@ -11,10 +11,10 @@ define(["react", "dist/mrt_question"], function(React, MRTQuestion){
             render: function(){
                 return <div id="confirm" className="container">
                     <div className="row">
-                        <h1> MRT Instructions (1/2) </h1>
+                        <h1> MRT Instructions (1/3)</h1>
                     </div>
                     <div className="row" style={{"paddingBottom":"15px"}}>
-                        What follows is the instructions for the Mental Rotations Test (MRT). First, we present two pages of instructions. The answers you provide in these sections are not recorded and are provided for practice purposes only.
+                        What follows are the instructions for the Mental Rotations Test (MRT). The answers you provide in these sections are not recorded and are provided for practice purposes only.
                     </div>
                     <div className="row">
                         <img

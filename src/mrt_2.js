@@ -18,7 +18,7 @@ define(["react", "dist/mrt_question"], function(React, MRTQuestion){
                     });
                 return <div id="confirm" className="container">
                     <div className="row">
-                        <h1> MRT Instructions (2/2) </h1>
+                        <h1> MRT Instructions (2/3) </h1>
                     </div>
                     {questions}
                     <div className="row">

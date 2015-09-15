@@ -8,11 +8,13 @@ For each task you are asked to complete, we ask that you do so quickly and accur
 
 ## Outline of the evaluation procedure
 
-The procedure of the evaluation is as follows. The evaluation coordinator will be directing this process. 
+The evaluation will proceed as follows. The evaluation coordinator will be directing this process. 
 
 1. If you have not yet filled in the sign up questionnaire, you will be given time to do so.
 2. After finishing this section of the manual, you will be asked to complete a Mental Rotations Test (MRT).
-3. You will then be asked to evaluate three different rotation controllers. The documentation for the these controllers is presented in a booklet in front of you. It will also be shown before using that controller. The evaluation is done in two stages:
+3. You will then be asked to evaluate three different rotation controllers. The documentation for the controllers is  will also be shown to you before using that controller. For reference, you also have a hard copy of the all the experimental documentation. The evaluation consists of two stages:
     - First, you will be given 3 minutes of training time to familiarise yourself with the controller. 
-    - After this, you will be given 12 tasks to complete quickly and accurately as you can.
-    - Finally, you will be asked to evaluate its usability using a SUS questionnaire.
+    - After this, you will be given 12 tasks to complete as quickly and accurately as you can.
+    - Finally, you will be asked to evaluate its usability through a questionnaire.
+
+If you have any questions about this procedure, please don't hesitate to ask the evaluation coordinator.
