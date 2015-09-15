@@ -32,8 +32,12 @@ Orientation matching tasks involve you rotating a model to match the orientation
 - __Reference Orientation__: This is the orientation that you want to manipulate your model to match.
 - __Model to Rotate__: This is the model you will be rotating to match the _Reference Orientation's_ model.
 
+Once the _Model to Rotate_ is aligned the same as the _Reference Orientation_ model, you should submit the task.
+
 ## Inspection
 
 ![Inspection Tasks](images/inspection_task.png)
 
-Inspection matching tasks involve you trying to find a red patch on the model you're rotating. Here, there is only one screen: __Model to Rotate__. You must rotate this model until you find the red patch as shown in the image above. Once you have, you should position the center of the controller on that red patch as shown above. The center of the controller is marked with a small black square. 
+Inspection matching tasks involve you trying to find a particular symbol - the letter "i" - on the model you're rotating. Here, there is only one screen: __Model to Rotate__.
+
+You must rotate this model until you find the "i". Once you have, you should position the center of the controller, marked with a small red circle, on the dot of the "i" as shown above. After encircling the dot of the "i", you should submit the task.
