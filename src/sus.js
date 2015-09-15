@@ -48,7 +48,7 @@ define(["react", "dist/name_map"], function(React, NameMap){
                                 </td>
                             );
                         }
-                        return <tr key="row_"+row>
+                        return <tr key={"row_"+row}>
                             <th scope="row">{text}</th>
                             {buttons}
                         </tr>
