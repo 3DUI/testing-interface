@@ -15,7 +15,7 @@ define(["react", "dist/mrt_question", "dist/timer"], function(React, MRTQuestion
                     qImages.push("images/"+i+"a.png");
                 }
                 questions = qImages.map(function(src, i){
-                  return <MRTQuestion num={i+1} imgSrc={src} selectedAnswer={that.selectedAnswer} qid={"test_"+i}/>  
+                  return <MRTQuestion key={"test_"+i} num={i+1} imgSrc={src} selectedAnswer={that.selectedAnswer} qid={"test_"+i}/>  
                 });
                 return <div id="confirm" className="container">
                     <div className="row">

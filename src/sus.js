@@ -8,7 +8,6 @@ define(["react", "dist/name_map"], function(React, NameMap){
                 callback();
             },
             selectedAnswer: function(row, index, selected){
-                // TODO
                 for(var i = 0; i < 5; i++){
                     delete answers[row+"_"+i];
                 }
@@ -37,7 +36,7 @@ define(["react", "dist/name_map"], function(React, NameMap){
                         var buttons = [];
                         for(var i = 0; i < 5; i++){
                             buttons.push(
-                                <td style={{width: "16%"}}>
+                                <td key={"td_"+row+"_"+i} style={{width: "16%"}}>
                                     <div>
                                         <input 
                                             type="radio" 
@@ -49,7 +48,7 @@ define(["react", "dist/name_map"], function(React, NameMap){
                                 </td>
                             );
                         }
-                        return <tr>
+                        return <tr key="row_"+row>
                             <th scope="row">{text}</th>
                             {buttons}
                         </tr>

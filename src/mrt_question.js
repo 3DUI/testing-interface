@@ -11,7 +11,7 @@ define(["react"], function(React){
             for(var i = 0; i < 4; i++){
                 (function(index){
                     questions.push(
-                        <div className="checkbox">
+                        <div key={"checkbox_q_" + i} className="checkbox">
                             <label>
                                 <input type="checkbox" onChange={function(event){that.selectedAnswer(event, index+1)}} />
                                 {index+1}
@@ -23,7 +23,7 @@ define(["react"], function(React){
             for(var i = 0; i < 4; i++){
                 (function(index){
                     labels.push(
-                        <div style={{"position":"absolute", "left":(250+135*index) + "px"}}>
+                        <div key={"label_q_" + i} style={{"position":"absolute", "left":(250+135*index) + "px"}}>
                             <b>{index + 1}</b>
                         </div>
                     )
@@ -32,7 +32,7 @@ define(["react"], function(React){
             return <div className="row">
                 <h3>Q{this.props.num}</h3>
                 <div className="row">
-                    <div style={{"position":"relative", "padding-bottom":"30px"}}>
+                    <div style={{"position":"relative", "paddingBottom":"30px"}}>
                         <img src={this.props.imgSrc} />
                         {labels}
                     </div>

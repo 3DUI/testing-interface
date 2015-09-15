@@ -25,7 +25,7 @@ define(["react", "dist/local_object"], function(React, LocalObject){
                                 <legend>Welcome</legend>
                                 <div>Thank you for participating in our evaluation of rotation controllers. Before you begin, could you please enter your participant number below. Once you've submitted this, you will be given instructions for how the experiment will progress.</div>
                             </div>
-                            <div className="row" style={{"padding-top":"10px"}}>
+                            <div className="row" style={{"paddingTop":"10px"}}>
                                 <div className="form-group">
                                       <label className="col-md-4 control-label" htmlFor="participant_input">Particpant Number</label>  
                                         <div className="col-md-5">
