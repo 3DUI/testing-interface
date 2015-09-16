@@ -25,14 +25,38 @@ define(["react", "dist/mrt_question", "dist/timer"], function (React, MRTQuestio
                     "div",
                     { id: "confirm", className: "container" },
                     React.createElement(
-                        "div",
-                        { className: "row" },
+                        "nav",
+                        { className: "navbar navbar-default navbar-fixed-top" },
                         React.createElement(
-                            "h1",
-                            null,
-                            " MRT Test "
-                        ),
-                        React.createElement("h2", { id: "timer" })
+                            "div",
+                            { className: "container" },
+                            React.createElement(
+                                "div",
+                                { className: "navbar-header" },
+                                React.createElement(
+                                    "span",
+                                    { className: "navbar-brand" },
+                                    "MRT Test"
+                                )
+                            ),
+                            React.createElement(
+                                "div",
+                                { className: "navbar-collapse collapse" },
+                                React.createElement(
+                                    "ul",
+                                    { className: "nav navbar-nav" },
+                                    React.createElement(
+                                        "li",
+                                        null,
+                                        React.createElement(
+                                            "span",
+                                            { id: "timer", className: "navbar-brand" },
+                                            "MRT Test"
+                                        )
+                                    )
+                                )
+                            )
+                        )
                     ),
                     questions
                 );

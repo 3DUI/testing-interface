@@ -11,8 +11,13 @@ requirejs(["dist/logger", "dist/uuid", "dist/before_unload", "dist/generate_task
     window.genTask = GenerateTask;
 
     var listener = new Keypress.Listener();
-    listener.simple_combo("shift r", function () {
-        window.log.debug("Report issued"); // TODO: have this be more comprehensive
+    listener.simple_combo("control shift c", function () {
+        window.log.saveLog("Report issued");
+    });
+
+    listener.simple_combo("control shift v", function () {
+        window.log.saveLog("Timer killed");
+        window.timer.kill();
     });
 
     console.log("main", ExperimentalPipeline);

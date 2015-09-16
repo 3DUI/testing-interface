@@ -28,7 +28,7 @@ define(["react"], function (React) {
                                     null,
                                     "Resume previous session"
                                 ),
-                                "We have detected that you abandoned a previous session. Would you like to resume it? Note that if you chose to abandon this session, there will be no way to recover that data."
+                                "We have detected that you abandoned a previous session. Would you like to resume it? Note that if you choose to abandon this session, there will be no way to recover that data."
                             ),
                             React.createElement(
                                 "button",

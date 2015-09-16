@@ -27,7 +27,7 @@ define(["react", "dist/mrt_question"], function (React, MRTQuestion) {
                         React.createElement(
                             "h1",
                             null,
-                            " MRT Instructions (2/2) "
+                            " MRT Instructions (2/3) "
                         )
                     ),
                     questions,

@@ -12,7 +12,6 @@ define(["react", "dist/name_map"], function (React, NameMap) {
                 callback();
             },
             selectedAnswer: function selectedAnswer(row, index, selected) {
-                // TODO
                 for (var i = 0; i < 5; i++) {
                     delete answers[row + "_" + i];
                 }
@@ -31,7 +30,7 @@ define(["react", "dist/name_map"], function (React, NameMap) {
                     for (var i = 0; i < 5; i++) {
                         buttons.push(React.createElement(
                             "td",
-                            { style: { width: "16%" } },
+                            { key: "td_" + row + "_" + i, style: { width: "16%" } },
                             React.createElement(
                                 "div",
                                 null,
@@ -46,7 +45,7 @@ define(["react", "dist/name_map"], function (React, NameMap) {
                     }
                     return React.createElement(
                         "tr",
-                        null,
+                        { key: "row_" + row },
                         React.createElement(
                             "th",
                             { scope: "row" },
@@ -81,7 +80,7 @@ define(["react", "dist/name_map"], function (React, NameMap) {
                         React.createElement(
                             "strong",
                             null,
-                            "Please fill the following questions to the best of your ability."
+                            "Please complete the following questions to the best of your ability."
                         )
                     ),
                     React.createElement(
@@ -124,6 +123,15 @@ define(["react", "dist/name_map"], function (React, NameMap) {
                                 questions
                             )
                         )
+                    ),
+                    React.createElement(
+                        "div",
+                        { className: "row", style: { "paddingBottom": "20px" } },
+                        "Do you have any other feedback (positive or negative) about the controller?",
+                        React.createElement("br", null),
+                        React.createElement("textarea", { className: "form-control", rows: "4", onChange: function (event) {
+                                answers["text"] = event.target.value;
+                            } })
                     ),
                     React.createElement(
                         "div",

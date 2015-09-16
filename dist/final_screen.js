@@ -24,8 +24,7 @@ define(["react"], function (React) {
                                     null,
                                     "Thank you for completing the experiment!"
                                 ),
-                                "You have now completed all the required activities for the experiment. Thank you for your participation. Please email steveryb@gmail.com the following string so he can renumerate you for your time.",
-                                React.createElement("pre", { dangerouslySetInnerHTML: { __html: window.log.getRawSavedLogs() } })
+                                "You have now completed all the required activities for the experiment. Thank you for your participation. Please ensure you sign the completion sheet so we can are renumerate you for your time."
                             )
                         )
                     )

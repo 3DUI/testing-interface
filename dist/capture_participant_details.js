@@ -42,7 +42,7 @@ define(["react", "dist/local_object"], function (React, LocalObject) {
                                 React.createElement(
                                     "div",
                                     null,
-                                    "Thank you for participating in our evaluation of rotation controllers. Before you begin, could you please enter your participant number below. Once you've submitted this, you will be given instructions for how the experiment will progress."
+                                    "Thank you for participating in our evaluation of rotation controllers. To begin, please enter your participant number below. Please only do this once you have signed the informed consent form. "
                                 )
                             ),
                             React.createElement(
@@ -63,7 +63,7 @@ define(["react", "dist/local_object"], function (React, LocalObject) {
                                         React.createElement(
                                             "span",
                                             { className: "help-block" },
-                                            "The participant number given to you, attached to your formal consent forms."
+                                            "The participant number given to you, attached to your informed consent form."
                                         )
                                     )
                                 ),

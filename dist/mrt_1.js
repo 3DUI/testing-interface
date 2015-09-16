@@ -22,13 +22,13 @@ define(["react", "dist/mrt_question"], function (React, MRTQuestion) {
                         React.createElement(
                             "h1",
                             null,
-                            " MRT Instructions (1/2) "
+                            " MRT Instructions (1/3)"
                         )
                     ),
                     React.createElement(
                         "div",
                         { className: "row", style: { "paddingBottom": "15px" } },
-                        "What follows is the instructions for the Mental Rotations Test (MRT). First, we present two pages of instructions. The answers you provide in these sections are not recorded and are provided for practice purposes only."
+                        "What follows are the instructions for the Mental Rotations Test (MRT). The answers you provide in these sections are not recorded and are provided for practice purposes only."
                     ),
                     React.createElement(
                         "div",
