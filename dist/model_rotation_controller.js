@@ -1,0 +1,120 @@
+"use strict";
+
+define(["three"], function (THREE) {
+    return { "new": function _new(modelId, model, inputBus, rotationHandlerMaker) {
+            var ModelController = {
+                rotationHandler: undefined,
+                inputBus: inputBus,
+                modelId: modelId,
+                crosshairRadius: 0.01,
+                crosshairColour: 0xff0000,
+                crosshairLineWidth: 2,
+                init: function init(scene, camera, light) {
+                    this.model = model;
+                    scene.add(this.model);
+                    this.rotationHandler = rotationHandlerMaker["new"](this.model, scene, camera);
+                    camera.position.z = 7.5; // TODO: make configurable
+                    this.light = light;
+                    this.light.position.set(0, 0, 10);
+                    this.light.target = this.model;
+                    scene.add(this.light);
+                    this.camera = camera;
+                    this.scene = scene;
+                },
+                drawCrosshairs: function drawCrosshairs() {
+                    window.log.debug("Drawing crosshairs");
+                    var segments = 64,
+                        geometry = new THREE.CircleGeometry(this.crosshairRadius, segments);
+                    geometry.vertices.shift(); // remove center
+
+                    this.crosshair = new THREE.Line(geometry, new THREE.LineBasicMaterial({
+                        color: this.crosshairColour,
+                        linewidth: this.crosshairLineWidth }));
+                    this.crosshair.position.set(0, 0, 7);
+                    this.scene.add(this.crosshair);
+                },
+                inBounds: function inBounds(x, y) {
+                    return x >= this.leftBound && x <= this.rightBound && y >= this.bottomBound && y <= this.topBound;
+                },
+                render: function render(scene, camera, dim) {
+                    this.leftBound = dim.scene.left;
+                    this.rightBound = this.leftBound + dim.scene.width;
+                    this.bottomBound = dim.scene.bottom;
+                    this.topBound = this.bottomBound + dim.scene.height;
+                },
+                mouseDownHandler: function mouseDownHandler(name, event) {
+                    if (this.inBounds(event.actualX, event.actualY)) {
+                        this.mouseDown = true;
+                        this.downMousePos = [event.actualX, event.actualY];
+                        this.rotationHandler.startRotation(this.downMousePos, this.dim());
+                    }
+                    this.updateCursor(event);
+                },
+                mouseUpHandler: function mouseUpHandler(name, event) {
+                    this.mouseDown = false;
+                    this.rotationHandler.endRotation();
+                    this.updateCursor(event);
+                },
+                mouseMoveHandler: function mouseMoveHandler(name, event) {
+                    if (this.mouseDown) {
+                        this.rotationHandler.updateRotation(event.actualX, event.actualY, this.dim());
+                    }
+                    this.updateCursor(event);
+                },
+                updateCursor: function updateCursor(event) {
+                    var inBounds = this.inBounds(event.actualX, event.actualY),
+                        cursorType = this.rotationHandler.cursorType(event.actualX, event.actualY, this.dim());
+                    if (cursorType === null) {
+                        // do nothing
+                    } else if (inBounds) {
+                            this.setCursor(cursorType);
+                        } else if (!inBounds && cursorType != "grabbing") {
+                            // TODO: this assumes only one active rotation controller
+                            this.setCursor("");
+                        }
+                },
+
+                setCursor: function setCursor(style) {
+                    $("body").css("cursor", style);
+                },
+
+                getCursor: function getCursor() {
+                    return $("body").css("cursor");
+                },
+
+                dim: function dim() {
+                    return {
+                        leftBound: this.leftBound,
+                        rightBound: this.rightBound,
+                        bottomBound: this.bottomBound,
+                        topBound: this.topBound
+                    };
+                },
+                registerMouseHandlers: function registerMouseHandlers() {
+                    var that = this;
+                    this.mouseDown = false;
+                    this.downMousePos = [0, 0];
+                    this.inputBus.registerConsumer("down", this.modelId + "_rotateModelMouseDown", function (name, event) {
+                        that.mouseDownHandler(name, event);
+                    });
+                    this.inputBus.registerConsumer("up", this.modelId + "_rotateModelMouseUp", function (name, event) {
+                        that.mouseUpHandler(name, event);
+                    });
+                    this.inputBus.registerConsumer("move", this.modelId + "_rotateModelMouseMove", function (name, event) {
+                        that.mouseMoveHandler(name, event);
+                    });
+                },
+
+                deregisterMouseHandlers: function deregisterMouseHandlers() {
+                    this.inputBus.deregisterConsumer("down", this.modelId + "_rotateModelMouseDown");
+                    this.inputBus.deregisterConsumer("up", this.modelId + "_rotateModelMouseUp");
+                    this.inputBus.deregisterConsumer("move", this.modelId + "_rotateModelMouseMove");
+                }
+            };
+
+            ModelController.registerMouseHandlers();
+
+            return ModelController;
+        } };
+});
+//# sourceMappingURL=model_rotation_controller.js.map
