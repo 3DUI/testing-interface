@@ -4,7 +4,7 @@ Here we describe the interface as a whole, along with how to complete each task.
 
 ## Training and Evaluation
 
-To give you time to familiarise yourself with the controller, you will be given 3 minutes training time before the evaluation begins. Here, you will do the training tasks until the timer finishes, with the tasks looping if you finish all of them in the allotted time. During the actual evaluation, you will be given no time limit and will be asked to complete 12 tasks. Please complete these tasks as quickly and accurately as you can. 
+To give you time to familiarise yourself with the controller, you will be given three minutes training time before the evaluation begins. Here, you will do the training tasks until the timer finishes, with the tasks looping if you finish all of them in the allotted time. During the actual evaluation, you will be given no time limit and will be asked to complete 12 tasks. Please complete these tasks as quickly and accurately as you can. 
 
 Training will always preceed an evaluation. The stage you are in will always be shown at the top of the page, along with the controller and the number of tasks you have left.
 
@@ -20,7 +20,7 @@ The experiment interface has a number of elements to help you figure out what's 
 4. __3D Views__: This section contains the 3D rendered scenes. This view depends on the type of task being completed, and the rotation controller being used.
 5. __Reference Orientation__: See the section on Orientation Tasks below.
 6. __Model to Rotate__: See the section on Orientation Tasks below.
-7. __Reset Model orientation__:Reset the orientation of your model to its starting orientation. 
+7. __Reset Model Orientation__: Reset the orientation of your model to its starting orientation. 
 8. __Submit Task__:  Once you have completed the task, submit the task and start the next one.
 
 ## Orientation Matching
@@ -38,6 +38,10 @@ Once the _Model to Rotate_ is aligned the same as the _Reference Orientation_ mo
 
 ![Inspection Tasks](images/inspection_task.png)
 
-Inspection matching tasks involve you trying to find a particular symbol - the letter "i" - on the model you're rotating. Here, there is only one screen: __Model to Rotate__.
+Inspection matching tasks involve you trying to find a particular symbol on a side of the model you're rotating: the side containing only the letter "i". Here, there is only one screen: __Model to Rotate__. 
 
 You must rotate this model until you find the side containing only the symbol "i". Once you have, you must position the center of the controller, marked with a small red circle, on the dot of the "i" as shown above. After encircling the dot of the "i", you should submit the task.
+
+Do not worry about the orientation of the "i", it can be upside down or any angle. You just need to ensure that the red circle is over its dot. 
+
+__NOTE__: You're not looking for any "i", but specifically the side containing only an "i". 

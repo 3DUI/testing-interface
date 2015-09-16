@@ -5,8 +5,8 @@ define(["react", "dist/local_object"], function(React, LocalObject){
                 this.setState({value: parseInt(event.target.value)});
             },
             submit: function(){
-               var val = this.state.value;
-               if(val){
+               var val = (this.state || {}).value;
+               if(val && val >= 0){
                     React.unmountComponentAtNode(document.getElementById('content'));
                     var participantNumber = new LocalObject("participant_number", true);
                     participantNumber.set("val", val);
