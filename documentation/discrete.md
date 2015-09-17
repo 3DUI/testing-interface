@@ -18,4 +18,4 @@ If you haven't yet, please consult the section of the hard copy manual describin
 
 ## What's next
 
-You will now start 3 minutes of training for the Discrete controller. After that, you will start the evaluation of the controller.
+You will now start three minutes of training for the Discrete controller. After that, you will start the evaluation of the controller.
