@@ -65,13 +65,13 @@ total_stages = 20
 CONTROLLERS = ["twoaxis","arcball","discrete"]
 directory = "data/study"
 
-Event = namedtuple('Event', ["date", "meta", "data"])
-EventMeta = namedtuple('EventMeta', ["uuid","pipeline_index","participant_number"])
+Event = namedtuple('Event', ["meta", "data"])
+EventMeta = namedtuple('EventMeta', ["uuid","pipeline_index","participant_number", "date"])
 EventData = namedtuple('EventData', ["raw"])
 MRTData = namedtuple('MRTData', ["marks", "score"])
 SUSData = namedtuple('SUSData', ["marks", "score", "total", "controller", "text"])
 TaskData = namedtuple('TaskData', ["meta", "info", "score"]);
-TaskMeta = namedtuple('TaskMeta', ["type", "num", "repetition"])
+TaskMeta = namedtuple('TaskMeta', ["type", "num", "repetition", "date"])
 TaskInfo = namedtuple('TaskInfo', ["controller", "group", "index", "model", "rotation", "quaternion"])
 TaskScore = namedtuple('TaskScore', ["time", "accuracy"])
 Experiment = namedtuple('Experiment', ["num", "controllers", "models"])
@@ -84,8 +84,8 @@ def gen_experiment(num):
     modelOptions = [["models/mrt_model.json", "models/mrt_model_16a.json", "models/mrt_model_23a.json"], ["models/mrt_model.json", "models/mrt_model_23a.json", "models/mrt_model_16a.json"], ["models/mrt_model_16a.json", "models/mrt_model.json", "models/mrt_model_23a.json"], ["models/mrt_model_16a.json", "models/mrt_model_23a.json", "models/mrt_model.json"], ["models/mrt_model_23a.json", "models/mrt_model.json", "models/mrt_model_16a.json"], ["models/mrt_model_23a.json", "models/mrt_model_16a.json", "models/mrt_model.json"]]
     controllerChoiceNum = num % len(controllerOptions)
     modelChoiceNum = int(num / len(modelOptions)) % len(modelOptions)
-    controllerChoice = controllerOptions[controllerChoiceNum],
-    modelChoice = modelOptions[modelChoiceNum],
+    controllerChoice = controllerOptions[controllerChoiceNum]
+    modelChoice = modelOptions[modelChoiceNum]
     return Experiment(num, controllerChoice, modelChoice)
 
 def paths(directory):
@@ -255,13 +255,12 @@ class Person:
             repetition  = TRAINING_STAGES.index(stage)
             container = self.training_tasks
         controller = self.experiment.controllers[repetition]
-        print(self.experiment.controllers)
         model = self.experiment.models[repetition]
         num = len(container[controller])
-
-        score = TaskScore(0,0) # TODO
+        time = (event_meta.date - self.events[-1].meta.date).total_seconds()
+        score = TaskScore(time, 0) # TODO
         info = TaskInfo(controller, group, index, model, rotation, quaternion)
-        meta = TaskMeta(task_type, num, repetition)
+        meta = TaskMeta(task_type, num, repetition, event_meta.date)
         task_data = TaskData(meta, info, score)
         container[controller].append(task_data)
         return task_data
@@ -271,7 +270,8 @@ class Person:
         event_meta = EventMeta(
                 event[2]["uuid"],
                 event[2]["pipeline_index"],
-                event[2]["participant_number"])
+                event[2]["participant_number"],
+                parse_date(event[1]))
 
         event_data = EventData(event[3:])
         for processor in self.event_processors:
@@ -279,7 +279,7 @@ class Person:
                 event_data = processor[1](event_meta, event[3:])
                 break
 
-        processed_event = Event(parse_date(event[1]), event_meta, event_data)
+        processed_event = Event(event_meta, event_data)
         self.events.append(processed_event)
 
     def events_at_stage(self, stage):
@@ -319,6 +319,68 @@ def check_valid(people):
         entries.append(person.validate())
     return entries
 
-people = process()
-print(check_valid(process()))
-print(process()[1].experiment)
+def desc_stats(arr):
+    """
+    Give a description of descriptive stats for an array
+    """
+    median = 0
+    middle_index = len(arr)//2
+    if len(arr) % 2:
+        median = (arr[middle_index] + arr[middle_index + 1])/2.0
+    else:
+        median = arr[middle_index + 1]
+    return (len(arr), min(arr), median, max(arr), sum(arr)/float(len(arr)))
+
+def report_per_controller(header, controller_points):
+    output = header + "\n"
+    output += "name, n, min, median, max, avg\n"
+    output += "\n".join([controller + ", " + ", ".join([str(x) for x in desc_stats(controller_points[controller])]) for controller in CONTROLLERS])
+    output += "\n\n"
+    return output
+
+def iterate_controller_people(people, fn):
+    for controller in CONTROLLERS:
+        for num in people:
+            person = people[num]
+            fn(controller, person)
+
+def report():
+    """
+    Construct a report of the data gathered
+    """
+    # Process data into people
+    people = process()
+
+    # Gather information for report
+    con_sus_score = defaultdict(list)
+    iterate_controller_people(people, lambda controller, person:
+        con_sus_score[controller].append(person.sus(controller).score))
+
+    con_task_time = defaultdict(list)
+    iterate_controller_people(people, lambda controller, person:
+        con_task_time[controller].extend([task.score.time for task in person.tasks[controller]]))
+
+    indi_sus_score = defaultdict(lambda: defaultdict(list))
+    def get_indi_score(controller, person):
+        for i, mark in enumerate(person.sus(controller).marks):
+            indi_sus_score[controller][i].append(mark)
+
+    iterate_controller_people(people, get_indi_score)
+
+    # Format report
+    output = ""
+    output += report_per_controller("Overall SUS Usability score results", con_sus_score)
+    output += report_per_controller("Overall time score results", con_task_time)
+
+    output += "SUS Usability answer per question\n"
+    output += "question, controller, name, n, min, median, max, avg\n"
+    for i in range(10):
+        for controller in CONTROLLERS:
+            stats = desc_stats([x for x in indi_sus_score[controller][i] if x != None])
+            output += ", ".join([str(i), controller] + [str(x) for x in stats]) + "\n"
+
+
+    # Done! :)
+    return output
+
+print(report())
