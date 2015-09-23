@@ -1,5 +1,6 @@
 import json
 import os
+import math
 from datetime import datetime
 from scipy import stats
 from collections import defaultdict, namedtuple
@@ -22,6 +23,24 @@ TRAINING_STAGES = [
 ]
 
 MRT_STAGE = 5
+
+ORIENTATION_TASK_QUAT = {
+    "0_0": [0.25881904510252074,0,0,0.9659258262890683],
+    "0_1": [0,0,0.7071067811865475,0.7071067811865476],
+    "0_2": [0.3314135740355918,0.4619397662556433,0.19134171618254486,0.8001031451912656],
+    "0_3": [0.2185080122244105,0.21850801222441052,0.6724985119639573,0.6724985119639574],
+    "1_0": [0.04799966634373737,0.7856544802373238,0.11573312388031406,-0.6058456187435991],
+    "1_1": [-0.9124677834418226,0.3563393717894529,0.16246581417319952,-0.11844684680693215],
+    "1_2": [0.060676044258967846,0.7425536630010398,-0.09767856431944423,-0.6598419305328469]
+}
+
+INSPECTION_TASK_QUAT = {
+    "2_0":[0.6228684391534324,-0.47348903397844655,0.3567527821077567,-0.5104610608725213],
+    "2_1":[-0.533966817396014,-0.5651774758681182,-0.4601635612922124,-0.428606294342702],
+    "2_2":[-0.05030822616001109,0.9948785161788547,-0.08766878450590904,0.00006818834234121639],
+    "2_3":[-0.000049693290986342606,0.7673132076626328,0.00004187190621293386,0.6412725139313251],
+    "2_4":[0.04175826956285454,0.7751479845620929,0.018942573730028438,-0.6301135039442686]
+}
 
 sus_questions = [
     "I think that I would like to use this system frequently",
@@ -75,6 +94,32 @@ TaskMeta = namedtuple('TaskMeta', ["type", "num", "repetition", "date"])
 TaskInfo = namedtuple('TaskInfo', ["controller", "group", "index", "model", "rotation", "quaternion"])
 TaskScore = namedtuple('TaskScore', ["time", "accuracy"])
 Experiment = namedtuple('Experiment', ["num", "controllers", "models"])
+
+def inner_prod(q_1, q_2):
+    s = 0
+    for a,b in zip(q_1, q_2):
+        s += a*b
+    return s
+
+def dist(q_1, q_2):
+    return math.acos(2 * (inner_prod(q_1, q_2)**2) - 1)
+
+def mult(q_1, q_2):
+    x1, y1, z1, w1 = q_1
+    x2, y2, z2, w2 = q_2
+    w = w1 * w2 - x1 * x2 - y1 * y2 - z1 * z2
+    x = w1 * x2 + x1 * w2 + y1 * z2 - z1 * y2
+    y = w1 * y2 + y1 * w2 + z1 * x2 - x1 * z2
+    z = w1 * z2 + z1 * w2 + x1 * y2 - y1 * x2
+    return (x, y, z, w)
+
+def conj(q):
+     x, y, z, w = q
+     return (-x, -y, -z, w)
+
+def rotate(vec, q):
+    q_2 = vec + (0.0,)
+    return mult(mult(q, q_2), conj(q))[:-1]
 
 def gen_experiment(num):
     """
@@ -172,8 +217,8 @@ class Person:
         self.events = []
         self.mrt_results = []
         self.sus_results = []
-        self.tasks = defaultdict(list)
-        self.training_tasks = defaultdict(list)
+        self.tasks = defaultdict(lambda : defaultdict(dict))
+        self.training_tasks = defaultdict(lambda : defaultdict(dict))
 
         self.event_processors = [
             (
@@ -258,11 +303,27 @@ class Person:
         model = self.experiment.models[repetition]
         num = len(container[controller])
         time = (event_meta.date - self.events[-1].meta.date).total_seconds()
-        score = TaskScore(time, 0) # TODO
+        accuracy = None
+        key = "{0}_{1}".format(group, index)
+        if group < 2:
+            model_quat = ORIENTATION_TASK_QUAT[key]
+            accuracy = dist(model_quat, quaternion)
+        else:
+            if group > 2:
+                accuracy = 0 # TODO
+            else:
+                ref_quat = INSPECTION_TASK_QUAT[key]
+                ref_vec = (0,0,1)
+                start_vec = rotate(ref_vec, ref_quat)
+                end_vec = rotate(ref_vec, quaternion)
+                accuracy = math.acos(inner_prod(start_vec, end_vec))
+                if accuracy > math.pi / 2.0:
+                    accuracy -= math.pi / 2.0
+        score = TaskScore(time, accuracy) # TODO
         info = TaskInfo(controller, group, index, model, rotation, quaternion)
         meta = TaskMeta(task_type, num, repetition, event_meta.date)
         task_data = TaskData(meta, info, score)
-        container[controller].append(task_data)
+        container[controller][group][index] = task_data
         return task_data
 
     def add_event(self, event):
@@ -351,26 +412,46 @@ def report():
     # Process data into people
     people = process()
 
-    # Gather information for report
+    # What will be returned
+    output = ""
+
+    # Overall usability scores
     con_sus_score = defaultdict(list)
     iterate_controller_people(people, lambda controller, person:
         con_sus_score[controller].append(person.sus(controller).score))
+    output += report_per_controller("Overall SUS Usability score results", con_sus_score)
 
+    # Overall time results
     con_task_time = defaultdict(list)
     iterate_controller_people(people, lambda controller, person:
-        con_task_time[controller].extend([task.score.time for task in person.tasks[controller]]))
+        con_task_time[controller].extend(
+            [person.tasks[controller][group][index].score.time
+                for group in person.tasks[controller]
+                for index in person.tasks[controller][group]
+            ]
+        )
+    )
+    output += report_per_controller("Overall time score results", con_task_time)
 
+    # Overall accuracy results
+    con_task_accuracy = defaultdict(list)
+    iterate_controller_people(people, lambda controller, person:
+        con_task_accuracy[controller].extend(
+            [person.tasks[controller][group][index].score.accuracy
+                for group in person.tasks[controller]
+                for index in person.tasks[controller][group]
+            ]
+        )
+    )
+    output += report_per_controller("Overall accuracy score results", con_task_accuracy)
+
+    # Looking at the individual answers for each sus question
     indi_sus_score = defaultdict(lambda: defaultdict(list))
     def get_indi_score(controller, person):
         for i, mark in enumerate(person.sus(controller).marks):
             indi_sus_score[controller][i].append(mark)
 
     iterate_controller_people(people, get_indi_score)
-
-    # Format report
-    output = ""
-    output += report_per_controller("Overall SUS Usability score results", con_sus_score)
-    output += report_per_controller("Overall time score results", con_task_time)
 
     output += "SUS Usability answer per question\n"
     output += "question, controller, name, n, min, median, max, avg\n"
@@ -379,7 +460,39 @@ def report():
             stats = desc_stats([x for x in indi_sus_score[controller][i] if x != None])
             output += ", ".join([str(i), controller] + [str(x) for x in stats]) + "\n"
 
+    # Looking at the time taken for each task
+    indi_task_time = defaultdict(lambda: defaultdict( lambda: defaultdict(list)))
+    def get_indi_time(controller, person):
+        for group in person.tasks[controller]:
+            for index in person.tasks[controller][group]:
+                indi_task_time[controller][group][index].append(person.tasks[controller][group][index].score.time)
 
+    iterate_controller_people(people, get_indi_time)
+
+    output += "Task Time per task\n"
+    output += "group, index, controller, name, n, min, median, max, avg\n"
+    for controller in indi_task_time:
+        for group in indi_task_time[controller]:
+            for index in indi_task_time[controller][group]:
+                stats = desc_stats(indi_task_time[controller][group][index])
+                output += ", ".join([str(group), str(index), controller] + [str(x) for x in stats]) + "\n"
+
+    # Looking at the accuracy for each task
+    indi_task_acc = defaultdict(lambda: defaultdict( lambda: defaultdict(list)))
+    def get_indi_time(controller, person):
+        for group in person.tasks[controller]:
+            for index in person.tasks[controller][group]:
+                indi_task_acc[controller][group][index].append(person.tasks[controller][group][index].score.accuracy)
+
+    iterate_controller_people(people, get_indi_time)
+
+    output += "Task Accuracy per task\n"
+    output += "group, index, controller, name, n, min, median, max, avg\n"
+    for controller in indi_task_acc:
+        for group in indi_task_acc[controller]:
+            for index in indi_task_acc[controller][group]:
+                stats = desc_stats(indi_task_acc[controller][group][index])
+                output += ", ".join([str(group), str(index), controller] + [str(x) for x in stats]) + "\n"
     # Done! :)
     return output
 
