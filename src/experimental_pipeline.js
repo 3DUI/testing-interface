@@ -5,26 +5,26 @@ define(["dist/capture_participant_details", "dist/pipeline","dist/rotating_model
     function ExperimentalPipeline(){
         this.pipeline = new Pipeline("pipeline", FinalScreen, ResetPage, false);
         this.pipeline.add(CaptureParticipantDetails);
-        this.addManual("documentation/experiment.md");
-        this.pipeline.add(MRT1);
-        this.pipeline.add(MRT2);
-        this.addManual("documentation/mrt_instructions.md");
-        this.pipeline.add(MRTTest);
-        this.pipeline.add(TimeOut);
-        this.addManual("documentation/tasks.md");
-        this.addManual("documentation/controllers.md");
+//        this.addManual("documentation/experiment.md");
+//        this.pipeline.add(MRT1);
+//        this.pipeline.add(MRT2);
+//        this.addManual("documentation/mrt_instructions.md");
+//        this.pipeline.add(MRTTest);
+//        this.pipeline.add(TimeOut);
+//        this.addManual("documentation/tasks.md");
+//        this.addManual("documentation/controllers.md");
         for(var i = 0; i < 3; i++){
-            this.addControllerManual(i);
-            this.addExperiment(i, 
-                {title: "Training",
-                 taskUrl:"tasks/training_tasks.json",
-                 limit: TRAINING_LIMIT});
-            this.pipeline.add(TimeOut);
+ //           this.addControllerManual(i);
+ //           this.addExperiment(i, 
+ //               {title: "Training",
+ //                taskUrl:"tasks/training_tasks.json",
+ //                limit: TRAINING_LIMIT});
+ //           this.pipeline.add(TimeOut);
             this.addTasks(i,
                 {title: "Evaluation",
                  taskUrl:"tasks/mixed_tasks.json",
                  limit: undefined});
-           this.addSUS(i);
+ //          this.addSUS(i);
         }
     }
 

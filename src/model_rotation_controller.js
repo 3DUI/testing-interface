@@ -9,6 +9,7 @@ define(["three"], function(THREE){
             crosshairLineWidth: 2,
            init: function(scene, camera, light){
                this.model = model;
+               window.model = model;
                scene.add(this.model);
                this.rotationHandler = rotationHandlerMaker.new(this.model, scene, camera);
                camera.position.z = 7.5; // TODO: make configurable

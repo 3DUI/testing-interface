@@ -44,6 +44,7 @@ module.exports = function(grunt){
         },
         devserver: {
             options: {
+                port: 8887
             },
             server: {},
         },
